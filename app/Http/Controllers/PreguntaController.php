@@ -17,26 +17,12 @@ class PreguntaController extends Controller
      */
     public function index()
     {        
-        /*$preguntas = Pregunta::orderBy('id','DESC')->paginate(2);
-         $niveles = Nivel::all();
-
-        $users = User::join('departaments', 'departaments.id', '=', 'users.departament_id')
-            ->select('users.*', 'departaments.name as departament_name')
-            ->orderBy('users.id', 'DESC')
-            ->paginate();*/
-
-            $preguntas = Pregunta::join('nivel', 'nivel.id', '=', 'preguntas.nivel_id')
+     
+        $preguntas = Pregunta::join('nivel', 'nivel.id', '=', 'preguntas.nivel_id')
             ->select('preguntas.*', 'nivel.nombre as nivel_name')
             ->orderBy('preguntas.id', 'DESC')
             ->paginate(2);
 
-        //$preguntas = Pregunta::lists('id','nombre');
-        //User::where('votes', '>', 100)->paginate(15); 
-        //$users = DB::table('users')->simplePaginate(15);
-        //->where('idPadre',2); para buscar los hijos
-        //$unidad = Unidad::orderBy('orden','ASC')->get();
-    //return view('pregunta.index')
-        //->with('preguntas',Pregunta::all());
         return view('pregunta.index', compact('preguntas'));
     }
 
@@ -60,16 +46,18 @@ class PreguntaController extends Controller
     public function store(Request $request)
     {       
          $validatedData = $request->validate([
+            'nombre'=>'required'    
           //'nombre'=>'required|string|unique:preguntas'          
         ]);
 
+        //Pregunta::create($request->all());
         $pregunta = Pregunta::create([
             'nombre' => $request->nombre,
             'nivel_id' => $request->niv,
             'respuesta' => $request->respuesta
         ]);
-
-        return redirect()->route('preguntas')->with('status', 'Exito!');
+//->with('success','Registro creado satisfactoriamente');
+        return redirect()->route('preguntas.index')->with('status', 'Exito!');
     }
 
     /**
@@ -80,7 +68,9 @@ class PreguntaController extends Controller
      */
     public function show($id)
     {
-         return view('pregunta.ver', ['pregunta' => Pregunta::findOrFail($id)]);
+        $preguntas=Pregunta::find($id);
+        return  view('pregunta.ver',compact('preguntas'));
+         //return view('pregunta.ver', ['pregunta' => Pregunta::findOrFail($id)]);
     }
 
     /**
@@ -91,8 +81,15 @@ class PreguntaController extends Controller
      */
     public function edit($id)
     {
-        $pregunta = Pregunta::findOrFail($id);
+        $niveles = Nivel::all();
 
+        //$pregunta = Pregunta::findOrFail($id);
+        $preguntas=Pregunta::find($id);
+        /*->join('nivel', 'nivel.id', '=', 'preguntas.nivel_id')
+            ->select('preguntas.*', 'nivel.nombre as nivel_name')
+            ->get();*/
+          //  dd($preguntas);
+        return  view('pregunta.editar',compact('preguntas','niveles'));
     }
 
     /**
@@ -104,17 +101,31 @@ class PreguntaController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $pregunta = Pregunta::findOrFail($id);
+        /*$pregunta = Pregunta::findOrFail($id);
+        $pregunta->nombre = $request->get('nombre'); 
+        $pregunta->save();
+        //$url = action('PermissionController@show', ['id' => $permiso->id]);
+        $request->session()->flash('status', 'Pregunta <a href="#">' . $pregunta->nombre . '</a> Actualizada');
+        return redirect()->route("pregunta.index");*/
 
-        $pregunta->nombre = $request->get('nombre');       
-
+        $this->validate($request,[ 
+            'nombre'=>'required'            
+        ]);       
+ 
+        $pregunta = Pregunta::find($id);      
+        $pregunta->nombre = $request->get('nombre'); 
+        $pregunta->nivel_id = $request->get('niv'); 
+        $pregunta->respuesta = $request->get('respuesta'); 
         $pregunta->save();
 
-        //$url = action('PermissionController@show', ['id' => $permiso->id]);
+       // ->update($request->all());
 
-        $request->session()->flash('status', 'Pregunta <a href="#">' . $pregunta->nombre . '</a> Actualizada');
+        //->with('success','Registro creado satisfactoriamente');
+       // return redirect()->route('preguntas')->with('status', 'Exito!');
 
-        return redirect()->route("pregunta.index");
+        return redirect()->route('preguntas.index')->with('status','Pregunta actualizada satisfactoriamente');
+ 
+
     }
 
     /**
@@ -125,9 +136,15 @@ class PreguntaController extends Controller
      */
     public function destroy(Request $request, $id)
     {
-        $pregunta = Pregunta::findOrFail($id);
+        $pregunta = Pregunta::find($id);
         $pregunta->delete();
+
+        //Pregunta::destroy($id);
         
-        $request->session()->flash('status', 'Borrado!');
+        //$request->session()->flash('status', 'Borrado!');
+
+        //Pregunta::find($id)->delete();
+        return redirect()->route('preguntas.index')->with('status','Registro eliminado satisfactoriamente');
+
     }
 }

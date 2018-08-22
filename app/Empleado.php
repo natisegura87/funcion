@@ -8,6 +8,6 @@ class Empleado extends Model
 {
     //
     protected $fillable = [
-        'legajo', 'apellido y nombre', 'cuil',
+        'legajo', 'apellido_nombre', 'cuil','agrup'
     ];
 }

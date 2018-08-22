@@ -8,7 +8,9 @@
     <div class="row">
         <div class="col-md-8 col-md-offset-2">
             <div class="panel panel-default">
-                <div class="panel-heading">Crear preguntas</div>
+                <div class="panel-heading">
+                <label class="control-label">Crear Pregunta</label>
+                </div>
     <div class="panel-body">
      
 @if ($errors->any())
@@ -28,8 +30,9 @@
                    <input type="text" class="form-control" name="nombre" value="" required 
                    onfocus="this.value=''" placeholder="Escribe aqui..">
                 </div>
-
-                <div class="row col-md-12" style="margin-bottom: 10px">
+<div class="form-group">
+                <div class="row col-md-6" style="margin-bottom: 10px">
+                    <label class="control-label">Nivel</label>
                     <select class="form-control" name="niv" id="nivel" required>
                       <option value="">=== Select Nivel ===</option>
                         @foreach ($niveles as $nivel)
@@ -39,16 +42,18 @@
                         @endforeach
                     </select>
                 </div>
-                <div class="row col-md-12" style="margin-bottom: 10px">
+        <div class="row col-md-6" style="margin-left: 20px">
               <label for="color">Respuesta:</label>
-<br>
-<input type="radio" required name="respuesta" id="respuesta" value="Si">Si<br>
-<input type="radio" name="respuesta" id="respuesta" value="No">No<br>
+                <br>
+                <input type="radio" required name="respuesta" id="respuesta" value="Si">Si<br>
+                <input type="radio" required name="respuesta" id="respuesta" value="No">No<br>
+        </div>
 </div>
-
-                <button type="submit" class="btn btn-primary">Guardar</button>
-                <a href="{{ action('PreguntaController@index') }}" class="btn btn-default">Cancelar</a>
-            </form>
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary" style="margin-top: 20px;">Guardar</button>
+                <a href="{{ action('PreguntaController@index') }}" class="btn btn-default" style="margin-top: 20px;">Cancelar</a>
+            </div>
+        </form>
        
     </div>
 

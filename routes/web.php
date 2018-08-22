@@ -21,23 +21,41 @@ Route::get('/home', 'HomeController@index')->name('home');
 
 //Route::get('/preguntas', 'UnidadController@index')->name('preguntas');
 Route::get('/crear', 'UnidadController@create')->name('crear');
+Route::get('/respuestas', 'PuestoController@createR')->name('respuestas.create');
+Route::post('/puestos/preguntas', 'PuestoController@preguntas')->name('puestos.preguntas');
 
-Route::get('/puestos', 'PuestoController@index')->name('puestos');
+Route::get('/puestos', 'PuestoController@index')->name('puestos.index');
+Route::get('/puestos/crear', 'PuestoController@create')->name('puestos.create');
+Route::post('/puestos/guardar', 'PuestoController@store')->name('puestos.store');
+Route::post('/puesto/editar/{id}', 'PuestoController@update')->name('puestos.update');
+Route::post('/puesto/preguntas', 'PuestoController@updatePreg')->name('puestos.updatePreg');
+Route::get('/puesto/{id}', 'PuestoController@edit')->name('puestos.edit');
+Route::delete('/puesto/eliminar/{id}', 'PuestoController@destroy')->name('puestos.destroy');
+Route::get('/puestosget', 'PuestoController@getPuestos')->name('puestos.get');
+Route::get('/puestoget', 'PuestoController@getPuesto')->name('puesto.get');
 
 Route::get('users', function () {
     return App\Empleado::all();
 });
 
-Route::get('/organigrama', 'OrganigramaController@index')->name('organigrama');
-Route::get('organigrama/{id}', 'OrganigramaController@getNivel')->name('organigrama.getNivel');
+Route::get('/organigrama2', 'OrganigramaController@index')->name('organigrama.index');
+Route::post('organigrama/ver', 'OrganigramaController@show')->name('organigrama.show');
+Route::get('organigrama/get', 'OrganigramaController@getDep')->name('organigrama.get');
+Route::get('organigrama/getP', 'OrganigramaController@getPue')->name('organigrama.getP');
+Route::post('organigrama/verPuesto', 'OrganigramaController@showP')->name('organigrama.showP');
+Route::get('/organigramaVer', 'OrganigramaController@index2')->name('organigrama.ver');
 
-Route::get('/preguntas', 'PreguntaController@index')->name('preguntas');
+Route::get('/preguntas', 'PreguntaController@index')->name('preguntas.index');
 Route::get('/preguntas/crear', 'PreguntaController@create')->name('preguntas.create');
 Route::post('/preguntas/guardar', 'PreguntaController@store')->name('preguntas.store');
-Route::put('/pregunta/editar/{id}', 'PreguntaController@update')->name('preguntas.update');
+Route::post('/pregunta/editar/{id}', 'PreguntaController@update')->name('preguntas.update');
 Route::get('/pregunta/{id}', 'PreguntaController@edit')->name('preguntas.edit');
-Route::delete('/pregunta/{id}', 'PreguntaController@destroy')->name('preguntas.destroy');
+Route::delete('/pregunta/eliminar/{id}', 'PreguntaController@destroy')->name('preguntas.destroy');
 Route::get('pregunta/ver/{id}', 'PreguntaController@show')->name('preguntas.show');
+
+//Route::resource('pregunta', 'PreguntaController');
+
+
 
 
 
