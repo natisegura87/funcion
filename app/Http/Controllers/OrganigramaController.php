@@ -35,7 +35,7 @@ class OrganigramaController extends Controller
     public function index()
     {                
         $puestos = Puesto::all();
-        $unidades=Unidad::orderBy('id', 'ASC')->get();
+        $unidades=Unidad::orderBy('id', 'ASC')->where('id','>',0)->get(); 
        
         return view('organigrama.index')->with('puestos',$puestos)
                             ->with('unidades',$unidades);
@@ -97,7 +97,7 @@ class OrganigramaController extends Controller
 
         foreach ($puestos as $pue){
             $iddep=$pue->iddependencia;
-            //dd($iddep);
+            //dd($pue->unidad_id);
             $unidad=$pue->unidad_id;
             $puestodep=Puesto::find($iddep);
             
@@ -111,7 +111,7 @@ class OrganigramaController extends Controller
             $e="1";
             $u="0";
 
-            if($i == $idunidep  || $i > $idunidep){
+            if($i == $idunidep  || $i > $iduni){
                 $idinsertado=Puestosorganigrama::buscarDep($idinsertado);
                 // dd("entt");      
             }
@@ -159,9 +159,11 @@ class OrganigramaController extends Controller
                     'empleado' => $pue->empleado
                 ]);
              $idinsertado=$organ->id;
-        }    
+        }
 
-        //$puestosorg = Puestosorganigrama::all();
+
+        $puestosorg = Puestosorganigrama::all();
+        //dd($puestosorg);
          $puestosorg = Puestosorganigrama::join('nivel', 'nivel.id', '=', 'puestosorganigrama.nivel_id')
             ->join('unidad', 'unidad.id', '=', 'puestosorganigrama.unidad_id')           
             ->select('puestosorganigrama.*','nivel.nombre as nivel_name','unidad.nombre as unidad_name')     
@@ -194,6 +196,16 @@ class OrganigramaController extends Controller
             $iduni=$request->iddependencia;
             //dd($iduni);
             $puesto=Puesto::puesto($iduni);
+            $puestos=$puesto->iddependencia;
+            //dd($puestos);
+            return Response()->json($puestos); 
+    }
+
+    public function getDep1(Request $request){//borrar
+        //dd("hola");
+            $iduni=$request->id;
+            //dd($iduni);
+            $puesto=Puesto::puestosdep($iduni);
             $puestos=$puesto->iddependencia;
             //dd($puestos);
             return Response()->json($puestos); 

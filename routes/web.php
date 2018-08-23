@@ -33,6 +33,7 @@ Route::get('/puesto/{id}', 'PuestoController@edit')->name('puestos.edit');
 Route::delete('/puesto/eliminar/{id}', 'PuestoController@destroy')->name('puestos.destroy');
 Route::get('/puestosget', 'PuestoController@getPuestos')->name('puestos.get');
 Route::get('/puestoget', 'PuestoController@getPuesto')->name('puesto.get');
+Route::get('/puestosgetDep', 'PuestoController@getPuestosDep')->name('puestosDep.get');
 
 Route::get('users', function () {
     return App\Empleado::all();

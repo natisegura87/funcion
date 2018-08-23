@@ -14,9 +14,10 @@ class Puesto extends Model
     public static function puesto($id)
     {
         $unidad=Unidad::find($id);
-        //$or= Puesto::where('unidad_id','=',$id)->first();
+        //$or= Puesto::where('unidad_id','=',$id)->orderBy('iddependencia', 'ASC')->first();
         //dd($or);
-        return Puesto::where('unidad_id','=',$id)->first(); //ver si orden o id
+        return Puesto::where('unidad_id','=',$id)
+                    ->orderBy('iddependencia', 'ASC')->first(); //ver si orden o id
         //return App\Puesto::all()->where('idpadre',$id);
         //$this->hasMany('App\Order');
     }
@@ -27,6 +28,16 @@ class Puesto extends Model
         $or= $unidad->orden;
         //dd($or);
         return Puesto::where('unidad_id','<',$id)->get(); //ver si orden o id
+        //return App\Puesto::all()->where('idpadre',$id);
+        //$this->hasMany('App\Order');
+    }
+
+    public static function puestosDep($id) // borrar
+    {
+        $unidad=Unidad::find($id);
+        $or= $unidad->orden;
+        //dd($or);
+        return Puesto::where('unidad_id',$id)->get(); //ver si orden o id
         //return App\Puesto::all()->where('idpadre',$id);
         //$this->hasMany('App\Order');
     }

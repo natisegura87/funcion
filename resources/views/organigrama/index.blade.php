@@ -37,9 +37,13 @@
                         @endforeach
                     </select>
                 </div>
-        <div class="form-group ocultar" style="display: none;">                                       
-              
-            </div>            
+                <div class="row col-md-6" style="margin-left: 20px;margin-bottom: 10px">
+                    <label class="control-label">A partir de que dependencia</label>
+                    <select class="form-control puesto" name="iddependencia" id="iddependencia" >
+                        <option value="">=== Select Dependencia ===</option>                     
+                    </select>
+                </div>
+                
             <div class="form-group">
                 <button type="submit" class="btn btn-info" style="margin-top: 25px; 
                 margin-left: 20%;">Ver Organigrama por Unidad</button>
@@ -75,7 +79,7 @@
 
                 <div class="row col-md-6" style="margin-bottom: 10px">
                     <label class="control-label">Puestos</label>
-                    <select class="form-control puesto" name="pue" id="nivel" required>
+                    <select class="form-control puesto2" name="pue" id="nivel" required>
                       <option value="">=== Select Puesto ===</option>
                         @foreach ($puestos as $nivel)
                             <option value="{{ $nivel->id }}">
@@ -113,25 +117,28 @@ $(document).ready(function(){
 
     $(document).on('change','.unidad',function(){        
         var unidad_id = $(this).val();
-        console.log(unidad_id);
+        //console.log(unidad_id);
         var div = $(this).parent().parent();
         //console.log("hola");
-        var url = '{{ route('organigrama.get') }}';
+        var url = '{{ route('puestosDep.get') }}';
         //'http://localhost/intranet/public/uploadFile';
         var op= " ";
         $.ajax({
             type:'get',
             url:url,
-            data:{'iddependencia':unidad_id},
+            data:{'id':unidad_id},
             success:function(data){
                 console.log('success');
-                //var x = data[0].id;
+
                 console.log(data);
-                op+='<input type="text" name="iddependencia" id="iddependencia" class="form-control input-sm" value="'+data+'">';
-                
-                console.log(op);
-                div.find('.ocultar').html(" ");
-                div.find('.ocultar').append(op);
+                op+='<option value="7">=== Select Puesto ===</option>';
+                for (var i=0;i<data.length;i++){
+                    op+='<option value="'+data[i].id+'">'+data[i].nombre+'</option>';
+                }
+                //console.log(op);
+
+                div.find('.puesto').html(" ");
+                div.find('.puesto').append(op);
             },
             error:function(){
                 
@@ -140,7 +147,7 @@ $(document).ready(function(){
 
     })
 
-    $(document).on('change','.puesto',function(){        
+        $(document).on('change','.puesto2',function(){        
         var idpue = $(this).val();
         console.log(idpue);
         var div = $(this).parent().parent();
@@ -168,6 +175,7 @@ $(document).ready(function(){
         });
 
     })
+
 
 
     $("p").click(function(){

@@ -105,12 +105,16 @@
         var puestos = '{!!$puestos!!}';
    
         var dep={{$_POST["iddependencia"]}};
+        var uni={{$_POST["uni"]}};
         
        //VER  POR UNIDAD
 
-        //console.log(puestos);
+        console.log(puestos);
 
-        //console.log("id");
+        console.log("dep");
+        console.log(dep);
+        console.log("uni");
+        console.log(uni);
       
       
        
@@ -130,7 +134,7 @@
         function loops(root) {
             console.log(" d "+root.iddependencia);
           
-            if (root.iddependencia == dep) {
+            if (root.unidad_id == uni) {
     
         
                 items.push("<li class='unic" + root.id + " root' id='" + root.nombre + "'><span class='label_node'><a href=''>" + root.nombre + "</a></br><i>" + root.unidad_name + "</i></span><div class='details'><p><strong>Empleado: </strong>" + root.empleado + "</p><p><strong>Nivel: </strong>" + root.nivel_name + "</p></div>");

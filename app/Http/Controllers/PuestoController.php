@@ -63,6 +63,13 @@ class PuestoController extends Controller
             return Response()->json($puestos); 
     }
 
+    public function getPuestosDep(Request $request){
+        //dd("hola");
+            $id=$request->id ;
+            $puestos = Puesto::puestos($id);
+            return Response()->json($puestos); 
+    }
+
     /**
      * Show the form for creating a new resource.
      *
@@ -109,7 +116,7 @@ class PuestoController extends Controller
           //'nombre'=>'required|string|unique:preguntas'          
         ]);
 
-         $nivel = "7";
+         $nivel = "0";
 
         //Pregunta::create($request->all());
         $pregunta = Puesto::create([
