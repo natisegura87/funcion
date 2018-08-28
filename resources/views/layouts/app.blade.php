@@ -46,7 +46,8 @@
                     <!-- Right Side Of Navbar -->
                     <ul class="nav navbar-nav navbar-right">
                         <!-- Authentication Links -->
-                        <li><a href="{{ route('puestos.index') }}">Puestos</a></li>
+                        <li><a href="{{ route('puestos.index') }}">Puestos ant</a></li>
+                        <li><a href="{{ route('nomenclador.index') }}">Nomenclador</a></li>
                         <li><a href="{{ route('preguntas.index') }}">Niveles</a></li>
                         <li><a href="{{ route('organigrama.index') }}">Organigrama</a></li>
                         @guest

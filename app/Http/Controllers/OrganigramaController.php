@@ -83,7 +83,7 @@ class OrganigramaController extends Controller
             ->get();
         //dd($puestos);
         
-        //dd($iduni);
+        
         $vacio=1;
         $organ = Puestosorganigrama::create([
                     'nombre' => "-",   
@@ -99,9 +99,13 @@ class OrganigramaController extends Controller
             $iddep=$pue->iddependencia;
             //dd($pue->unidad_id);
             $unidad=$pue->unidad_id;
+
             $puestodep=Puesto::find($iddep);
             
             $idunidep=$puestodep->unidad_id;
+            //dd($idunidep);
+
+          if($idunidep>=$iduni || $pue->id==$idpue){
             $idinsertado=$iddep;
             //iddep es 26
             
@@ -159,6 +163,7 @@ class OrganigramaController extends Controller
                     'empleado' => $pue->empleado
                 ]);
              $idinsertado=$organ->id;
+            }
         }
 
 

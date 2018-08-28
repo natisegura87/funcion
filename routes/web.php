@@ -56,7 +56,16 @@ Route::get('pregunta/ver/{id}', 'PreguntaController@show')->name('preguntas.show
 
 //Route::resource('pregunta', 'PreguntaController');
 
+Route::get('/nomenclador', 'NomencladorController@index')->name('nomenclador.index');
+Route::get('/nomenclador/crear', 'NomencladorController@create')->name('nomenclador.create');
+Route::post('/nomenclador/guardar', 'NomencladorController@store')->name('nomenclador.store');
+Route::post('/nomenclador/editar/{id}', 'NomencladorController@update')->name('nomenclador.update');
+Route::post('/nomenclador/preguntas', 'NomencladorController@updatePreg')->name('nomenclador.updatePreg');
+Route::get('/nomenclador/{id}', 'NomencladorController@edit')->name('nomenclador.edit');
+Route::delete('/nomenclador/eliminar/{id}', 'NomencladorController@destroy')->name('nomenclador.destroy');
 
+Route::get('/nomencladorget', 'NomencladorController@nivelPreg')->name('nomenclador.getnivel');
+Route::get('/nomencladorgetagrup', 'NomencladorController@getAgrupamientos')->name('nomenclador.getagrup');
 
 
 

@@ -8,5 +8,5 @@ class Agrupamiento extends Model
 {
      protected $table = 'agrupamiento';
 
-    protected $fillable = ['id', 'nombre'];
+    protected $fillable = ['id', 'nombre','nivel_id'];
 }
