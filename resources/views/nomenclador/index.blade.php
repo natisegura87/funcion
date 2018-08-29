@@ -33,13 +33,13 @@
                     <thead>
                     <tr>
                      
-                        <th>Nombre del Puesto</th>    
+                        <th>Nombre del Puesto</th>                         
+                        <th>Nivel</th>    
                         <th>Agrupamiento</th>                        
-                        <th>Unidad organizativa</th> 
-                        <th>Puesto del que depende</th> 
-                        <th>Empleado</th> 
+                        
+                        <th>Condiciones</th> 
                         <th>Organismo</th> 
-                        <th>Nivel</th> 
+                        
                         <th>Preguntas</th> 
                         <th>Acciones</th>                     
                     </tr>
@@ -50,12 +50,12 @@
                         <tr>
                                              
                             <td>{{ $preg->nombrepuesto }}</td>  
-                            <td>{{ $preg->agrupamiento_name }}</td>                           
-                            <td>{{ $preg->unidad_name }}</td>
-                            <td>{{ $preg->puesto_name }}</td>
-                            <td>{{ $preg->ap_name }}</td>
+                            
+                           <td>{{ $preg->nivel_name }}</td>
+                           <td>{{ $preg->agrupamiento_name }}</td>
+                            <td>{{ $preg->condicion_name }}</td>
                             <td>{{ $preg->op_name }}</td>
-                            <td>{{ $preg->nivel_name }}</td>
+                            
                             <td style="width: 120px">        
                              <a data-toggle="modal" data-target=".bd-complejidad-modal-lg" title="Crear" data-complejidad= "{{ $preg->nombrepuesto }}" data-idcomplejidad= "{{ $preg->id }}" 
                                    class="btn btn-success btn-xs" style=" margin-right: 5px;float:left"><i class="fa fa-plus fa-lg"></i></a>

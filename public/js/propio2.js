@@ -1,16 +1,14 @@
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-<script type="text/javascript">
-
-  $('#nombre').change(function(e) {       
+$('#nombre').change(function(e) {       
        $('#versignombre').attr('disabled', false);
   })
 
-      
-   setTimeout(function() {
+ setTimeout(function() {
            $("#alert").fadeOut();           
       },2000);
       
 $(document).ready(function(){
+
+    
 
     $("#versignombre").click(function(){      
       //console.log("nombre");
@@ -86,7 +84,6 @@ $(document).ready(function(){
   $(document).on('change','.agrupamiento',function(){  
       console.log("agrupamiento ver"); 
       $('#versigagrup').attr('disabled', false);
-      $('.ver-requisitos').show();
 
      
     });
@@ -115,7 +112,7 @@ $(document).ready(function(){
                // console.log('success');
                // console.log(data);
                if(data.id>0){
-                  nivel=data.id;
+                nivel=data.id;
                   op+='<input type="number" style="display:none;" name="nivel" value="'+data.id+'"><p><strong> Nivel </strong>'+data.nombre+'</p>';
                   //console.log(op);
                   if(data.id==7){
@@ -125,9 +122,6 @@ $(document).ready(function(){
                   }
                   div.find('.nivel').html(" ");
                   div.find('.nivel').append(op);
-                  //                 
-                  div.find('#req').append(data.requisitos);                 
-                  div.find('#exp').append(data.experiencia);
                }else{
                   alert("Inconsistencia en los niveles");
                   $('.ver-complejidad').show(); 
@@ -186,32 +180,3 @@ function funcionnombre($nombre){
    $('#versignombre').attr('disabled', false);
    document.getElementById("titulo").innerHTML = $nombre;
 }
-
-function funcionatras(){
-   console.log("entro atras");
-    var v= document.getElementById("atrascond").value;
-    document.getElementById("mostrarcond").value = v;
-}
-
-function limpiarcondicion(){
-   console.log("entro limpiar");    
-    document.getElementById("mostrarcond").value = "Condiciones: ";
-}
-
-
-$(document).on('change','.condiciones',function(){        
-   var condic_id = $(this).val();
-   console.log(condic_id);
-   console.log("entro cond");
-   $('#mostrarcond').show();
-   $('#atrasc').show();
-   $('#limpiarc').show();
-
-  var v= document.getElementById("mostrarcond").value;
-  document.getElementById("mostrarcond").value += condic_id + " "; 
-  console.log(v);
-  document.getElementById("atrascond").value = v; 
-
-    })
-   
-</script>

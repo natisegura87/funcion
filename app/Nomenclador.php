@@ -7,8 +7,9 @@ use Illuminate\Database\Eloquent\Model;
 class Nomenclador extends Model
 {
     protected $table = 'nomenclador';
+    public $timestamps = false;
 
-    protected $fillable = ['id', 'nombrepuesto', 'nivel_id', 'agrupamiento_id','op_codigo', 'complejidad', 'responsabilidad', 'autonomia'];
+    protected $fillable = ['id', 'nombrepuesto','descripcion', 'nivel_id', 'agrupamiento_id','genteacargo', 'complejidad', 'responsabilidad', 'autonomia','condiciones','organismos'];
 
 
     public static function puesto($id)

@@ -48,7 +48,7 @@
                         <!-- Authentication Links -->
                         <li><a href="{{ route('puestos.index') }}">Puestos ant</a></li>
                         <li><a href="{{ route('nomenclador.index') }}">Nomenclador</a></li>
-                        <li><a href="{{ route('preguntas.index') }}">Niveles</a></li>
+                        
                         <li><a href="{{ route('organigrama.index') }}">Organigrama</a></li>
                         @guest
                             <li><a href="{{ route('login') }}">Ingresar</a></li>

@@ -9,6 +9,8 @@ use App\Empleado;
 use App\Op;
 use App\Nomenclador;
 use App\Agrupamiento;
+use App\Condiciones;
+use App\Excluyentes;
 use Illuminate\Http\Request;
 
 class NomencladorController extends Controller
@@ -24,12 +26,13 @@ class NomencladorController extends Controller
        // $preguntas = Puesto::join('unidad', 'unidad.id', '=', 'preguntas.unidad_id')
            // ->select('preguntas.*', 'unidad.nombre as unidad_name')
             
+//explode(" ",$str)
 
         $preguntas = Nomenclador::join('nivel', 'nivel.id', '=', 'nomenclador.nivel_id')
             ->join('nivel as nivel_com', 'nivel_com.id', '=', 'nomenclador.complejidad')
             ->join('nivel as nivel_res', 'nivel_res.id', '=', 'nomenclador.responsabilidad')
             ->join('nivel as nivel_aut', 'nivel_aut.id', '=', 'nomenclador.autonomia')
-            ->join('agrupamiento', 'agrupamiento.id', '=', 'nomenclador.agrupamiento_id')
+            ->join('agrupamiento', 'agrupamiento.id', '=', 'nomenclador.agrupamiento_id')             
           
             ->select('nomenclador.*', 'nivel.nombre as nivel_name', 'agrupamiento.nombre as agrupamiento_name',
                 'nivel_com.complejidad as nivel_complejidad','nivel_res.responsabilidad as nivel_responsabilidad','nivel_aut.autonomia as nivel_autonomia',
@@ -77,14 +80,11 @@ class NomencladorController extends Controller
         $niveles = Nivel::orderBy('id', 'DESC')
                          ->where('id','>',0)->get(); 
         $agrupamiento= Agrupamiento::all();
+        $condiciones= Condiciones::all();
+        $excluyentes=Excluyentes::all();
+        $organismos= Op::all();
         //dd($niveles);
-        $unidades = Unidad::orderBy('id', 'ASC')
-                         ->where('id','>',0)->get();  
-        $empleados = Empleado::where('id','<>',0)
-                        ->orderBy('APELLIDO_NOMBRE', 'ASC')
-                        ->pluck('APELLIDO_NOMBRE','LEGAJO');
-        //dd($empleados);
-        return view('nomenclador.crear', compact('niveles','unidades','empleados','agrupamiento'));
+        return view('nomenclador.crear', compact('niveles','condiciones','excluyentes','agrupamiento','organismos'));
     }
 
       public function createR()
@@ -108,23 +108,58 @@ class NomencladorController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
-    {
-         $validatedData = $request->validate([
-            'nombre'=>'required'    
-          //'nombre'=>'required|string|unique:preguntas'          
-        ]);
+    {            
+        $condiciones="";   
+        $nada="Ninguno";   
+        $nada="TODOS"; 
+        $con1=$request->condicion1;
+        $arrayOP = array();
+        if($con1 == $nada)
+            $arrayOP[] = $todos;
+        else
+            $arrayOP[] = $con1;
+        //dd($arrayOP);
 
-         $nivel = "0";
 
-        //Pregunta::create($request->all());
+        $con2=$request->condicion2;
+        $con3=$request->condicion3;
+        $con4=$request->condicion4;
+        $con5=$request->condicion5;
+        $con6=$request->condicion6;
+
+        $array = array();
+        
+        if($con2 > 0)
+            $array[] = $con2;
+        if($con3 > 0)
+            $array[] = $con3;
+        if($con4 > 0)
+            $array[] = $con4;
+        if($con5 > 0)
+            $array[] = $con5;
+        if($con6 > 0)
+            $array[] = $con6;
+        if(empty($array)){
+            $array[] = $nada;
+        }
+        
+        $condiciones=implode("-",$array);
+        $organ=implode("-",$arrayOP);
+           
+        //dd($organ); 
+       
         $pregunta = Nomenclador::create([
-            'nombre' => $request->nombre,
-            'empleado' => $request->empleado,
-            'unidad_id' => $request->uni,
-            'agrupamiento_id' => $request->agrup, 
-            'iddependencia' => $request->dep,
-            'op_codigo' => $request->op,
-            'nivel_id' => $nivel
+            'nombrepuesto' => $request->nombre,
+            'complejidad' => $request->complejidad,
+            'responsabilidad' => $request->responsabilidad,
+            'autonomia' => $request->autonomia,
+            
+            'agrupamiento_id' => $request->agrupamiento, 
+            'descripcion' => $request->descripcion,
+            'genteacargo' => $request->gente,
+            'nivel_id' => $request->nivel,
+            'condiciones' => $condiciones,
+            'organismos' => $organ
         ]);
 //->with('success','Registro creado satisfactoriamente');
         return redirect()->route('nomenclador.index')->with('status', 'Puesto creado satisfactoriamente');
@@ -199,7 +234,7 @@ class NomencladorController extends Controller
         $pregunta->unidad_id = $request->get('uni'); 
         $pregunta->agrupamiento_id = $request->get('agrup'); 
         $pregunta->iddependencia = $request->get('dep'); 
-        $pregunta->op_codigo = $request->get('op'); 
+        $pregunta->descripcion = $request->get('op'); 
         $pregunta->save();
 
         return redirect()->route('nomenclador.index')->with('status','Puesto actualizado');
