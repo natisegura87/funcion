@@ -1,7 +1,4 @@
-@extends('layouts.app')
-
-@section('nav')
- <nav class="navbar navbar-default navbar-static-top">
+        <nav class="navbar navbar-default navbar-static-top">
             <div class="container">
                 <div class="navbar-header">
 
@@ -28,10 +25,22 @@
                     <!-- Right Side Of Navbar -->
                     <ul class="nav navbar-nav navbar-right">
                         <!-- Authentication Links -->
-                        <li><a href="{{ route('preguntas.index') }}">Niveles</a></li>
+                        <li><a href="{{ route('puestos.index') }}">Puestos ant</a></li>
+                        <li><a href="{{ route('nomenclador.index') }}">Nomenclador</a></li>
+                        
+                        <li class="dropdown">
+                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Organigrama <span class="caret"></span></a>
+                           
+                            <ul class="dropdown-menu">
+                            <li><a href="{{ route('vincularpuesto.index') }}">Vincular Puestos</a></li>
+                           
+                            <li role="separator" class="divider"></li>
+                            <li><a href="{{ route('organigrama.index') }}">Graficar</a></li>
+                          </ul>
+                        </li>
                         @guest
-                            <li><a href="{{ route('login') }}">Ingresar</a></li>
-                            <li><a href="{{ route('register') }}">Registrarse</a></li>
+                            <li style="border: 1px solid #ddd;"><a href="{{ route('login') }}">Ingresar</a></li>
+                            <li style="border: 1px solid #ddd;"><a href="{{ route('register') }}">Registrarse</a></li>
                         @else
                             <li class="dropdown">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" v-pre>
@@ -57,4 +66,3 @@
                 </div>
             </div>
         </nav>
-@endsection

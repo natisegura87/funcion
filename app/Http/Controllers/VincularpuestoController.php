@@ -2,15 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use App\Puesto;
-use App\Unidad;
-use App\Nivel;
-use App\Empleado;
-use App\Op;
-use App\Agrupamiento;
+use App\Vincularpuesto;
+use App\Unidad1;
+use App\Nomenclador;
+use App\Puestofuncionarios;
+use App\Regimen;
 use Illuminate\Http\Request;
 
-class PuestoController extends Controller
+class VincularpuestoController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -19,55 +18,58 @@ class PuestoController extends Controller
      */
     public function index()
     {
+        $preguntas = Vincularpuesto::join('unidad1', 'unidad1.id', '=', 'vincularpuesto.unidad_id')
+            ->join('nomenclador as puest', 'puest.id', '=', 'vincularpuesto.nomenclador_id')
+            ->join('nomenclador as dep', 'dep.id', '=', 'vincularpuesto.iddependencia')
+           
+            ->select('vincularpuesto.*', 'dep.nombrepuesto as dependencia_name', 
+                'unidad1.nombre as unidad_name','puest.nombrepuesto as puesto_name')
+            ->orderBy('vincularpuesto.id', 'DESC')
+            ->paginate(5);
 
-       // $preguntas = Puesto::join('unidad', 'unidad.id', '=', 'preguntas.unidad_id')
-           // ->select('preguntas.*', 'unidad.nombre as unidad_name')
-            
-
-        $preguntas = Puesto::join('nivel', 'nivel.id', '=', 'puesto.nivel_id')
-            ->join('nivel as nivel_com', 'nivel_com.id', '=', 'puesto.complejidad')
-            ->join('nivel as nivel_res', 'nivel_res.id', '=', 'puesto.responsabilidad')
-            ->join('nivel as nivel_aut', 'nivel_aut.id', '=', 'puesto.autonomia')
-            ->join('unidad', 'unidad.id', '=', 'puesto.unidad_id')
-            ->join('agrupamiento', 'agrupamiento.id', '=', 'puesto.agrupamiento_id')
-            ->join('puesto as pu', 'pu.id', '=', 'puesto.iddependencia')
-            ->join('op', 'op.codigo', '=', 'puesto.op_codigo')
-            ->join('empleados', 'empleados.legajo', '=', 'puesto.empleado')
-            ->select('puesto.*', 'nivel.nombre as nivel_name', 'agrupamiento.nombre as agrupamiento_name',
-                'nivel_com.complejidad as nivel_complejidad','nivel_res.responsabilidad as nivel_responsabilidad','nivel_aut.autonomia as nivel_autonomia',
-                'nivel.supervision as nivel_supervision','nivel.requisitos as nivel_requisitos','nivel.experiencia as nivel_experiencia',
-                'unidad.nombre as unidad_name','pu.nombre as puesto_name','op.denominacion as op_name','empleados.APELLIDO_NOMBRE as ap_name')
-            ->orderBy('puesto.id', 'DESC')
-            ->paginate(10);
-
-            //dd($preguntas);
-        $niveles= Nivel::orderBy('nivel.id', 'DESC')
-                    ->where('nivel.id','>','0')->get();
-
-    return view('puesto.index', compact('preguntas','niveles'));
+    return view('vincularpuesto.index', compact('preguntas'));
 
     }
 
-    public function getPuesto(Request $request){
-        //dd("hola");
+    public function getPuestoDep(Request $request){
+   
+        $id=$request->id;      
+
+         $preguntas = Vincularpuesto::join('nomenclador', 'nomenclador.id', '=', 'vincularpuesto.nomenclador_id')           
+           
+            ->select('vincularpuesto.*', 'nomenclador.nombrepuesto as puesto_name')
+            ->orderBy('puesto_name', 'ASC')
+            ->where('vincularpuesto.unidad_id','<',$id)
+            ->where('nomenclador.genteacargo','on')->get();
+
+        //dd($preguntas);         
+        
+
+        //$funcionarios = Puestofuncionarios::pluck('nombrepuesto','id');        
+        //$pue = Nomenclador::where('genteacargo','on')->get(); 
+        //$puestos =$pue->pluck('nombrepuesto','id');
+        //$dependencia= $funcionarios->concat($puestos);
+        //dd($puestos);
+        return Response()->json($preguntas); 
+    }
+
+    public function getPuestos(Request $request){
+
             $id=$request->id;
-            $puestos = Puesto::puesto($id);
+           
+            $puestos = Nomenclador::where('regimen_id',$id)
+                            ->pluck('nombrepuesto','id');
+
             //dd($puestos);
             return Response()->json($puestos); 
     }
 
-    public function getPuestos(Request $request){
-        //dd("hola");
-            $id=$request->id ;
-            $puestos = Puesto::puestos($id);
-            return Response()->json($puestos); 
-    }
-
-    public function getPuestosDep(Request $request){
-        //dd("hola");
-            $id=$request->id ;
-            $puestos = Puesto::puestos($id);
-            return Response()->json($puestos); 
+    public function getUnidad(Request $request){
+     
+            $id=$request->id;
+            $unidades = Unidad1::orderBy('id', 'ASC')
+                        ->where('parafuncionario',$id)->get();
+            return Response()->json($unidades); 
     }
 
     /**
@@ -77,31 +79,19 @@ class PuestoController extends Controller
      */
     public function create()
     {
-        $niveles = Op::pluck('organismos','codigo'); 
-        $agrupamiento= Agrupamiento::all();
-        //dd($niveles);
-        $unidades = Unidad::orderBy('id', 'ASC')
-                         ->where('id','>',0)->get();  
-        $empleados = Empleado::where('id','<>',0)
-                        ->orderBy('APELLIDO_NOMBRE', 'ASC')
-                        ->pluck('APELLIDO_NOMBRE','LEGAJO');
-        //dd($empleados);
-        return view('puesto.crear', compact('niveles','unidades','empleados','agrupamiento'));
-    }
+        $regimenF=Regimen::where('id',1)->get();
+        $regimenL=Regimen::where('id',10)->get();
+        $regimen= $regimenF->concat($regimenL);
+                                   
+        $unidades = Unidad1::orderBy('id', 'ASC')
+                         ->where('id','>',0)->get();
 
-      public function createR()
-    {
-        $niveles = Op::pluck('organismos','codigo'); 
-        $agrupamiento= Agrupamiento::all();
-        //dd($niveles);
-        $unidades = Unidad::orderBy('id', 'ASC')
-                        ->where('id','>',0)->get();  
-        $empleados = Empleado::where('id','<>',0)
-                        ->orderBy('APELLIDO_NOMBRE', 'ASC')
-                        ->pluck('APELLIDO_NOMBRE','LEGAJO');
-        //dd("createR");
-        return view('respuesta.crear', compact('niveles','unidades','empleados','agrupamiento'));
+            
+        //dd($regimen);  
+       
+        return view('vincularpuesto.crear', compact('regimen'));
     }
+    
 
     /**
      * Store a newly created resource in storage.
@@ -111,40 +101,16 @@ class PuestoController extends Controller
      */
     public function store(Request $request)
     {
-         $validatedData = $request->validate([
-            'nombre'=>'required'    
-          //'nombre'=>'required|string|unique:preguntas'          
+        $pregunta = Vincularpuesto::create([           
+            'nomenclador_id' => $request->puesto,
+            'unidad_id' => $request->uni,            
+            'iddependencia' => $request->dep
+            
         ]);
 
-         $nivel = "0";
-
-        //Pregunta::create($request->all());
-        $pregunta = Puesto::create([
-            'nombre' => $request->nombre,
-            'empleado' => $request->empleado,
-            'unidad_id' => $request->uni,
-            'agrupamiento_id' => $request->agrup, 
-            'iddependencia' => $request->dep,
-            'op_codigo' => $request->op,
-            'nivel_id' => $nivel
-        ]);
-//->with('success','Registro creado satisfactoriamente');
-        return redirect()->route('puestos.index')->with('status', 'Puesto creado satisfactoriamente');
+        return redirect()->route('vincularpuesto.index')->with('status', 'Vinculo creado satisfactoriamente');
     }
-
-    public function preguntas(Request $request)
-        {
-            $pregunta = Puesto::create([
-                'complejidad' => $request->complejidad,
-                'responsabilidad' => $request->responsabilidad,
-                'autonomia' => $request->autonomia, 
-                'supervision' => $request->supervision,
-                'requisitos' => $request->requisitos,
-                'experiencia' => $request->experiencia
-            ]);
   
-            return redirect()->route('puestos.index')->with('status', 'Preguntas guardadas');
-        }
 
     /**
      * Display the specified resource.

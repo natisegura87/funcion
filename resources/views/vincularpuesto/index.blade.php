@@ -7,9 +7,9 @@
             <div class="panel panel-default">
                
              <div class="panel-heading">
-                <label>Nomenclador de Puestos</label>
-                <a href="{{ action('NomencladorController@create') }}" class="btn btn-success" 
-                style="float: right; margin-top: -4px;"> Crear Puesto</a>
+                <label>Puestos del Organigrama</label>
+                <a href="{{ action('VincularpuestoController@create') }}" class="btn btn-success" 
+                style="float: right; margin-top: -4px;"> Crear vinculo de Puestos</a>
             </div>
                 <div class="panel-body table-responsive">
                    @if (session('status'))
@@ -31,36 +31,34 @@
 
                 <table class="table table-striped table-hover table-condensed">
                     <thead>
-                    <tr>
-                     
-                        <th>Nombre del Puesto</th>  
-                        <th>Descripción</th>                        
-                        <th>Nivel</th>    
-                        <th>Agrupamiento</th> 
-                        <th>Condiciones</th> 
-                        <th>Organismo</th> 
+                    <tr>                     
+                        <th>Puesto</th>                        
+                        <th>Unidad organizativa</th> 
+                        <th>Puesto del que depende</th> 
                         <th>Acciones</th>                     
                     </tr>
                  </thead>
                     <tbody>            
                     @if($preguntas->count())  
                      @foreach($preguntas as $preg)
-                        <tr>
-                                             
-                           <td>{{ $preg->nombrepuesto }}</td>  
-                           <td>{{ $preg->descripcion }}</td> 
-                           <td>{{ $preg->nivel_name }}</td>
-                           <td>{{ $preg->agrupamiento_name }}</td>
-                            <td> <a data-toggle="modal" data-target=".bd-editar-modal-lg" title="Editar {{ $preg->nombrepuesto }}" 
-                            data-ver= "{{ $preg->nombrepuesto }}" 
+                        <tr>                                             
+                            <td>{{ $preg->puesto_name }}</td>                   
+                            <td>{{ $preg->unidad_name }}</td>
+                            <td>{{ $preg->dependencia_name }}</td>
+                            <td style="width: 120px">        
+                             <a data-toggle="modal" data-target=".bd-complejidad-modal-lg" title="Crear" data-complejidad= "{{ $preg->nombre }}" data-idcomplejidad= "{{ $preg->id }}" 
+                                   class="btn btn-success btn-xs" style=" margin-right: 5px;float:left"><i class="fa fa-plus fa-lg"></i></a>
+                            
+                          <a data-toggle="modal" data-target=".bd-editar-modal-lg" title="Editar {{ $preg->nombre }}" 
+                            data-ver= "{{ $preg->nombre }}" 
                             data-idver= "{{ $preg->id }}" 
                             data-complejidad= "{{ $preg->nivel_complejidad }}" 
                             data-responsabilidad= "{{ $preg->nivel_responsabilidad }}" 
                             data-autonomia= "{{ $preg->nivel_autonomia }}"                           
                               class="btn btn-primary btn-xs" style=" margin-right: 5px;float:left"><i class="fa fa-pencil-square-o fa-lg"></i></a>
                                      
-                           <a data-toggle="modal" data-target=".bd-ver-modal-lg" title="Ver {{ $preg->nombrepuesto }}" 
-                            data-ver= "{{ $preg->nombrepuesto }}" 
+                           <a data-toggle="modal" data-target=".bd-ver-modal-lg" title="Ver {{ $preg->nombre }}" 
+                            data-ver= "{{ $preg->nombre }}" 
                             data-idver= "{{ $preg->id }}" 
                             data-complejidad= "{{ $preg->nivel_complejidad }}" 
                             data-responsabilidad= "{{ $preg->nivel_responsabilidad }}" 
@@ -69,27 +67,8 @@
                             data-requisitos= "{{ $preg->nivel_requisitos }}" 
                             data-experiencia= "{{ $preg->nivel_experiencia }}"
                               class="btn btn-info btn-xs" style=" margin-right: 5px;float:left"><i class="fa fa-eye fa-lg"></i></a>
-                           </td>
-                            <td> <a data-toggle="modal" data-target=".bd-editar-modal-lg" title="Editar {{ $preg->nombrepuesto }}" 
-                            data-ver= "{{ $preg->nombrepuesto }}" 
-                            data-idver= "{{ $preg->id }}" 
-                            data-complejidad= "{{ $preg->nivel_complejidad }}" 
-                            data-responsabilidad= "{{ $preg->nivel_responsabilidad }}" 
-                            data-autonomia= "{{ $preg->nivel_autonomia }}"                           
-                              class="btn btn-primary btn-xs" style=" margin-right: 5px;float:left"><i class="fa fa-pencil-square-o fa-lg"></i></a>
-                                     
-                           <a data-toggle="modal" data-target=".bd-ver-modal-lg" title="Ver {{ $preg->nombrepuesto }}" 
-                            data-ver= "{{ $preg->nombrepuesto }}" 
-                            data-idver= "{{ $preg->id }}" 
-                            data-complejidad= "{{ $preg->nivel_complejidad }}" 
-                            data-responsabilidad= "{{ $preg->nivel_responsabilidad }}" 
-                            data-autonomia= "{{ $preg->nivel_autonomia }}" 
-                            data-supervision= "{{ $preg->nivel_supervision }}" 
-                            data-requisitos= "{{ $preg->nivel_requisitos }}" 
-                            data-experiencia= "{{ $preg->nivel_experiencia }}"
-                              class="btn btn-info btn-xs" style=" margin-right: 5px;float:left"><i class="fa fa-eye fa-lg"></i></a>
-                           </td>
-                         
+                           
+                            </td>
                             <td>
                                 <a href="{{ action('PuestoController@edit', $preg->id) }}" title="Editar"
                                    class="btn btn-primary btn-xs" style="    margin-bottom: 2px;float:left">Editar</a>
@@ -99,7 +78,7 @@
                    {{csrf_field()}}
                    <input name="_method" type="hidden" value="DELETE">
  
-                   <button class="btn btn-danger btn-xs" title="{{ $preg->nombrepuesto }}" type="submit" onclick="return confirm('Deseas eliminar {{ $preg->nombrepuesto }} ?');"> Eliminar</button>
+                   <button class="btn btn-danger btn-xs" title="{{ $preg->nombre }}" type="submit" onclick="return confirm('Deseas eliminar {{ $preg->nombre }} ?');"> Eliminar</button>
                  </form>
                             </td>
                         </tr>
@@ -122,6 +101,5 @@
     </div>
 </div>
 
-@include('puesto.modal')
 
 @endsection

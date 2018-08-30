@@ -83,9 +83,9 @@
                 </div>
 
                 <div class="links">                   
-                    <a href="{{ route('preguntas.index') }}">Niveles</a>
+                    <a href="{{ route('nomenclador.index') }}">Nomenclador</a>
                     <a href="{{ route('puestos.index') }}">Puestos</a>
-                    <a href="{{ route('organigrama.index') }}">Organigrama</a>
+                    <a href="{{ route('vincularpuesto.index') }}">Organigrama</a>
                    
                 </div>
             </div>
