@@ -7,7 +7,7 @@
 <div class="container">
     <div class="row">
         <div class="col-md-12">
-            <div class="panel panel-primary">
+            <div class="panel panel-success">
                 <div class="panel-heading">
                   <label class="control-label">Crear Puesto del Nomenclador</label>
                   <p id="titulo" style="float: right;"></p>
@@ -100,6 +100,7 @@
                     </select>
                  
                 </div>
+                
 
       <div class="ver-requisitos" class="form-group" style="display:none"> 
                  
@@ -108,9 +109,9 @@
                     <label>Experiencia Laboral</label>
                     <p id="exp" style="margin-bottom: 30px;"></p>
                   
-        <div class="row" style="padding: 15px; background-color: rgba(48, 151, 209, 0.59);">
+        <div class="row" style="padding: 15px; background-color: rgb(82, 165, 86);">
            <div class="form-group">
-             <label style="font-size: 16px;">Condiciones Excluyentes</label>
+             <label style="font-size: 16px; color: #fff;">Condiciones Excluyentes</label>
            </div>
 @foreach ($excluyentes as $exclu)
                 <div class="row col-md-4" style="margin-bottom: 15px;margin-right: 10px">

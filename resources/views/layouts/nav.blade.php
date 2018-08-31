@@ -1,4 +1,4 @@
-        <nav class="navbar navbar-default navbar-static-top">
+        <nav class="navbar navbar-light navbar-default navbar-static-top navbar-expand-lg  bg-light">
             <div class="container">
                 <div class="navbar-header">
 
@@ -32,15 +32,16 @@
                              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Organigrama <span class="caret"></span></a>
                            
                             <ul class="dropdown-menu">
-                            <li><a href="{{ route('vincularpuesto.index') }}">Vincular Puestos</a></li>
+                            <li><a href="{{ route('vincularpuesto.index') }}">Puestos</a></li>
+                            <li><a href="{{ route('vincularpuesto.create') }}">Vincular Puestos</a></li>
                            
                             <li role="separator" class="divider"></li>
                             <li><a href="{{ route('organigrama.index') }}">Graficar</a></li>
                           </ul>
                         </li>
                         @guest
-                            <li style="border: 1px solid #ddd;"><a href="{{ route('login') }}">Ingresar</a></li>
-                            <li style="border: 1px solid #ddd;"><a href="{{ route('register') }}">Registrarse</a></li>
+                            <li style="border: 1px solid rgb(67, 156, 72)"><a href="{{ route('login') }}">Ingresar</a></li>
+                            <li style="border: 1px solid rgb(67, 156, 72)"><a href="{{ route('register') }}">Registrarse</a></li>
                         @else
                             <li class="dropdown">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" v-pre>

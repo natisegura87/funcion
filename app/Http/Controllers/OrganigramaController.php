@@ -6,6 +6,7 @@ use App\Unidad;
 use App\Puesto;
 use App\Nivel;
 use App\Organigrama;
+use App\Vincularpuesto;
 use App\Puestosorganigrama;
 use Illuminate\Http\Request;
 use JavaScript;
@@ -18,19 +19,7 @@ class OrganigramaController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    
-    public function index2()
-    {
-        $puestos = Puesto::join('nivel', 'nivel.id', '=', 'puesto.nivel_id')
-            ->join('unidad', 'unidad.id', '=', 'puesto.unidad_id')
-            ->join('puesto as pu', 'pu.id', '=', 'puesto.iddependencia')
-            ->select('puesto.*', 'nivel.nombre as nivel_name','unidad.nombre as unidad_name','pu.nombre as puesto_name')     
-            ->get();//->where('parent',1);          
-       
-        $puestos = $puestos->toJson();      
-       
-        return view('organigrama.ver2')->with('puestos',$puestos);           
-    }
+
 
     public function index()
     {                
@@ -79,10 +68,10 @@ class OrganigramaController extends Controller
         $idpue=$request->pue;
         $puesto=Puesto::find($idpue);
         $iduni=$puesto->unidad_id;
-        $puestos = Puesto::where('unidad_id','>=',$iduni)
+        $puestos = Vincularpuesto::where('unidad_id','>=',$iduni)
             ->get();
-        //dd($puestos);
-        
+        dd($puestos);
+        //hacer carga de puestos aux
         
         $vacio=1;
         $organ = Puestosorganigrama::create([
@@ -174,7 +163,7 @@ class OrganigramaController extends Controller
             ->select('puestosorganigrama.*','nivel.nombre as nivel_name','unidad.nombre as unidad_name')     
             ->get();
 
-        return view('organigrama.ver2',compact('puestosorg'));
+        return view('organigrama.verP',compact('puestosorg'));
     }
 
     public function show(Request $request)
@@ -197,17 +186,17 @@ class OrganigramaController extends Controller
     }
 
     public function getDep(Request $request){
-        //dd("hola");
+      
             $iduni=$request->iddependencia;
             //dd($iduni);
             $puesto=Puesto::puesto($iduni);
             $puestos=$puesto->iddependencia;
-            //dd($puestos);
+          
             return Response()->json($puestos); 
     }
 
     public function getDep1(Request $request){//borrar
-        //dd("hola");
+      
             $iduni=$request->id;
             //dd($iduni);
             $puesto=Puesto::puestosdep($iduni);
@@ -217,7 +206,7 @@ class OrganigramaController extends Controller
     }
 
     public function getPue(Request $request){
-        //dd("hola");
+      
             $idpue=$request->iddependencia;
             //dd($iduni);
             $puesto=Puesto::find($idpue);
@@ -235,7 +224,7 @@ class OrganigramaController extends Controller
      */
     public function edit($id)
     {
-       // $pregunta = Organigrama::findOrFail($id);
+      
 
     }
 
@@ -248,17 +237,7 @@ class OrganigramaController extends Controller
      */
     public function update(Request $request, $id)
     {
-       /* $pregunta = Organigrama::findOrFail($id);
-
-        $pregunta->nombre = $request->get('nombre');       
-
-        $pregunta->save();
-
-        //$url = action('PermissionController@show', ['id' => $permiso->id]);
-
-        $request->session()->flash('status', 'Pregunta <a href="#">' . $pregunta->nombre . '</a> Actualizada');
-
-        return redirect()->route("organigrama.index");*/
+  
     }
 
     /**
@@ -269,9 +248,6 @@ class OrganigramaController extends Controller
      */
     public function destroy(Request $request, $id)
     {
-       /* $pregunta = Organigrama::findOrFail($id);
-        $pregunta->delete();
-        
-        $request->session()->flash('status', 'Borrado!');*/
+
     }
 }

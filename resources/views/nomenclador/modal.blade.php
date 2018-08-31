@@ -72,6 +72,8 @@ $(document).ready(function(){
       //console.log("atras n");
       $('.ver-nivel').hide(); //muestro mediante id
       $('.ver-complejidad').show(); //oculto
+      $('#versigagrup').attr('disabled', true);
+      $('.ver-requisitos').hide();
     });
 
 
@@ -125,7 +127,9 @@ $(document).ready(function(){
                   }
                   div.find('.nivel').html(" ");
                   div.find('.nivel').append(op);
-                  //                 
+                  //     
+                  div.find('#req').html(" ");
+                  div.find('#exp').html(" ");            
                   div.find('#req').append(data.requisitos);                 
                   div.find('#exp').append(data.experiencia);
                }else{

@@ -7,7 +7,7 @@
 <div class="container">
     <div class="row">
         <div class="col-md-8 col-md-offset-2">
-            <div class="panel panel-primary">
+            <div class="panel panel-success">
                 <div class="panel-heading">
                 <label class="control-label">Seleccione a partir de que nivel de la estructura desea ver</label>
                 </div>
@@ -45,8 +45,7 @@
                 </div>
                 
             <div class="form-group">
-                <button type="submit" class="btn btn-info" style="margin-top: 25px; 
-                margin-left: 20%;">Ver Organigrama por Unidad</button>
+                <button type="submit" class="btn btn-primary" style="margin-top: 25px;"> Ver Organigrama por Unidad</button>
               
             </div>
         </form>
@@ -58,7 +57,7 @@
     </div>
     <div class="row">
         <div class="col-md-8 col-md-offset-2">
-            <div class="panel panel-primary">
+            <div class="panel panel-success">
                 <div class="panel-heading">
                 <label class="control-label">Seleccione a partir de que puesto desea ver</label>
                 </div>
@@ -92,7 +91,7 @@
               
             </div> 
             <div class="form-group">
-                <button type="submit" class="btn btn-info" style="margin-top: 25px; margin-left: 20%;">Ver Organigrama por Puesto</button>
+                <button type="submit" class="btn btn-primary" style="margin-top: 25px; margin-left: 20%;">Ver Organigrama por Puesto</button>
               
             </div>
         </form>

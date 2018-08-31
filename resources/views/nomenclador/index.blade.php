@@ -92,7 +92,7 @@
                          
                             <td>
                                 <a href="{{ action('PuestoController@edit', $preg->id) }}" title="Editar"
-                                   class="btn btn-primary btn-xs" style="    margin-bottom: 2px;float:left">Editar</a>
+                                   class="btn btn-primary btn-xs" style=" margin-right: 5px;margin-bottom: 2px;float:left">Editar</a>
 
                            
                   <form action="{{action('PuestoController@destroy', $preg->id)}}" method="post">

@@ -45,33 +45,10 @@
                             <td>{{ $preg->puesto_name }}</td>                   
                             <td>{{ $preg->unidad_name }}</td>
                             <td>{{ $preg->dependencia_name }}</td>
-                            <td style="width: 120px">        
-                             <a data-toggle="modal" data-target=".bd-complejidad-modal-lg" title="Crear" data-complejidad= "{{ $preg->nombre }}" data-idcomplejidad= "{{ $preg->id }}" 
-                                   class="btn btn-success btn-xs" style=" margin-right: 5px;float:left"><i class="fa fa-plus fa-lg"></i></a>
-                            
-                          <a data-toggle="modal" data-target=".bd-editar-modal-lg" title="Editar {{ $preg->nombre }}" 
-                            data-ver= "{{ $preg->nombre }}" 
-                            data-idver= "{{ $preg->id }}" 
-                            data-complejidad= "{{ $preg->nivel_complejidad }}" 
-                            data-responsabilidad= "{{ $preg->nivel_responsabilidad }}" 
-                            data-autonomia= "{{ $preg->nivel_autonomia }}"                           
-                              class="btn btn-primary btn-xs" style=" margin-right: 5px;float:left"><i class="fa fa-pencil-square-o fa-lg"></i></a>
-                                     
-                           <a data-toggle="modal" data-target=".bd-ver-modal-lg" title="Ver {{ $preg->nombre }}" 
-                            data-ver= "{{ $preg->nombre }}" 
-                            data-idver= "{{ $preg->id }}" 
-                            data-complejidad= "{{ $preg->nivel_complejidad }}" 
-                            data-responsabilidad= "{{ $preg->nivel_responsabilidad }}" 
-                            data-autonomia= "{{ $preg->nivel_autonomia }}" 
-                            data-supervision= "{{ $preg->nivel_supervision }}" 
-                            data-requisitos= "{{ $preg->nivel_requisitos }}" 
-                            data-experiencia= "{{ $preg->nivel_experiencia }}"
-                              class="btn btn-info btn-xs" style=" margin-right: 5px;float:left"><i class="fa fa-eye fa-lg"></i></a>
-                           
-                            </td>
+                          
                             <td>
                                 <a href="{{ action('PuestoController@edit', $preg->id) }}" title="Editar"
-                                   class="btn btn-primary btn-xs" style="    margin-bottom: 2px;float:left">Editar</a>
+                                   class="btn btn-primary btn-xs" style="margin-right: 5px; margin-bottom: 2px;float:left">Editar</a>
 
                            
                   <form action="{{action('PuestoController@destroy', $preg->id)}}" method="post">
@@ -100,6 +77,10 @@
         </div>
     </div>
 </div>
-
+<script type="text/javascript">
+   setTimeout(function() {
+           $("#alert").fadeOut();           
+      },2000);
+</script>
 
 @endsection

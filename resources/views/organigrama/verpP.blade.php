@@ -15,43 +15,6 @@
     <script type="text/javascript" src="js/taffy.js"></script>
    
     <style type="text/css">
-
-    .node2 {
-            border: 0px solid #ddd!important;
-            border-radius: 3px!important;
-            color: #f5f5f5!important;
-            background-color: #080808!important;
-            width: 1px!important;
-            height: 80px!important;
-        }
-    .circulo {
-        height: 32px !important;
-        -moz-border-radius: 50%!important;
-        -webkit-border-radius: 75%!important;
-        border-radius: 30% !important;
-        width: 8px;
-        background: #5cb85c;
-    }
-    table {      
-        width: max-content;
-    }
-    .exp-col {       
-        left: 49%;            
-    }
-   
-    .jOrgChart .node {      
-        width: -webkit-fill-available;
-        background-color: #0d4c82; 
-        color: #69e069;
-        border: 1px solid #080808;
-        height: 80px;
-    }
-    .jOrgChart .line {
-        width: 1px;
-    }
-    .node2 span.exp-col {
-        display: none;
-    }
     .opciones {
         display: none;
     }
@@ -138,14 +101,18 @@
     //Start Load HTML
     function loadjson() {
          var items = [];
-        var puestos = '{!!$puestosorg!!}';
+        var puestos = '{!!$puestos!!}';
+        var p={{$_POST["pue"]}};
+        
+       //VER  POR PUESTO
+       
+        //console.log(puestos);
+        //console.log("id");
+        console.log(p);
        
 // me dan el puesto, agarro iddependencia y arranco
-        var dep={{$_POST["iddependencia"]}};
-        var idpue={{$_POST["pue"]}};
-        console.log(puestos);
-        console.log(dep);//13
-        console.log(idpue);//23
+        var dep = p;
+        //console.log(puestos);
         var data = TAFFY(
                 puestos
             );
@@ -157,21 +124,15 @@
         });
         //start loop the json and form the html
         function loops(root) {
-
-
-            if (root.id_puesto == idpue) {
+            //console.log(root.parent);
+          
+            if (root.iddependencia == dep) {
     
-               
-                items.push("<li class='unic" + root.id + " root' id='" + root.nombre + "'><span class='label_node'><a href=''>" + root.nombre + "</a></br><i>" + root.unidad_name + "</i></span><div class='details'><p><strong>Nivel: </strong>" + root.nivel_name + "</p><p><strong>Empleado: </strong>" + root.empleado + "</p></div>");
+        
+                items.push("<li class='unic" + root.id + " root' id='" + root.nombre + "'><span class='label_node'><a href=''>" + root.nombre + "</a></br><i>" + root.unidad_name + "</i></span><div class='details'><p><strong>Empleado: </strong>" + root.empleado + "</p><p><strong>Nivel: </strong>" + root.nivel_name + "</p></div>");
             } else {
 
-                 if(root.nombre == "-"){ //root.nombre == "-"
-                    console.log("entro");
-                    items.push("<li class='child node2 unic" + root.id + "' id='" + root.nombre + "'><span class='label_node'>" + root.nombre + "</br><i>" + root.unidad_name + "</i></span>");
-                }else{
-
-                items.push("<li class='child unic" + root.id + "' id='" + root.nombre + "'><span class='label_node'><a href=''>" + root.nombre + "</a></br><i>" + root.unidad_name + "</i></span><div class='details'><p><strong>Nivel: </strong>" + root.nivel_name + "</p><p><strong>Empleado: </strong>" + root.empleado + "</p></div>");
-                }
+                items.push("<li class='child unic" + root.id + "' id='" + root.nombre + "'><span class='label_node'><a href=''>" + root.nombre + "</a></br><i>" + root.unidad_name + "</i></span><div class='details'><p><strong>Empleado: </strong>" + root.empleado + "</p><p><strong>Nivel: </strong>" + root.nivel_name + "</p></div>");
       
             }
 
@@ -240,8 +201,8 @@
                     <!-- Right Side Of Navbar -->
                     <ul class="nav navbar-nav navbar-right">
                         <!-- Authentication Links -->
-                         <li><a href="{{ route('puestos.index') }}">Puestos</a></li>
-                       
+                        <li><a href="{{ route('puestos.index') }}">Puestos</a></li>
+                     
                         <li><a href="{{ route('organigrama.index') }}">Organigrama</a></li>
                         @guest
                             <li><a href="{{ route('login') }}">Ingresar</a></li>
@@ -356,41 +317,6 @@
             $("#chart").scrollTop(0)
             $("#chart").scrollTop($(this).offset().top - 140);
         })
-    }
-
-
-
-    function makeArrays() {
-        var hierarchy = [];
-
-        $("#org li").each(function() {
-            var uid = $(this).attr("id");
-            var name = $(this).find(">:first-child a").text();
-            var hidSTR = "";
-            var hid = $(this).parents("li");
-            if (hid.length == 0) //If this object is the root user, substitute id with "orgName" so the DB knows it's the name of organization and not a user
-            {
-                hidSTR = "orgName";
-                var user = new Object();
-                user.key = name;
-                user.hierarchy = hidSTR;
-                hierarchy.push(user);
-            } else {
-                for (var i = hid.length - 1; i >= 0; i--) {
-                    if (i != hid.length - 1) {
-                        hidSTR = hidSTR + hid[i].id + ",";
-                    } else {
-                        hidSTR = hidSTR + hid[i].id + '"';
-                    }
-                }
-                var user = new Object();
-                user.key = name;
-                user.hierarchy = hidSTR;
-                hierarchy.push(user);
-            }
-        });
-        console.log(hierarchy)
-        alert("Check console")
     }
 
 

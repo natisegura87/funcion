@@ -7,7 +7,7 @@
 <div class="container">
     <div class="row">
         <div class="col-md-10 col-md-offset-1">
-            <div class="panel panel-default">
+            <div class="panel panel-success">
                 <div class="panel-heading">
                 <label class="control-label">Crear Vinculo de Puestos</label>
 
@@ -30,7 +30,7 @@
                 {!! csrf_field() !!}
 
           
-<div class="form-group col-md-12" style="background-color: #3097d1;border-radius: 5px;">
+<div class="form-group col-md-12" style="background-color: #52a556;border-radius: 5px;">
             <div class="row col-md-6" style="padding: 10px">
                     <label class="control-label">Regimen</label>
                     <select class="form-control regimen" name="regimen" id="regimen" required>

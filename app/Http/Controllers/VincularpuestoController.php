@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Vincularpuesto;
 use App\Unidad1;
 use App\Nomenclador;
-use App\Puestofuncionarios;
+
 use App\Regimen;
 use Illuminate\Http\Request;
 

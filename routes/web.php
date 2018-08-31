@@ -39,7 +39,7 @@ Route::get('users', function () {
     return App\Empleado::all();
 });
 
-Route::get('/organigrama2', 'OrganigramaController@index')->name('organigrama.index');
+Route::get('/organigrama', 'OrganigramaController@index')->name('organigrama.index');
 Route::post('organigrama/ver', 'OrganigramaController@show')->name('organigrama.show');
 Route::get('organigrama/get', 'OrganigramaController@getDep')->name('organigrama.get');
 Route::get('organigrama/getP', 'OrganigramaController@getPue')->name('organigrama.getP');
@@ -67,8 +67,8 @@ Route::delete('/nomenclador/eliminar/{id}', 'NomencladorController@destroy')->na
 Route::get('/nomencladorget', 'NomencladorController@nivelPreg')->name('nomenclador.getnivel');
 Route::get('/nomencladorgetagrup', 'NomencladorController@getAgrupamientos')->name('nomenclador.getagrup');
 
-Route::get('/vincularpuesto', 'VincularpuestoController@index')->name('vincularpuesto.index');
-Route::get('/vincularpuesto/crear', 'VincularpuestoController@create')->name('nomenclador.create');
+Route::get('/organigramaPuestos', 'VincularpuestoController@index')->name('vincularpuesto.index');
+Route::get('/vincularpuesto/crear', 'VincularpuestoController@create')->name('vincularpuesto.create');
 Route::post('/vincularpuesto/guardar', 'VincularpuestoController@store')->name('vincularpuesto.store');
 Route::post('/vincularpuesto/editar/{id}', 'VincularpuestoController@update')->name('vincularpuesto.update');
 Route::get('/vincularpuesto/{id}', 'VincularpuestoController@edit')->name('vincularpuesto.edit');
