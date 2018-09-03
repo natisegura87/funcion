@@ -36,7 +36,7 @@
                             <li><a href="{{ route('vincularpuesto.create') }}">Vincular Puestos</a></li>
                            
                             <li role="separator" class="divider"></li>
-                            <li><a href="{{ route('organigrama.index') }}">Graficar</a></li>
+                            <li><a href="{{ route('organigrama.indexN') }}">Graficar</a></li>
                           </ul>
                         </li>
                         @guest

@@ -4,6 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use App\Nivel;
+use App\Vincularpuesto;
 
 class Organigrama extends Model
 {
@@ -16,6 +17,11 @@ class Organigrama extends Model
     {
         return $this->hasMany(Turno::class);
     }*/
+
+    public static function getPuesto($id){
+        $puesto=Vincularpuesto::where('nomenclador_id',$id)->get();
+        return $puesto;
+    }
 
     public static function nivel($id){
 		$nivel = Nivel::all()

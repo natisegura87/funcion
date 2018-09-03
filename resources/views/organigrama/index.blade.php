@@ -72,7 +72,7 @@
         </ul>
     </div>
 @endif
-            <form role="form" method="Post" action="{{ action('OrganigramaController@showP') }}">
+            <form role="form" method="Post" action="{{ action('OrganigramaController@showNomenclador') }}">
                 {!! csrf_field() !!}
 
 
@@ -82,7 +82,7 @@
                       <option value="">=== Select Puesto ===</option>
                         @foreach ($puestos as $nivel)
                             <option value="{{ $nivel->id }}">
-                                {{ $nivel->nombre }}
+                                {{ $nivel->nombrepuesto }}
                             </option>                           
                         @endforeach
                     </select>

@@ -1,18 +1,9 @@
-<!DOCTYPE html>
-<html>
+@extends('layouts.app')
+@section('title', 'Organigrama')
+@section('content')
 
-<head>
-    <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-    <title>Sistema Organigrama</title>
      <link rel="shortcut icon" href="{{ asset('images/logo-sistema.png') }}" />
-    <link rel="stylesheet" href="css/bootstrap.min.css" />
-    <link rel="stylesheet" href="css/jquery.jOrgChart.css" />
-    <link rel="stylesheet" href="css/custom.css" />
-    <!-- jQuery includes -->
-    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
-    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/jquery-ui.min.js"></script>
-    <script src="js/jquery.jOrgChart.js"></script>
-    <script type="text/javascript" src="js/taffy.js"></script>
+
    
     <style type="text/css">
 
@@ -131,148 +122,10 @@
     <script>
 
 
-    var node_to_edit;
-
-    // read json and convert to html formate
-    // Here I am laod the json format to html structure. You no need to do this incase you have order list HTML in you body
-    //Start Load HTML
-    function loadjson() {
-         var items = [];
-        var puestos = '{!!$puestosorg!!}';
-       
-// me dan el puesto, agarro iddependencia y arranco
-       
-        var idpue={{$_POST["pue"]}};
-        //buscar el id- este es id_puesto
-        console.log(puestos);
-      
-        console.log(idpue);//23
-        var data = TAFFY(
-                puestos
-            );
-
-        data({
-            "iddependencia": idpue
-        }).each(function(record, recordnumber) {
-            loops(record);
-        });
-        //start loop the json and form the html
-        function loops(root) {
-
-
-            if (root.id_puesto == idpue) {
     
-               
-                items.push("<li class='unic" + root.id + " root' id='" + root.nombre + "'><span class='label_node'><a href=''>" + root.nombre + "</a></br><i>" + root.unidad_name + "</i></span><div class='details'><p><strong>Nivel: </strong>" + root.nivel_name + "</p><p><strong>Empleado: </strong>" + root.empleado + "</p></div>");
-            } else {
-
-                 if(root.nombre == "-"){ //root.nombre == "-"
-                    console.log("entro");
-                    items.push("<li class='child node2 unic" + root.id + "' id='" + root.nombre + "'><span class='label_node'>" + root.nombre + "</br><i>" + root.unidad_name + "</i></span>");
-                }else{
-
-                items.push("<li class='child unic" + root.id + "' id='" + root.nombre + "'><span class='label_node'><a href=''>" + root.nombre + "</a></br><i>" + root.unidad_name + "</i></span><div class='details'><p><strong>Nivel: </strong>" + root.nivel_name + "</p><p><strong>Empleado: </strong>" + root.empleado + "</p></div>");
-                }
-      
-            }
-
-            var c = data({
-                "iddependencia": root.id
-            }).count();
-            /*console.log(c);            
-            console.log(root.id);
-            console.log( '  ');*/
-            if (c != 0) {
-                items.push("<ul>");
-                data({
-                    "iddependencia": root.id
-                }).each(function(record, recordnumber) {
-                    loops(record);
-                });
-                items.push("</ul></li>");
-            } else {
-                items.push("</li>");
-            }
-        } // End the generate html code
-
-        //push to html code
-        $("<ul/>", {
-            "id": "org",
-            "style": "float:right;",
-            html: items.join("")
-        }).appendTo("body");
-    }
-
-    function nivel(id){
-        $.get("organigrama/"+id, function(response,state){
-        //console.log(response);
-        return response;
-        });
-    }
-    // End Load HTML
     </script>
-</head>
 
-<body>
-    <nav class="navbar navbar-default navbar-static-top">
-            <div class="container">
-                <div class="navbar-header">
 
-                    <!-- Collapsed Hamburger -->
-                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#app-navbar-collapse" aria-expanded="false">
-                        <span class="sr-only">Toggle Navigation</span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                    </button>
-
-                    <!-- Branding Image -->
-                    <a class="navbar-brand" href="{{ url('/') }}">
-                        {{ config('app.name', 'Laravel') }}
-                    </a>
-                </div>
-
-                <div class="collapse navbar-collapse" id="app-navbar-collapse">
-                    <!-- Left Side Of Navbar -->
-                    <ul class="nav navbar-nav">
-                        &nbsp;
-                    </ul>
-
-                    <!-- Right Side Of Navbar -->
-                    <ul class="nav navbar-nav navbar-right">
-                        <!-- Authentication Links -->
-                         <li><a href="{{ route('puestos.index') }}">Puestos</a></li>
-                       
-                        <li><a href="{{ route('organigrama.indexN') }}">Organigrama</a></li>
-                        @guest
-                            <li><a href="{{ route('login') }}">Ingresar</a></li>
-                            <li><a href="{{ route('register') }}">Registrarse</a></li>
-                        @else
-                            <li class="dropdown">
-                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" v-pre>
-                                    {{ Auth::user()->name }} <span class="caret"></span>
-                                </a>
-
-                                <ul class="dropdown-menu">
-                                    <li>
-                                        <a href="{{ route('logout') }}"
-                                            onclick="event.preventDefault();
-                                                     document.getElementById('logout-form').submit();">
-                                            Logout
-                                        </a>
-
-                                        <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                                            {{ csrf_field() }}
-                                        </form>
-                                    </li>
-                                </ul>
-                            </li>
-                        @endguest
-                    </ul>
-                </div>
-            </div>
-        </nav>
-   
 
     <div id="in" style="display:none">
     </div>
@@ -339,7 +192,11 @@
         </form>
         <i class="close">X</i>
     </div>
-    <script type="text/javascript">
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+<script type="text/javascript" src="js/taffy.js"></script>
+<script type="text/javascript">
     function init_tree() {
         var opts = {
             chartElement: '#chart',
@@ -421,8 +278,81 @@
 
         scroll()
 
-    });
-    </script>
-</body>
+   
 
-</html>
+var node_to_edit;
+
+    // read json and convert to html formate
+    // Here I am laod the json format to html structure. You no need to do this incase you have order list HTML in you body
+    //Start Load HTML
+    function loadjson() {
+         var items = [];
+        var puestos = '{!!$puestosorg!!}';
+       
+// me dan el puesto, agarro iddependencia y arranco
+       
+        var idpue={{$_POST["pue"]}};
+        console.log(puestos);
+      
+        console.log(idpue);//23
+        var data = TAFFY(
+                puestos
+            );
+
+        data({
+            "iddependencia": idpue
+        }).each(function(record, recordnumber) {
+            loops(record);
+        });
+        //start loop the json and form the html
+        function loops(root) {
+
+
+            if (root.id_puesto == idpue) {
+    
+               
+                items.push("<li class='unic" + root.id + " root' id='" + root.nombre + "'><span class='label_node'><a href=''>" + root.nombre + "</a></br><i>" + root.unidad_name + "</i></span><div class='details'><p><strong>Nivel: </strong>" + root.nivel_name + "</p><p><strong>Empleado: </strong>" + root.empleado + "</p></div>");
+            } else {
+
+                 if(root.nombre == "-"){ //root.nombre == "-"
+                    console.log("entro");
+                    items.push("<li class='child node2 unic" + root.id + "' id='" + root.nombre + "'><span class='label_node'>" + root.nombre + "</br><i>" + root.unidad_name + "</i></span>");
+                }else{
+
+                items.push("<li class='child unic" + root.id + "' id='" + root.nombre + "'><span class='label_node'><a href=''>" + root.nombre + "</a></br><i>" + root.unidad_name + "</i></span><div class='details'><p><strong>Nivel: </strong>" + root.nivel_name + "</p><p><strong>Empleado: </strong>" + root.empleado + "</p></div>");
+                }
+      
+            }
+
+            var c = data({
+                "iddependencia": root.id
+            }).count();
+            /*console.log(c);            
+            console.log(root.id);
+            console.log( '  ');*/
+            if (c != 0) {
+                items.push("<ul>");
+                data({
+                    "iddependencia": root.id
+                }).each(function(record, recordnumber) {
+                    loops(record);
+                });
+                items.push("</ul></li>");
+            } else {
+                items.push("</li>");
+            }
+        } // End the generate html code
+
+        //push to html code
+        $("<ul/>", {
+            "id": "org",
+            "style": "float:right;",
+            html: items.join("")
+        }).appendTo("body");
+    }
+
+    // End Load HTML
+ });    
+    </script>
+
+@endsection
