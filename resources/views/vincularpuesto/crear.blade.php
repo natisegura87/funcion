@@ -1,5 +1,5 @@
 @extends('layouts.app')
-@section('title', 'Crear puesto')
+@section('title', 'Vincular Puestos')
 @section('content')
 
 

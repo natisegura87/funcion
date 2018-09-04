@@ -353,6 +353,6 @@ public function getAgrupamientos(Request $request){
     {
         $pregunta = Nomenclador::find($id);
         $pregunta->delete();
-        return redirect()->route('nomenclador.index')->with('status','Puesto eliminado satisfactoriamente');
+        return redirect()->route('nomenclador.index')->with('status','Puesto del nomenclador eliminado');
     }
 }

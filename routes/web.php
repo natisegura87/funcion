@@ -43,6 +43,7 @@ Route::get('/organigrama2', 'OrganigramaController@indexN')->name('organigrama.i
 Route::post('organigrama/ver', 'OrganigramaController@show')->name('organigrama.show');
 Route::get('organigrama/get', 'OrganigramaController@getDep')->name('organigrama.get');
 Route::get('organigrama/getP', 'OrganigramaController@getPue')->name('organigrama.getP');
+Route::get('organigrama/crearPuestos', 'OrganigramaController@crearPuestos')->name('organigrama.crearPuestos');
 Route::post('organigrama/verPuesto', 'OrganigramaController@showP')->name('organigrama.showP');
 Route::post('organigrama/verNomenclador', 'OrganigramaController@showNomenclador')->name('organigrama.showNomenclador');
 Route::get('/organigramaVer', 'OrganigramaController@index2')->name('organigrama.ver');

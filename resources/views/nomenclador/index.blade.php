@@ -1,5 +1,5 @@
 @extends('layouts.app')
-@section('title', 'Puestos')
+@section('title', 'Nomenclador')
 @section('content')
 <div class="container">
     <div class="row">
@@ -95,7 +95,7 @@
                                    class="btn btn-primary btn-xs" style=" margin-right: 5px;margin-bottom: 2px;float:left">Editar</a>
 
                            
-                  <form action="{{action('PuestoController@destroy', $preg->id)}}" method="post">
+                  <form action="{{action('NomencladorController@destroy', $preg->id)}}" method="post">
                    {{csrf_field()}}
                    <input name="_method" type="hidden" value="DELETE">
  

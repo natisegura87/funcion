@@ -179,142 +179,12 @@ class OrganigramaController extends Controller
 
     public function showNomenclador(Request $request)
     {        
-        $pregunta = Puestosorganigrama::query()->delete();
-        $idpue=$request->pue;
-        //dd($idpue);
-        $iduni=Vincularpuesto::where('nomenclador_id',$idpue)->pluck('unidad_id');
-        
-        //dd($iduni);
-        if(isset($iduni)){
-            $iduni=Vincularpuesto::pluck('unidad_id')->first();
-            //dd($iduni);
-        }
-        $puestos = Vincularpuesto::join('nomenclador', 'nomenclador.id', '=', 'vincularpuesto.nomenclador_id')               
-            ->select('vincularpuesto.*','nomenclador.nombrepuesto as puesto_name', 'nomenclador.nivel_id as nivel_id')     
-            ->orderBy('unidad_id', 'ASC')->
-                        where('unidad_id','>=',$iduni)
-                        ->get();
-        //dd($puestos);
-        /*$puestos = Vincularpuesto::orderBy('unidad_id', 'ASC')->
-                        where('unidad_id','>=',$iduni)
-                        ->get();*/
-        /*$puestos = Unidad1::join($puests,'unidad1.id', '=', 'vincularpuesto.unidad_id')      
-            ->select('vincularpuesto.*','unidad1.nombre as unidad_name')
-            ->get();*/
-        //dd($puestos);
-
-        //hacer carga de puestos aux
-        
-        $vacio=0;
-
-        foreach ($puestos as $pue){ //Vincularpuesto
-            $iddep=$pue->iddependencia; //dep en la vista, first 1
-            //dd($iddep);
-            $unidad=$pue->unidad_id;  //2
-
-            if($unidad==$iduni){
-                 $organ = Puestosorganigrama::create([
-                    'nombre' => "-",   
-                    'id_puesto' => $iddep, 
-                    'unidad_id' => $vacio,
-                    'nivel_id' => $vacio,
-                ]);
-                 $idinsertado=$organ->id;
-                 $organ1 = Puestosorganigrama::create([
-                    'nombre' => $pue->puesto_name,   
-                    'id_puesto' => $pue->nomenclador_id,                   
-                    'iddependencia' => $idinsertado,                    
-                    'unidad_id' => $pue->unidad_id,
-                    //'op_codigo' => $vacio,
-                    'nivel_id' => $pue->nivel_id,
-                    //'empleado' => $vacio
-                ]);
-
-                $idinsertado=$organ1->id;
-                //dd($organ1);
-            }else{
-//dd($iddep);
-            $idunidepen=Puestosorganigrama::where('id_puesto',$iddep)
-                            ->pluck('unidad_id');
-            $iddepen=Puestosorganigrama::where('id_puesto',$iddep)
-                            ->pluck('id');
-            //dd($iddepen[0]);
-            $idunidep=$idunidepen[0];
-            
-            //$i=$unidad+1;
-            $i=$idunidep+1;
-            $uni=$i."";  
-            $e="1";
-            $u="0";
-            $nombre="-";
-//dd($idunidep);
-            if($i == $unidad){
-                
-                $organ = Puestosorganigrama::create([
-                    'nombre' => $pue->puesto_name,   
-                    'id_puesto' => $pue->nomenclador_id,                   
-                    'iddependencia' => $idinsertado,                    
-                    'unidad_id' => $pue->unidad_id,
-                    //'op_codigo' => $vacio,
-                    'nivel_id' => $pue->nivel_id,
-                    //'empleado' => $vacio
-                ]);
-               //dd("entro2");
-             
-                $idinsertado=$organ->id;
-            }else{
-//dd($i);
-            $organ = Puestosorganigrama::create([
-                    'nombre' => $nombre,   
-                    'id_puesto' => $u,                   
-                    'iddependencia' => $iddepen[0],                    
-                    'unidad_id' => $i,
-                    'nivel_id' => $u,
-                ]);
-               //dd("entro2");
-             $i=$i+1;
-            $idinsertado=$organ->id;
-
-            while ( $i < $unidad) {
-               // dd($unidad);
-                //dd($i);
-                $organ = Puestosorganigrama::create([
-                    'nombre' => $nombre,   
-                    'id_puesto' => $u,                   
-                    'iddependencia' => $idinsertado,                    
-                    'unidad_id' => $i,
-                    'nivel_id' => $u,
-                ]);
-                $i=$i+1;
-             
-                $idinsertado=$organ->id;
-                //dd("$iddep");
-            
-            }//dd($iddep);
-
-            $organ = Puestosorganigrama::create([
-                    'nombre' => $pue->puesto_name,   
-                    'id_puesto' => $pue->nomenclador_id,                   
-                    'iddependencia' => $idinsertado,                    
-                    'unidad_id' => $pue->unidad_id,
-            
-                    'nivel_id' => $pue->nivel_id,
-             
-                ]);
-               //dd("entro24");
-             
-                $idinsertado=$organ->id;
-        }
-             }
-        }
-
-//dd("fin");
-        $puestosorg = Puestosorganigrama::all();
-        //dd($puestosorg);
-        /* $puestosorg = Puestosorganigrama::join('nivel', 'nivel.id', '=', 'puestosorganigrama.nivel_id')
-            ->join('unidad', 'unidad.id', '=', 'puestosorganigrama.unidad_id')           
-            ->select('puestosorganigrama.*','nivel.nombre as nivel_name','unidad.nombre as unidad_name')     
-            ->get();*/
+       
+        $puestosorg = Puestosorganigrama::join('nivel', 'nivel.id', '=', 'puestosorganigrama.nivel_id')
+            ->join('unidad1', 'unidad1.id', '=', 'puestosorganigrama.unidad_id')           
+            ->select('puestosorganigrama.*','nivel.nombre as nivel_name','unidad1.nombre as unidad_name')     
+            ->get();
+           
 
         return view('organigrama.verP',compact('puestosorg'));
     }
@@ -362,11 +232,142 @@ class OrganigramaController extends Controller
       
             $idpue=$request->iddependencia;
             //dd($iduni);
-            $puesto=Puesto::find($idpue);
+            $puesto=Vincularpuesto::find($idpue);
             $puestos=$puesto->iddependencia;
             //dd($puestos);
             return Response()->json($puestos); 
     }
+
+    public function crearPuestos(Request $request)
+    {        
+        $pregunta = Puestosorganigrama::query()->delete();
+        $idpue=$request->iddependencia;
+        //dd($idpue);
+        $iduni=Vincularpuesto::where('nomenclador_id',$idpue)->pluck('unidad_id');
+        
+        //dd($iduni);
+        if(isset($iduni)){
+            $iduni=Vincularpuesto::pluck('unidad_id')->first();
+            //dd($iduni);
+        }
+        $puestos = Vincularpuesto::join('nomenclador', 'nomenclador.id', '=', 'vincularpuesto.nomenclador_id')               
+            ->select('vincularpuesto.*','nomenclador.nombrepuesto as puesto_name', 'nomenclador.nivel_id as nivel_id')     
+            ->orderBy('unidad_id', 'ASC')->
+                        where('unidad_id','>=',$iduni)
+                        ->get();
+ 
+        
+        $vacio=0;
+
+        foreach ($puestos as $pue){ //Vincularpuesto
+            $iddep=$pue->iddependencia; //dep en la vista, first 1
+            //dd($iddep);
+            $unidad=$pue->unidad_id;  //2
+
+            if($unidad==$iduni){
+                 $organ = Puestosorganigrama::create([
+                    'nombre' => "-",   
+                    'id_puesto' => $iddep, 
+                    'unidad_id' => $vacio,
+                    'nivel_id' => $vacio,
+                ]);
+                 $idinsertado=$organ->id;
+                 $organ1 = Puestosorganigrama::create([
+                    'nombre' => $pue->puesto_name,   
+                    'id_puesto' => $pue->nomenclador_id,                   
+                    'iddependencia' => $idinsertado,                    
+                    'unidad_id' => $pue->unidad_id,
+                    //'op_codigo' => $vacio,
+                    'nivel_id' => $pue->nivel_id,
+                    //'empleado' => $vacio
+                ]);
+
+                $idinsertado=$organ1->id;
+                //dd($organ1);
+            }else{
+
+            $idunidepen=Puestosorganigrama::where('id_puesto',$iddep)
+                            ->pluck('unidad_id');
+            $iddepen=Puestosorganigrama::where('id_puesto',$iddep)
+                            ->pluck('id');
+            //dd($iddepen[0]);
+            $idunidep=$idunidepen[0];
+            
+            //$i=$unidad+1;
+            $i=$idunidep+1;
+            $uni=$i."";  
+            $e="1";
+            $u="0";
+            $nombre="-";
+
+            if($i == $unidad){
+                
+                $organ = Puestosorganigrama::create([
+                    'nombre' => $pue->puesto_name,   
+                    'id_puesto' => $pue->nomenclador_id,                   
+                    'iddependencia' => $idinsertado,                    
+                    'unidad_id' => $pue->unidad_id,
+                    //'op_codigo' => $vacio,
+                    'nivel_id' => $pue->nivel_id,
+                    //'empleado' => $vacio
+                ]);
+               //dd("entro2");
+             
+                $idinsertado=$organ->id;
+            }else{
+
+            $organ = Puestosorganigrama::create([
+                    'nombre' => $nombre,   
+                    'id_puesto' => $u,                   
+                    'iddependencia' => $iddepen[0],                    
+                    'unidad_id' => $i,
+                    'nivel_id' => $u,
+                ]);
+               //dd("entro2");
+             $i=$i+1;
+            $idinsertado=$organ->id;
+
+            while ( $i < $unidad) {
+               // dd($unidad);
+                //dd($i);
+                $organ = Puestosorganigrama::create([
+                    'nombre' => $nombre,   
+                    'id_puesto' => $u,                   
+                    'iddependencia' => $idinsertado,                    
+                    'unidad_id' => $i,
+                    'nivel_id' => $u,
+                ]);
+                $i=$i+1;
+             
+                $idinsertado=$organ->id;
+                //dd("$iddep");
+            
+            }//dd($iddep);
+
+            $organ = Puestosorganigrama::create([
+                    'nombre' => $pue->puesto_name,   
+                    'id_puesto' => $pue->nomenclador_id,                   
+                    'iddependencia' => $idinsertado,                    
+                    'unidad_id' => $pue->unidad_id,
+            
+                    'nivel_id' => $pue->nivel_id,
+             
+                ]);
+               //dd("entro24");
+             
+                $idinsertado=$organ->id;
+        }
+             }
+        }
+
+
+            $iddepen=Puestosorganigrama::where('id_puesto',$idpue)
+                            ->pluck('iddependencia');
+            $idd=$iddepen[0];
+
+        return Response()->json($idd); 
+    }
+
 
 
     /**

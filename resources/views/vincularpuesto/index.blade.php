@@ -51,11 +51,11 @@
                                    class="btn btn-primary btn-xs" style="margin-right: 5px; margin-bottom: 2px;float:left">Editar</a>
 
                            
-                  <form action="{{action('PuestoController@destroy', $preg->id)}}" method="post">
+                  <form action="{{action('VincularpuestoController@destroy', $preg->id)}}" method="post">
                    {{csrf_field()}}
                    <input name="_method" type="hidden" value="DELETE">
  
-                   <button class="btn btn-danger btn-xs" title="{{ $preg->nombre }}" type="submit" onclick="return confirm('Deseas eliminar {{ $preg->nombre }} ?');"> Eliminar</button>
+                   <button class="btn btn-danger btn-xs" title="{{ $preg->nombre }}" type="submit" onclick="return confirm('Deseas eliminar {{ $preg->puesto_name }} ?');"> Eliminar</button>
                  </form>
                             </td>
                         </tr>

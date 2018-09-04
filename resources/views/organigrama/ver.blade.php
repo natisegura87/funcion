@@ -211,7 +211,7 @@
                         <!-- Authentication Links -->
                         <li><a href="{{ route('puestos.index') }}">Puestos</a></li>
                        
-                        <li><a href="{{ route('organigrama.index') }}">Organigrama</a></li>
+                        <li><a href="{{ route('organigrama.indexN') }}">Organigrama</a></li>
                         @guest
                             <li><a href="{{ route('login') }}">Ingresar</a></li>
                             <li><a href="{{ route('register') }}">Registrarse</a></li>

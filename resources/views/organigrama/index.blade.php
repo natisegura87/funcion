@@ -1,5 +1,5 @@
 @extends('layouts.app')
-@section('title', 'Organigrama')
+@section('title', 'Graficar Organigrama')
 @section('content')
 
 
@@ -7,7 +7,7 @@
 <div class="container">
     <div class="row">
         <div class="col-md-8 col-md-offset-2">
-            <div class="panel panel-success">
+            <div class="panel panel-default">
                 <div class="panel-heading">
                 <label class="control-label">Seleccione a partir de que nivel de la estructura desea ver</label>
                 </div>
@@ -57,7 +57,7 @@
     </div>
     <div class="row">
         <div class="col-md-8 col-md-offset-2">
-            <div class="panel panel-success">
+            <div class="panel panel-default">
                 <div class="panel-heading">
                 <label class="control-label">Seleccione a partir de que puesto desea ver</label>
                 </div>
@@ -150,8 +150,8 @@ $(document).ready(function(){
         var idpue = $(this).val();
         console.log(idpue);
         var div = $(this).parent().parent();
-        //console.log("hola");
-        var url = '{{ route('organigrama.getP') }}';
+        console.log("hola");
+        var url = '{{ route('organigrama.crearPuestos') }}';
         //'http://localhost/intranet/public/uploadFile';
         var op= " ";
         $.ajax({
@@ -175,7 +175,9 @@ $(document).ready(function(){
 
     })
 
-
+    $("#sigcompl").click(function(){
+       console.log('success');
+    });
 
     $("p").click(function(){
         $(this).hide();

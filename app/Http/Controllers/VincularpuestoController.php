@@ -231,8 +231,8 @@ class VincularpuestoController extends Controller
      */
     public function destroy(Request $request, $id)
     {
-        $pregunta = Puesto::find($id);
+        $pregunta = Vincularpuesto::find($id);
         $pregunta->delete();
-        return redirect()->route('puestos.index')->with('status','Puesto eliminado satisfactoriamente');
+        return redirect()->route('vincularpuesto.index')->with('status','Puesto eliminado.');
     }
 }

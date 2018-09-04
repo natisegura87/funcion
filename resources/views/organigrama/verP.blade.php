@@ -15,6 +15,10 @@
     <script type="text/javascript" src="js/taffy.js"></script>
    
     <style type="text/css">
+    
+    .node p {       
+        color: #fff;
+    }
 
     .node2 {
             border: 0px solid #ddd!important;
@@ -40,7 +44,7 @@
     }
    
     .jOrgChart .node {      
-        width: -webkit-fill-available;
+       // width: -webkit-fill-available;
         background-color: #0d4c82; 
         color: #69e069;
         border: 1px solid #080808;
@@ -137,22 +141,25 @@
     // Here I am laod the json format to html structure. You no need to do this incase you have order list HTML in you body
     //Start Load HTML
     function loadjson() {
-         var items = [];
+        var items = [];
+      
         var puestos = '{!!$puestosorg!!}';
        
 // me dan el puesto, agarro iddependencia y arranco
        
         var idpue={{$_POST["pue"]}};
+        var iddependen={{$_POST["iddependencia"]}};
         //buscar el id- este es id_puesto
-        console.log(puestos);
+        //console.log(puestos);
       
         console.log(idpue);//23
+        console.log(iddependen);
         var data = TAFFY(
                 puestos
             );
 
         data({
-            "iddependencia": idpue
+            "iddependencia": iddependen
         }).each(function(record, recordnumber) {
             loops(record);
         });
@@ -163,15 +170,15 @@
             if (root.id_puesto == idpue) {
     
                
-                items.push("<li class='unic" + root.id + " root' id='" + root.nombre + "'><span class='label_node'><a href=''>" + root.nombre + "</a></br><i>" + root.unidad_name + "</i></span><div class='details'><p><strong>Nivel: </strong>" + root.nivel_name + "</p><p><strong>Empleado: </strong>" + root.empleado + "</p></div>");
+                items.push("<li class='unic" + root.id + " root' id='" + root.nombre + "'><span class='label_node'><a href=''>" + root.nombre + "</a></br><i>" + root.unidad_name + "</i></span><p><strong>Nivel </strong>" + root.nivel_name + "</p><div class='details'><p><strong>Nivel: </strong>" + root.nivel_name + "</p><p><strong>Empleado: </strong>" + root.empleado + "</p></div>");
             } else {
 
                  if(root.nombre == "-"){ //root.nombre == "-"
-                    console.log("entro");
+                    //console.log("entro");
                     items.push("<li class='child node2 unic" + root.id + "' id='" + root.nombre + "'><span class='label_node'>" + root.nombre + "</br><i>" + root.unidad_name + "</i></span>");
                 }else{
 
-                items.push("<li class='child unic" + root.id + "' id='" + root.nombre + "'><span class='label_node'><a href=''>" + root.nombre + "</a></br><i>" + root.unidad_name + "</i></span><div class='details'><p><strong>Nivel: </strong>" + root.nivel_name + "</p><p><strong>Empleado: </strong>" + root.empleado + "</p></div>");
+                items.push("<li class='child unic" + root.id + "' id='" + root.nombre + "'><span class='label_node'><a href=''>" + root.nombre + "</a></br><i>" + root.unidad_name + "</i></span><p><strong>Nivel </strong>" + root.nivel_name + "</p><div class='details'><p><strong>Nivel: </strong>" + root.nivel_name + "</p><p><strong>Empleado: </strong>" + root.empleado + "</p></div>");
                 }
       
             }
@@ -241,12 +248,11 @@
                     <!-- Right Side Of Navbar -->
                     <ul class="nav navbar-nav navbar-right">
                         <!-- Authentication Links -->
-                         <li><a href="{{ route('puestos.index') }}">Puestos</a></li>
+                         <li><a href="{{ route('nomenclador.index') }}">Nomenclador</a></li>
                        
                         <li><a href="{{ route('organigrama.indexN') }}">Organigrama</a></li>
                         @guest
-                            <li><a href="{{ route('login') }}">Ingresar</a></li>
-                            <li><a href="{{ route('register') }}">Registrarse</a></li>
+                            
                         @else
                             <li class="dropdown">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" v-pre>

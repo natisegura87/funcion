@@ -52,7 +52,7 @@
           experiencia = button.data('experiencia')
 
           var modal = $(this)
-          modal.find('.modal-title').text('Editar Preguntas ' + nombreE)   
+          modal.find('.modal-title').text('Editar Nivel ' + nombreE)   
           modal.find('.modal-body #complejidad').text('COMPLEJIDAD: ' + complejidad)
           modal.find('.modal-body #responsabilidad').text('RESPONSABILIDAD: ' + responsabilidad)
           modal.find('.modal-body #autonomia').text('AUTONOMIA: ' + autonomia) 

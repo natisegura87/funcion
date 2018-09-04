@@ -85,22 +85,47 @@
                   </div>
             </div>
 <div class="ver-nivel" class="form-group" style="display:none">         
-                <div class="row col-md-6">
+                <div class="row col-md-4">
                    <div class="control-label nivel" style="font-size: 16px;">
 
                   </div>
                    
                 </div>
                 
-                <div class="row col-md-6" style="margin-bottom: 30px">
+                <div class="row col-md-2" style="margin-right: 8px">
                     <label class="control-label">Agrupamientos</label>
-                    <select class="form-control agrupamiento" name="agrupamiento" id="agrupamiento" required style="width: 60%;">
-                      <option value="0">=== Select Agrupamiento ===</option>
+                    <select class="form-control agrupamiento" name="agrupamiento" id="agrupamiento">
+                      <option value="0">- Select Agrupamiento -</option>
                         
                     </select>
                  
                 </div>
-                
+                <div class="row col-md-2" style=" margin-right: 8px;">
+                    <label class="control-label">Subagrupamiento</label>
+                    <select class="form-control subagrupamiento" name="subagrupamiento" id="subagrupamiento" >
+                      <option value="0">- Select Subagrupamiento -</option>
+                        
+                    </select>
+                 
+                </div>
+                  <div class="row col-md-2" style="margin-right: 8px">
+                    <label class="control-label">Clasificación</label>
+                    <select class="form-control clasificacion" name="clasificacion" id="clasificacion">
+                      <option value="0">- Select Clasificación -</option>
+                        
+                    </select>
+                 
+                </div>
+                <div class="row col-md-2" style=" padding-bottom: 30px;margin-right: 8px">
+                    <label class="control-label">Subclasificación</label>
+                    <select class="form-control subclasificacion" name="subclasificacion" id="subclasificacion">
+                      <option value="0">- Select Subclasificación -</option>
+                        
+                    </select>
+                 
+                </div>
+              
+                <p></p>
 
       <div class="ver-requisitos" class="form-group" style="display:none"> 
                  
@@ -117,7 +142,7 @@
                 <div class="row col-md-4" style="margin-bottom: 15px;margin-right: 10px">
                     <label class="control-label">{{ $exclu->nombre }}</label>
                     <select class="form-control condiciones" name="condicion{{ $exclu->id }}" >
-                      <option value="Ninguno">=== Select ===</option>
+                      <option value="Ninguno">- Select -</option>
                       @foreach ($condiciones as $nivel) 
                       @if($exclu->id==1) 
                         @foreach ($organismos as $organ)
