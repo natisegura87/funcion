@@ -176,7 +176,7 @@ $(document).ready(function(){
 });
 
 function funcionnombre($nombre){
-   console.log("entro");
+   console.log("entro nombre");
    $('#versignombre').attr('disabled', false);
    document.getElementById("titulo").innerHTML = $nombre;
 }

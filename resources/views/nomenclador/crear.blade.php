@@ -27,11 +27,14 @@
                 <div class="form-group">
                    <label class="control-label">Nombre del Puesto</label>
                    <input type="text" class="form-control" name="nombre" value="" required 
-                    id="nombre" onchange="funcionnombre(this.value)">
+                    id="nombre">
                 </div>
                 <div class="form-group">
                    <label class="control-label">Descripción</label>
-                   <textarea class="form-control" onfocus="this.value=''" name="descripcion" placeholder="Escribe aqui una descripción del puesto..."></textarea>
+                   <textarea class="form-control" name="descripcion" placeholder="Escribe aqui una descripción del puesto..." id="descripcion"
+                   onkeypress="funcionnombre(this.value)">
+                     
+                   </textarea>
                 </div>
                 <a href="{{ action('NomencladorController@index') }}" class="btn btn-default" >Cancelar</a>
                  <button type="button" disabled class="btn btn-primary" id="versignombre">Siguiente</button>

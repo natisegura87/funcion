@@ -34,7 +34,8 @@
                     <tr>
                      
                         <th>Nombre del Puesto</th>  
-                        <th>Descripción</th>                        
+                        <th>Descripción</th>  
+                        <th>Tiene gente a cargo</th>                        
                         <th>Nivel</th>    
                         <th>Agrupamiento</th> 
                         <th>Condiciones</th> 
@@ -49,6 +50,12 @@
                                              
                            <td>{{ $preg->nombrepuesto }}</td>  
                            <td>{{ $preg->descripcion }}</td> 
+                           <td>@if($preg->genteacargo) 
+                            SI
+                            @else
+                            NO
+                            @endif
+                          </td>
                            <td>{{ $preg->nivel_name }}</td>
                            <td>{{ $preg->agrupamiento_name }}</td>
                             <td> <a data-toggle="modal" data-target=".bd-editar-modal-lg" title="Editar {{ $preg->nombrepuesto }}" 
