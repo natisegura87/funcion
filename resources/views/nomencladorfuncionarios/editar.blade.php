@@ -31,13 +31,12 @@
                            
                                     <div class="form-group">
                                         <label class="control-label">Nombre del Puesto Funcionario</label>
-                                        <input type="text" name="nombre" id="nombre" required class="form-control input-sm" value="{{$preguntas->nombre}}">
+                                        <input type="text" name="nombre" id="nombre" required class="form-control input-sm" 
+                                        value="{{$preguntas->nombrepuesto}}">
                                     </div>
                              <div class="form-group">
                                <label class="control-label">Descripción</label>
-                               <textarea class="form-control" name="descripcion" placeholder="Escribe aqui una descripción del puesto..." id="descripcion"
-                               onkeypress="funcionnombre(this.value)">
-                                 
+                               <textarea class="form-control" name="descripcion" >{{$preguntas->descripcion}}
                                </textarea>
                             </div>
        

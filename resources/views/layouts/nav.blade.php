@@ -26,8 +26,16 @@
                     <ul class="nav navbar-nav navbar-right">
                         <!-- Authentication Links -->
                         <li><a href="{{ route('puestos.index') }}">Puestos ant</a></li>
-                        <li><a href="{{ route('nomenclador.index') }}">Nomenclador</a></li>
-                        
+                       
+                        <li class="dropdown">
+                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Nomenclador <span class="caret"></span></a>
+                           
+                            <ul class="dropdown-menu">
+                            <li><a href="{{ route('nomenclador.index') }}">Empleados</a></li>
+                            <li><a href="{{ route('nomencladorfuncionarios.index') }}">Funcionarios</a></li>                           
+                            
+                          </ul>
+                        </li>
                         <li class="dropdown">
                              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Organigrama <span class="caret"></span></a>
                            

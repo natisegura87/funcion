@@ -38,6 +38,7 @@ class NomencladorController extends Controller
                 'nivel_com.complejidad as nivel_complejidad','nivel_res.responsabilidad as nivel_responsabilidad','nivel_aut.autonomia as nivel_autonomia',
                 'nivel.supervision as nivel_supervision','nivel.requisitos as nivel_requisitos','nivel.experiencia as nivel_experiencia')
             ->orderBy('nomenclador.id', 'DESC')
+            ->where('regimen_id',10)
             ->paginate(5);
 
             //dd($preguntas);
@@ -45,6 +46,16 @@ class NomencladorController extends Controller
                     ->where('nivel.id','>','0')->get();
 
     return view('nomenclador.index', compact('preguntas','niveles'));
+
+    }
+
+    public function indexF()
+    {
+    $preguntas = Nomenclador::orderBy('nomenclador.nombrepuesto', 'ASC')
+                    ->where('regimen_id',1)
+                    ->paginate(5);
+    //dd($preguntas);
+    return view('nomencladorfuncionarios.index', compact('preguntas'));
 
     }
 
@@ -86,6 +97,10 @@ class NomencladorController extends Controller
         //dd($niveles);
         return view('nomenclador.crear', compact('niveles','condiciones','excluyentes','agrupamiento','organismos'));
     }
+    public function createF()
+    {
+        return view('nomencladorfuncionarios.crear');
+    }
 
       public function createR()
     {
@@ -99,6 +114,39 @@ class NomencladorController extends Controller
                         ->pluck('APELLIDO_NOMBRE','LEGAJO');
         //dd("createR");
         return view('respuesta.crear', compact('niveles','unidades','empleados','agrupamiento'));
+    }
+
+    public function storeF(Request $request)
+    {           
+        $nada=0;
+
+        $pregunta = Nomenclador::create([
+            'nombrepuesto' => $request->nombre,            
+            'descripcion' => $request->descripcion,
+            'complejidad' => $nada,
+            'responsabilidad' => $nada,
+            'autonomia' => $nada,
+            'nivel_id' => $nada,
+            'regimen_id' => 1,
+        ]);
+
+        return redirect()->route('nomencladorfuncionarios.index')->with('status', 'Puesto creado satisfactoriamente');
+    }
+    public function editF($id)
+    {
+        $preguntas=Nomenclador::find($id);    
+        return  view('nomencladorfuncionarios.editar',compact('preguntas'));
+    }
+    public function updateF(Request $request, $id)
+    {             
+ 
+        $pregunta = Nomenclador::find($id);      
+        $pregunta->nombrepuesto = $request->get('nombrepuesto'); 
+        $pregunta->descripcion = $request->get('descripcion'); 
+      
+        $pregunta->save();
+
+        return redirect()->route('nomencladorfuncionarios.index')->with('status','Puesto actualizado');
     }
 
     /**
@@ -153,7 +201,7 @@ class NomencladorController extends Controller
             'complejidad' => $request->complejidad,
             'responsabilidad' => $request->responsabilidad,
             'autonomia' => $request->autonomia,
-            
+            'regimen_id' => 10,
             'agrupamiento_id' => $request->agrupamiento, 
             'descripcion' => $request->descripcion,
             'genteacargo' => $request->gente,
@@ -199,20 +247,8 @@ class NomencladorController extends Controller
     public function edit($id)
     {
         $preguntas=Nomenclador::find($id);
-        $niveles = Op::pluck('organismos','codigo'); 
-        $agrupamiento= Agrupamiento::all();
-        $empleados = Empleado::where('id','<>',0)
-                        ->orderBy('APELLIDO_NOMBRE', 'ASC')
-                        ->pluck('APELLIDO_NOMBRE','LEGAJO');       
-        $unidades = Unidad::orderBy('id', 'ASC')
-                           ->where('id','>',0)->get();     
-        $uni=$preguntas->unidad_id;
-        $puestos = Nomenclador::puestos($uni);     
         
-
-        //$dep=Puesto::where('id',$preguntas->iddependencia)->pluck('nombre');
-        //dd($dep);
-        return  view('nomenclador.editar',compact('preguntas','niveles','unidades','empleados','puestos','agrupamiento'));
+        return  view('nomenclador.editar',compact('preguntas'));
     }
 
     /**
@@ -223,18 +259,10 @@ class NomencladorController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
-    {
-        $this->validate($request,[ 
-            'nombre'=>'required'            
-        ]);       
- 
+    {       
         $pregunta = Nomenclador::find($id);      
-        $pregunta->nombre = $request->get('nombre'); 
-        $pregunta->empleado = $request->get('empleado'); 
-        $pregunta->unidad_id = $request->get('uni'); 
-        $pregunta->agrupamiento_id = $request->get('agrup'); 
-        $pregunta->iddependencia = $request->get('dep'); 
-        $pregunta->descripcion = $request->get('op'); 
+        $pregunta->nombrepuesto = $request->get('nombre');
+        $pregunta->descripcion = $request->get('descripcion'); 
         $pregunta->save();
 
         return redirect()->route('nomenclador.index')->with('status','Puesto actualizado');

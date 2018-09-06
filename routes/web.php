@@ -79,11 +79,10 @@ Route::get('/puestosgetunidad', 'VincularpuestoController@getUnidad')->name('vin
 Route::get('/puestosgetP', 'VincularpuestoController@getPuestos')->name('vincularpuesto.getP');
 Route::get('/puestosgetD', 'VincularpuestoController@getPuestoDep')->name('vincularpuesto.getD');
 
-Route::get('/nomencladorfuncionarios', 'NomencladorfuncionariosController@index')->name('nomencladorfuncionarios.index');
-Route::get('/nomencladorfuncionarios/crear', 'NomencladorfuncionariosController@create')->name('nomenclador.create');
-Route::post('/nomencladorfuncionarios/guardar', 'NomencladorfuncionariosController@store')->name('nomencladorfuncionarios.store');
-Route::post('/nomencladorfuncionarios/editar/{id}', 'NomencladorfuncionariosController@update')->name('nomencladorfuncionarios.update');
+Route::get('/nomencladorfuncionarios', 'NomencladorController@indexF')->name('nomencladorfuncionarios.index');
+Route::get('/nomencladorfuncionarios/crear', 'NomencladorController@createF')->name('nomenclador.create');
+Route::post('/nomencladorfuncionarios/guardar', 'NomencladorController@storeF')->name('nomencladorfuncionarios.store');
+Route::post('/nomencladorfuncionarios/editar/{id}', 'NomencladorController@updateF')->name('nomencladorfuncionarios.update');
 
-Route::get('/nomencladorfuncionarios/{id}', 'NomencladorfuncionariosController@edit')->name('nomencladorfuncionarios.edit');
-Route::delete('/nomencladorfuncionarios/eliminar/{id}', 'NomencladorfuncionariosController@destroy')->name('nomencladorfuncionarios.destroy');
+Route::get('/nomencladorfuncionarios/{id}', 'NomencladorController@editF')->name('nomencladorfuncionarios.edit');
 

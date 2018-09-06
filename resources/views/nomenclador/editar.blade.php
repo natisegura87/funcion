@@ -19,95 +19,31 @@
             <div class="panel panel-success">
                 <div class="panel-heading">
                     <h3 class="panel-title">
-                    <label class="control-label">Editar Puesto</label>
+                    <label class="control-label">Editar Puesto Nomenclador</label>
                     </h3>
                 </div>
                 <div class="panel-body">                    
                   
-                        <form method="POST" action="{{ route('puestos.update',$preguntas->id) }}"  role="form">
+                        <form method="POST" action="{{ route('nomenclador.update',$preguntas->id) }}"  role="form">
                             {{ csrf_field() }}
                           
-                    
-                           
-                                    <div class="form-group">
-                                        <label class="control-label">Puesto</label>
-                                        <input type="text" name="nombre" id="nombre" required class="form-control input-sm" value="{{$preguntas->nombre}}">
-                                    </div>
-                             
-        <div class="col-md-6">
-              
-                  <label class="control-label">Organismo</label>
-                   <select class="form-control" name="op" id="op" required>
-                   <option value="">=== Select Organismo ===</option>
-                        @foreach ($niveles as $codigo => $organismos)
-                            <option value="{{ $codigo }}"
-                                @if($codigo==$preguntas->op_codigo) selected='selected' @endif >
-                                 {{ $organismos }}
-                            </option>                           
-                        @endforeach
-                    </select>
-           
-        </div>
-
-                               
-
-
-  <div class="form-group">
-     <div class="col-md-6" style="margin-bottom: 10px">
-                    <label class="control-label">Nivel de la estructura (Unidades)</label>
-                    <select class="form-control unidad" name="uni" id="unidad" required>
-                      <option value="">=== Select Unidad ===</option>
-                        @foreach ($unidades as $unidad)
-                            <option value="{{ $unidad->id }}"
-                               @if($unidad->id==$preguntas->unidad_id) selected='selected' @endif >
-                                {{ $unidad->nombre }}
-                            </option>                           
-                        @endforeach
-                    </select>
-                </div>
-                 <div class="col-md-6" style="margin-bottom: 10px">
-                    <label class="control-label">Puesto del que depende</label>
-                    <select class="form-control puesto" name="dep" id="puesto" required>
-                     <option value="">=== Select Puesto ===</option>
-                        @foreach ($puestos as $unidad)
-                            <option value="{{ $unidad->id }}"
-                               @if($unidad->id==$preguntas->iddependencia) selected='selected' @endif >
-                                {{ $unidad->nombre }}
-                            </option>                           
-                        @endforeach
-                    </select>
-                </div>
-                <div class="col-md-6" style="margin-bottom: 10px">
-                    <label class="control-label">Empleados</label>
-                    <select class="form-control" name="empleado" id="empleado" required>
-                      <option value="">=== Select Empleado ===</option>                    
-                        @foreach ($empleados as $legajo => $nombre)
-                            <option value="{{ $legajo }}"
-                                 @if($legajo==$preguntas->empleado) selected='selected' @endif >
-                                {{ $nombre }} - LEG {{ $legajo }}
-                            </option>                           
-                        @endforeach
-                    </select>
-                </div>
-                  <div class="col-md-6" style="margin-bottom: 10px">
-                    <label class="control-label">Agrupamiento</label>
-                    <select class="form-control" name="agrup" id="agrup" required>
-                      <option value="">=== Select Agrupamiento ===</option>
-                        @foreach ($agrupamiento as $agrup)
-                            <option value="{{ $agrup->id }}"
-                               @if($agrup->id==$preguntas->agrupamiento_id) selected='selected' @endif >
-                                {{ $agrup->nombre }}
-                            </option>                           
-                        @endforeach
-                    </select>
-                </div>
+                    <div class="form-group">
+                           <label class="control-label">Nombre del Puesto</label>
+                           <input type="text" class="form-control" name="nombre" required 
+                            value="{{$preguntas->nombrepuesto}}">
+                        </div>
+                        <div class="form-group">
+                           <label class="control-label">Descripción</label>
+                           <textarea class="form-control" name="descripcion">{{$preguntas->descripcion}}
+                           </textarea>
+                        </div>
 
 
                             <div class="row">
 
                                 <div class="col-xs-12 col-sm-12 col-md-12">
                                     <input type="submit"  value="Actualizar" class="btn btn-success btn-block">
-                                    <a href="{{ route('puestos.index') }}" class="btn btn-info btn-block" >Atrás</a>
+                                    <a href="{{ route('nomenclador.index') }}" class="btn btn-info btn-block" >Atrás</a>
                                 </div>  
 
                             </div>

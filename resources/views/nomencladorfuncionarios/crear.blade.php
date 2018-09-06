@@ -17,26 +17,25 @@
     <div class="panel-body">
        
 
- <form role="form" method="POST" action="{{ action('NomencladorfuncionariosController@store') }}">
+ <form role="form" method="POST" action="{{ action('NomencladorController@storeF') }}">
                 {!! csrf_field() !!}
 
  <div class="ver-nombre" class="form-group" >
                 <div class="form-group">
                    <label class="control-label">Nombre del Puesto Funcionario</label>
-                   <input type="text" class="form-control" name="nombre" value="" required 
+                   <input type="text" class="form-control" name="nombre" required 
                     id="nombre">
                 </div>
                 <div class="form-group">
                    <label class="control-label">Descripción</label>
-                   <textarea class="form-control" name="descripcion" placeholder="Escribe aqui una descripción del puesto..." id="descripcion"
-                   onkeypress="funcionnombre(this.value)">
+                   <textarea class="form-control" name="descripcion" placeholder="Escribe aqui una descripción del puesto..." >
                      
                    </textarea>
                 </div>
                 
-                <a href="{{ action('NomencladorfuncionariosController@index') }}" class="btn btn-default" >Cancelar</a> 
+                <a href="{{ action('NomencladorController@indexF') }}" class="btn btn-default" >Cancelar</a> 
                              
-                 <button type="submit" disabled class="btn btn-primary" id="versigagrup">Guardar</button>
+                 <button type="submit" class="btn btn-primary">Guardar</button>
        
   </div>
                               

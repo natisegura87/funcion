@@ -13,7 +13,9 @@ class NomencladorfuncionariosController extends Controller
      */
     public function index()
     {
-    $preguntas = Nomencladorfuncionarios::all();//paginate(5);
+    $preguntas = Nomencladorfuncionarios::orderBy('nomencladorfuncionarios.nombrepuesto', 'ASC')
+            ->paginate(5);
+    //dd($preguntas);
     return view('nomencladorfuncionarios.index', compact('preguntas'));
 
     }
@@ -84,18 +86,12 @@ class NomencladorfuncionariosController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
-    {
-        $this->validate($request,[ 
-            'nombre'=>'required'            
-        ]);       
+    {             
  
-        $pregunta = Nomenclador::find($id);      
-        $pregunta->nombre = $request->get('nombre'); 
-        $pregunta->empleado = $request->get('empleado'); 
-        $pregunta->unidad_id = $request->get('uni'); 
-        $pregunta->agrupamiento_id = $request->get('agrup'); 
-        $pregunta->iddependencia = $request->get('dep'); 
-        $pregunta->descripcion = $request->get('op'); 
+        $pregunta = Nomencladorfuncionarios::find($id);      
+        $pregunta->nombrepuesto = $request->get('nombre'); 
+        $pregunta->descripcion = $request->get('descripcion'); 
+      
         $pregunta->save();
 
         return redirect()->route('nomencladorfuncionarios.index')->with('status','Puesto actualizado');
@@ -112,6 +108,6 @@ class NomencladorfuncionariosController extends Controller
     {
         $pregunta = Nomencladorfuncionarios::find($id);
         $pregunta->delete();
-        return redirect()->route('nomencladorfuncionarios.index')->with('status','Puesto del nomenclador eliminado');
+        return redirect()->route('nomencladorfuncionarios.index')->with('status','Puesto funcionario eliminado');
     }
 }

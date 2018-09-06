@@ -98,7 +98,7 @@
                            </td>
                          
                             <td>
-                                <a href="{{ action('PuestoController@edit', $preg->id) }}" title="Editar"
+                                <a href="{{ action('NomencladorController@edit', $preg->id) }}" title="Editar"
                                    class="btn btn-primary btn-xs" style=" margin-right: 5px;margin-bottom: 2px;float:left">Editar</a>
 
                            

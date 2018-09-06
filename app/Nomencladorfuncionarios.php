@@ -9,7 +9,7 @@ class Nomencladorfuncionarios extends Model
     protected $table = 'nomencladorfuncionarios';
     public $timestamps = false;
 
-    protected $fillable = ['id', 'nombre','descripcion', 'regimen_id'];
+    protected $fillable = ['id', 'nombrepuesto','descripcion', 'regimen_id'];
 
    
 }

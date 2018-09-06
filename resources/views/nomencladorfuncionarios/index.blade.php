@@ -8,7 +8,7 @@
                
              <div class="panel-heading">
                 <label>Nomenclador de Funcionarios</label>
-                <a href="{{ action('NomencladorfuncionariosController@create') }}" class="btn btn-success" 
+                <a href="{{ action('NomencladorController@createF') }}" class="btn btn-success" 
                 style="float: right; margin-top: -4px;"> Crear Puesto Funcionario</a>
             </div>
                 <div class="panel-body table-responsive">
@@ -40,17 +40,18 @@
                     </tr>
                  </thead>
                     <tbody>            
-               
+               @if($preguntas->count())  
                      @foreach($preguntas as $preg)
+
                         <tr>                                             
                            <td>{{ $preg->nombrepuesto }}</td>  
                            <td>{{ $preg->descripcion }}</td>                          
                             <td>
-                                <a href="{{ action('NomencladorfuncionariosController@edit', $preg->id) }}" title="Editar"
+                                <a href="{{ action('NomencladorController@editF', $preg->id) }}" title="Editar"
                                    class="btn btn-primary btn-xs" style=" margin-right: 5px;margin-bottom: 2px;float:left">Editar</a>
 
                            
-                  <form action="{{action('NomencladorfuncionariosController@destroy', $preg->id)}}" method="post">
+                  <form action="{{action('NomencladorController@destroy', $preg->id)}}" method="post">
                    {{csrf_field()}}
                    <input name="_method" type="hidden" value="DELETE">
  
@@ -58,12 +59,17 @@
                  </form>
                             </td>
                         </tr>
-                    @endforeach 
-           
+              
+                @endforeach 
+               @else
+               <tr>
+                <td colspan="8">No hay registro !!</td>
+              </tr>
+              @endif
                      </tbody>
                 </table>
 
-             
+              {{ $preguntas->links() }}
 
                 </div>
             </div>
@@ -72,6 +78,10 @@
         </div>
     </div>
 </div>
-
+<script type="text/javascript">
+  setTimeout(function() {
+           $("#alert").fadeOut();           
+      },2000);
+</script>
 
 @endsection
