@@ -32,7 +32,7 @@
                 <table class="table table-striped table-hover table-condensed">
                     <thead>
                     <tr>
-                     
+                        <th>Código</th> 
                         <th>Nombre del Puesto</th>  
                         <th>Descripción</th>  
                         <th>Tiene gente a cargo</th>                        
@@ -47,7 +47,7 @@
                     @if($preguntas->count())  
                      @foreach($preguntas as $preg)
                         <tr>
-                                             
+                           <td>{{ $preg->codigo }}</td>                   
                            <td>{{ $preg->nombrepuesto }}</td>  
                            <td>{{ $preg->descripcion }}</td> 
                            <td>@if($preg->genteacargo) 

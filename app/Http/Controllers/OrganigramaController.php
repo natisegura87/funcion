@@ -243,20 +243,30 @@ class OrganigramaController extends Controller
         $pregunta = Puestosorganigrama::query()->delete();
         $idpue=$request->iddependencia;
         //dd($idpue);
-        $iduni=Vincularpuesto::where('nomenclador_id',$idpue)->pluck('unidad_id');
-        
+        $puestoelegido=Vincularpuesto::get1($idpue);
+      $pp=$puestoelegido->iddependencia;
+        //dd($pp);
+
+        $idunid=$puestoelegido->unidad_id;
+        //dd($uu);
+       
+        //dd($iduni[0]);
         //dd($iduni);
+        
         if(isset($iduni)){
-            $iduni=Vincularpuesto::pluck('unidad_id')->first();
-            //dd($iduni);
+            $idunii=Vincularpuesto::primero();//pluck('unidad_id');
+            $idunid=$idunii->unidad_id;
+            //dd($uui);
         }
+       
+
         $puestos = Vincularpuesto::join('nomenclador', 'nomenclador.id', '=', 'vincularpuesto.nomenclador_id')               
             ->select('vincularpuesto.*','nomenclador.nombrepuesto as puesto_name', 'nomenclador.nivel_id as nivel_id')     
             ->orderBy('unidad_id', 'ASC')->
-                        where('unidad_id','>=',$iduni)
+                        where('unidad_id','>=',$idunid)
                         ->get();
  
-        
+        //dd($idunid);
         $vacio=0;
 
         foreach ($puestos as $pue){ //Vincularpuesto
@@ -264,11 +274,13 @@ class OrganigramaController extends Controller
             //dd($iddep);
             $unidad=$pue->unidad_id;  //2
 
-            if($unidad==$iduni){
+            if($unidad==$idunid){
+                
                  $organ = Puestosorganigrama::create([
                     'nombre' => "-",   
-                    'id_puesto' => $iddep, 
+                    'id_puesto' => $vacio, 
                     'unidad_id' => $vacio,
+                   
                     'nivel_id' => $vacio,
                 ]);
                  $idinsertado=$organ->id;
@@ -286,13 +298,14 @@ class OrganigramaController extends Controller
                 //dd($organ1);
             }else{
 
-            $idunidepen=Puestosorganigrama::where('id_puesto',$iddep)
-                            ->pluck('unidad_id');
-            $iddepen=Puestosorganigrama::where('id_puesto',$iddep)
-                            ->pluck('id');
-            //dd($iddepen[0]);
-            $idunidep=$idunidepen[0];
+           
+            $iddepen=Puestosorganigrama::buscarDep($iddep);
+            $idunidep=Puestosorganigrama::get1($iddep);
             
+            //dd("ff");
+          
+           
+            //dd($iddepen);
             //$i=$unidad+1;
             $i=$idunidep+1;
             $uni=$i."";  
@@ -319,11 +332,11 @@ class OrganigramaController extends Controller
             $organ = Puestosorganigrama::create([
                     'nombre' => $nombre,   
                     'id_puesto' => $u,                   
-                    'iddependencia' => $iddepen[0],                    
+                    'iddependencia' => $iddepen,                    
                     'unidad_id' => $i,
                     'nivel_id' => $u,
                 ]);
-               //dd("entro2");
+               //dd("entro21");
              $i=$i+1;
             $idinsertado=$organ->id;
 
@@ -360,11 +373,9 @@ class OrganigramaController extends Controller
              }
         }
 
-
-            $iddepen=Puestosorganigrama::where('id_puesto',$idpue)
-                            ->pluck('iddependencia');
-            $idd=$iddepen[0];
-
+            $idd=Puestosorganigrama::buscarDep1($idpue);
+           
+//dd($idd);
         return Response()->json($idd); 
     }
 

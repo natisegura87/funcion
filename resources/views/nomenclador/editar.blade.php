@@ -26,8 +26,13 @@
                   
                         <form method="POST" action="{{ route('nomenclador.update',$preguntas->id) }}"  role="form">
                             {{ csrf_field() }}
-                          
-                    <div class="form-group">
+                        
+                        <div class="form-group">
+                           <label class="control-label">Código del Puesto</label>
+                           <input type="text" class="form-control" name="codigo" required 
+                            value="{{$preguntas->codigo}}">
+                        </div> 
+                        <div class="form-group">
                            <label class="control-label">Nombre del Puesto</label>
                            <input type="text" class="form-control" name="nombre" required 
                             value="{{$preguntas->nombrepuesto}}">

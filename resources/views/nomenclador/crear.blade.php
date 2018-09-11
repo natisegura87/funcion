@@ -25,6 +25,11 @@
      
  <div class="ver-nombre" class="form-group" >
                 <div class="form-group">
+                   <label class="control-label">Código del Puesto</label>
+                   <input type="text" class="form-control" name="codigo" value="" required 
+                    id="codigo">
+                </div>
+                <div class="form-group">
                    <label class="control-label">Nombre del Puesto</label>
                    <input type="text" class="form-control" name="nombre" value="" required 
                     id="nombre">

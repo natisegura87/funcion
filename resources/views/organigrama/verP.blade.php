@@ -49,6 +49,7 @@
         color: #69e069;
         border: 1px solid #080808;
         height: 80px;
+        width: 180px;
     }
     .jOrgChart .line {
         width: 1px;
@@ -168,17 +169,24 @@
 
 
             if (root.id_puesto == idpue) {
-    
-               
-                items.push("<li class='unic" + root.id + " root' id='" + root.nombre + "'><span class='label_node'><a href=''>" + root.nombre + "</a></br><i>" + root.unidad_name + "</i></span><p><strong>Nivel </strong>" + root.nivel_name + "</p><div class='details'><p><strong>Nivel: </strong>" + root.nivel_name + "</p><p><strong>Empleado: </strong>" + root.empleado + "</p></div>");
+                 if (root.unidad_id >7) {
+                     items.push("<li class='unic" + root.id + " root' id='" + root.nombre + "'><span class='label_node'><a href=''>" + root.nombre + "</a></br><i>" + root.unidad_name + "</i></span><p><strong>Nivel </strong>" + root.nivel_name + "</p><div class='details'><p><strong>Nivel: </strong>" + root.nivel_name + "</p><p><strong>Empleado: </strong>" + root.empleado + "</p></div>");
+                   
+                 }else{               
+                     items.push("<li class='unic" + root.id + " root' id='" + root.nombre + "'><span class='label_node'><a href=''>" + root.nombre + "</a></br><i>" + root.unidad_name + "</i></span><div class='details'></div>");
+                    }
             } else {
 
                  if(root.nombre == "-"){ //root.nombre == "-"
                     //console.log("entro");
                     items.push("<li class='child node2 unic" + root.id + "' id='" + root.nombre + "'><span class='label_node'>" + root.nombre + "</br><i>" + root.unidad_name + "</i></span>");
-                }else{
-
+            }else{
+                if (root.unidad_id >7) {
                 items.push("<li class='child unic" + root.id + "' id='" + root.nombre + "'><span class='label_node'><a href=''>" + root.nombre + "</a></br><i>" + root.unidad_name + "</i></span><p><strong>Nivel </strong>" + root.nivel_name + "</p><div class='details'><p><strong>Nivel: </strong>" + root.nivel_name + "</p><p><strong>Empleado: </strong>" + root.empleado + "</p></div>");
+                }
+                else{
+                    items.push("<li class='child unic" + root.id + "' id='" + root.nombre + "'><span class='label_node'><a href=''>" + root.nombre + "</a></br><i>" + root.unidad_name + "</i></span><div class='details'></div>");
+                    }
                 }
       
             }
@@ -248,6 +256,7 @@
                     <!-- Right Side Of Navbar -->
                     <ul class="nav navbar-nav navbar-right">
                         <!-- Authentication Links -->
+                        
                          <li><a href="{{ route('nomenclador.index') }}">Nomenclador</a></li>
                        
                         <li><a href="{{ route('organigrama.indexN') }}">Organigrama</a></li>

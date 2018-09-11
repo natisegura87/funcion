@@ -5,7 +5,8 @@ namespace App\Http\Controllers;
 use App\Vincularpuesto;
 use App\Unidad1;
 use App\Nomenclador;
-
+use App\Localidad;
+use App\Op;
 use App\Regimen;
 use Illuminate\Http\Request;
 
@@ -19,11 +20,14 @@ class VincularpuestoController extends Controller
     public function index()
     {
         $preguntas = Vincularpuesto::join('unidad1', 'unidad1.id', '=', 'vincularpuesto.unidad_id')
+            ->join('localidad', 'localidad.id', '=', 'vincularpuesto.localidad_id')
+            ->join('op', 'op.codigo', '=', 'vincularpuesto.op_id')
             ->join('nomenclador as puest', 'puest.id', '=', 'vincularpuesto.nomenclador_id')
             ->join('nomenclador as dep', 'dep.id', '=', 'vincularpuesto.iddependencia')
            
             ->select('vincularpuesto.*', 'dep.nombrepuesto as dependencia_name', 
-                'unidad1.nombre as unidad_name','puest.nombrepuesto as puesto_name')
+                'unidad1.nombre as unidad_name','puest.nombrepuesto as puesto_name',
+                'localidad.nombre as localidad_name', 'op.denominacion as op_name')
             ->orderBy('vincularpuesto.id', 'DESC')
             ->paginate(5);
 
@@ -33,13 +37,15 @@ class VincularpuestoController extends Controller
 
     public function getPuestoDep(Request $request){
    
-        $id=$request->id;      
+        $id=$request->id;  
+       // $organismo=$request->organismo;    
 
          $preguntas = Vincularpuesto::join('nomenclador', 'nomenclador.id', '=', 'vincularpuesto.nomenclador_id')           
            
             ->select('vincularpuesto.*', 'nomenclador.nombrepuesto as puesto_name')
             ->orderBy('puesto_name', 'ASC')
             ->where('vincularpuesto.unidad_id','<',$id)
+          //  ->where('vincularpuesto.op_id',$organismo)
             ->where('nomenclador.genteacargo','on')->get();
 
         //dd($preguntas);         
@@ -53,6 +59,16 @@ class VincularpuestoController extends Controller
         return Response()->json($preguntas); 
     }
 
+    public function getPuestoOrg(Request $request){   
+       
+        $organismo=$request->organismo;    
+         $preguntas = Vincularpuesto::join('nomenclador', 'nomenclador.id', '=', 'vincularpuesto.nomenclador_id')          
+            ->select('vincularpuesto.*', 'nomenclador.nombrepuesto as puesto_name')
+            ->where('vincularpuesto.op_id',$organismo)
+                    ->get();
+
+        return Response()->json($preguntas); 
+    }
     public function getPuestos(Request $request){
 
             $id=$request->id;
@@ -86,10 +102,16 @@ class VincularpuestoController extends Controller
         $unidades = Unidad1::orderBy('id', 'ASC')
                          ->where('id','>',0)->get();
 
-            
+        $organismos = Op::all();   
+        $localidad=Localidad::all();  
         //dd($regimen);  
+
+        $puestos = Vincularpuesto::join('nomenclador', 'nomenclador.id', '=', 'vincularpuesto.nomenclador_id')      
+            ->select('vincularpuesto.*', 'nomenclador.nombrepuesto as puesto_name')
+            ->orderBy('puesto_name', 'ASC')                
+            ->where('nomenclador.genteacargo','on')->get();
        
-        return view('vincularpuesto.crear', compact('regimen'));
+        return view('vincularpuesto.crear', compact('regimen','organismos','localidad'));
     }
     
 
@@ -104,7 +126,11 @@ class VincularpuestoController extends Controller
         $pregunta = Vincularpuesto::create([           
             'nomenclador_id' => $request->puesto,
             'unidad_id' => $request->uni,            
-            'iddependencia' => $request->dep
+            'iddependencia' => $request->dep,
+            'localidad_id' => $request->localidad,
+            'regimen_id' => $request->regimen,
+            'op_id' => $request->organismo, 
+            'generavacante' => $request->vacante
             
         ]);
 
@@ -131,21 +157,36 @@ class VincularpuestoController extends Controller
      */
     public function edit($id)
     {
-        $preguntas=Puesto::find($id);
-        $niveles = Op::pluck('organismos','codigo'); 
-        $agrupamiento= Agrupamiento::all();
-        $empleados = Empleado::where('id','<>',0)
-                        ->orderBy('APELLIDO_NOMBRE', 'ASC')
-                        ->pluck('APELLIDO_NOMBRE','LEGAJO');       
-        $unidades = Unidad::orderBy('id', 'ASC')
-                           ->where('id','>',0)->get();     
-        $uni=$preguntas->unidad_id;
-        $puestos = Puesto::puestos($uni);     
-        
+        $preguntas=Vincularpuesto::find($id);
 
-        //$dep=Puesto::where('id',$preguntas->iddependencia)->pluck('nombre');
-        //dd($dep);
-        return  view('puesto.editar',compact('preguntas','niveles','unidades','empleados','puestos','agrupamiento'));
+        $preguntas = Vincularpuesto::join('unidad1', 'unidad1.id', '=', 'vincularpuesto.unidad_id')
+            ->join('localidad', 'localidad.id', '=', 'vincularpuesto.localidad_id')
+            ->join('op', 'op.codigo', '=', 'vincularpuesto.op_id')
+           
+            ->join('nomenclador as puest', 'puest.id', '=', 'vincularpuesto.nomenclador_id')
+            ->join('nomenclador as dep', 'dep.id', '=', 'vincularpuesto.iddependencia')
+           
+            ->select('vincularpuesto.*', 'dep.nombrepuesto as dependencia_name', 
+                'unidad1.nombre as unidad_name','puest.nombrepuesto as puesto_name',
+                'op.denominacion as op_name',
+                'localidad.nombre as localidad_name', 'op.denominacion as op_name')
+            ->where('puest.genteacargo','on')->get();
+
+        $regimenF=Regimen::where('id',1)->get();
+        $regimenL=Regimen::where('id',10)->get();
+        $regimen= $regimenF->concat($regimenL);
+                                   
+       
+        $organismo = Op::pluck('organismos','codigo'); 
+        $localidad= Localidad::all();
+             
+        $unidades = Unidad1::orderBy('id', 'ASC')
+                           ->where('id','>',0)->get();     
+        //$uni=$preguntas->unidad_id;
+        //$puestos = Vincularpuesto::puestos($uni);     
+        $puestos = Vincularpuesto::all();
+
+        return  view('vincularpuesto.editar',compact('preguntas','organismo','unidades','empleados','puestos','localidad'));
     }
 
     /**
@@ -170,7 +211,7 @@ class VincularpuestoController extends Controller
         $pregunta->op_codigo = $request->get('op'); 
         $pregunta->save();
 
-        return redirect()->route('puestos.index')->with('status','Puesto actualizado');
+        return redirect()->route('vincularpuesto.index')->with('status','Puesto actualizado');
     }
 
     public function updatePreg(Request $request)
@@ -220,7 +261,7 @@ class VincularpuestoController extends Controller
             $cartel='Inconsistencia, niveles diferentes. ' . $pregunta->nombre;
         }
 
-        return redirect()->route('puestos.index')->with($status,$cartel);
+        return redirect()->route('vincularpuesto.index')->with($status,$cartel);
     }
 
     /**

@@ -32,7 +32,19 @@
                      
                    </textarea>
                 </div>
-                
+                <div class="form-group row col-md-12">
+                <div class="row col-md-6" style="padding-bottom: 10px;">
+                    <label class="control-label">Organismos</label>
+                    <select class="form-control organismo" name="organismo" id="organismo" required>
+                      <option value="">=== Select Organismo ===</option>
+                       @foreach ($organismo as $codigo => $organismos)
+                            <option value="{{ $codigo }}">
+                                {{ $organismos }}
+                            </option>                           
+                        @endforeach 
+                    </select>
+                </div>
+              </div>
                 <a href="{{ action('NomencladorController@indexF') }}" class="btn btn-default" >Cancelar</a> 
                              
                  <button type="submit" class="btn btn-primary">Guardar</button>

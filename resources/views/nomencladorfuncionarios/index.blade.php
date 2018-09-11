@@ -35,7 +35,7 @@
                      
                         <th>Nombre del Puesto</th>  
                         <th>Descripción</th>  
-                       
+                        <th>Organismos</th>
                         <th>Acciones</th>                     
                     </tr>
                  </thead>
@@ -46,12 +46,13 @@
                         <tr>                                             
                            <td>{{ $preg->nombrepuesto }}</td>  
                            <td>{{ $preg->descripcion }}</td>                          
+                           <td>{{ $preg->op_name }}</td>  
                             <td>
                                 <a href="{{ action('NomencladorController@editF', $preg->id) }}" title="Editar"
                                    class="btn btn-primary btn-xs" style=" margin-right: 5px;margin-bottom: 2px;float:left">Editar</a>
 
                            
-                  <form action="{{action('NomencladorController@destroy', $preg->id)}}" method="post">
+                  <form action="{{action('NomencladorController@destroyF', $preg->id)}}" method="post">
                    {{csrf_field()}}
                    <input name="_method" type="hidden" value="DELETE">
  

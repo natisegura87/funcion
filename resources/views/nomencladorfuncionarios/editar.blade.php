@@ -39,7 +39,20 @@
                                <textarea class="form-control" name="descripcion" >{{$preguntas->descripcion}}
                                </textarea>
                             </div>
-       
+                            <div class="form-group row col-md-12">
+                                <div class="row col-md-8" style="padding-bottom: 10px;">
+                                    <label class="control-label">Organismos</label>
+                                    <select class="form-control organismo" name="organismo" id="organismo" required>
+                                      <option value="">=== Select Organismo ===</option>
+                                       @foreach ($organismo as $codigo => $organismos)
+                                            <option value="{{ $codigo }}"
+                                                @if($codigo==$preguntas->op_codigo) selected='selected' @endif >
+                                                    {{ $organismos }}
+                                            </option>                           
+                                        @endforeach 
+                                    </select>
+                                </div>
+                              </div>
 
                             <div class="row">
 

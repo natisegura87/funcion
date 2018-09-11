@@ -51,9 +51,11 @@ class NomencladorController extends Controller
 
     public function indexF()
     {
-    $preguntas = Nomenclador::orderBy('nomenclador.nombrepuesto', 'ASC')
+    $preguntas = Nomenclador::join('op','op.codigo', '=', 'nomenclador.organismos')
+                    ->select('nomenclador.*', 'op.denominacion as op_name')
+                    ->orderBy('nomenclador.id', 'DESC')
                     ->where('regimen_id',1)
-                    ->paginate(5);
+                    ->paginate(3);
     //dd($preguntas);
     return view('nomencladorfuncionarios.index', compact('preguntas'));
 
@@ -99,7 +101,10 @@ class NomencladorController extends Controller
     }
     public function createF()
     {
-        return view('nomencladorfuncionarios.crear');
+        
+        $organismo=Op::pluck('organismos','codigo'); 
+        return  view('nomencladorfuncionarios.crear',compact('organismo'));
+        
     }
 
       public function createR()
@@ -119,34 +124,54 @@ class NomencladorController extends Controller
     public function storeF(Request $request)
     {           
         $nada=0;
+        $gente="on";
+        $uno=1;
 
         $pregunta = Nomenclador::create([
+            'codigo' => $nada,
             'nombrepuesto' => $request->nombre,            
             'descripcion' => $request->descripcion,
+            'organismos' => $request->organismo,
             'complejidad' => $nada,
             'responsabilidad' => $nada,
             'autonomia' => $nada,
             'nivel_id' => $nada,
             'regimen_id' => 1,
+            'agrupamiento_id' => $uno,
+            'subagrupamiento_id' => $nada,
+            'clasificacion_id' => $nada,
+            'subclasificacion_id' => $nada,         
+            'genteacargo' => $gente,           
+            'condiciones' => $uno,
+            'organismos' => $nada
+
         ]);
 
-        return redirect()->route('nomencladorfuncionarios.index')->with('status', 'Puesto creado satisfactoriamente');
+        return redirect()->route('nomencladorfuncionarios.index')->with('status', 'Puesto funcionario creado satisfactoriamente');
     }
     public function editF($id)
     {
         $preguntas=Nomenclador::find($id);    
-        return  view('nomencladorfuncionarios.editar',compact('preguntas'));
+        $organismo=Op::pluck('organismos','codigo'); 
+        return  view('nomencladorfuncionarios.editar',compact('preguntas','organismo'));
     }
     public function updateF(Request $request, $id)
     {             
  
         $pregunta = Nomenclador::find($id);      
-        $pregunta->nombrepuesto = $request->get('nombrepuesto'); 
+        $pregunta->nombrepuesto = $request->get('nombre'); 
         $pregunta->descripcion = $request->get('descripcion'); 
+        $pregunta->organismos = $request->get('organismo'); 
       
         $pregunta->save();
 
-        return redirect()->route('nomencladorfuncionarios.index')->with('status','Puesto actualizado');
+        return redirect()->route('nomencladorfuncionarios.index')->with('status','Puesto funcionario actualizado');
+    }
+    public function destroyF(Request $request, $id)
+    {
+        $pregunta = Nomenclador::find($id);
+        $pregunta->delete();
+        return redirect()->route('nomencladorfuncionarios.index')->with('status','Puesto funcionario eliminado');
     }
 
     /**
@@ -197,12 +222,16 @@ class NomencladorController extends Controller
         //dd($organ); 
        
         $pregunta = Nomenclador::create([
+            'codigo' => $request->codigo,
             'nombrepuesto' => $request->nombre,
             'complejidad' => $request->complejidad,
             'responsabilidad' => $request->responsabilidad,
             'autonomia' => $request->autonomia,
             'regimen_id' => 10,
-            'agrupamiento_id' => $request->agrupamiento, 
+            'agrupamiento_id' => $request->agrupamiento,
+            'subagrupamiento_id' => $request->agrupamiento,//subagrupamiento,
+            'clasificacion_id' => $request->agrupamiento,//clasificacion,
+            'subclasificacion_id' => $request->agrupamiento,//subclasificacion, 
             'descripcion' => $request->descripcion,
             'genteacargo' => $request->gente,
             'nivel_id' => $request->nivel,
@@ -263,6 +292,7 @@ class NomencladorController extends Controller
         $pregunta = Nomenclador::find($id);      
         $pregunta->nombrepuesto = $request->get('nombre');
         $pregunta->descripcion = $request->get('descripcion'); 
+        $pregunta->codigo = $request->get('codigo'); 
         $pregunta->save();
 
         return redirect()->route('nomenclador.index')->with('status','Puesto actualizado');

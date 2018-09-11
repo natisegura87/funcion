@@ -35,6 +35,8 @@
                         <th>Puesto</th>                        
                         <th>Unidad organizativa</th> 
                         <th>Puesto del que depende</th> 
+                        <th>Localidad</th> 
+                        <th>Organismo</th> 
                         <th>Acciones</th>                     
                     </tr>
                  </thead>
@@ -45,9 +47,11 @@
                             <td>{{ $preg->puesto_name }}</td>                   
                             <td>{{ $preg->unidad_name }}</td>
                             <td>{{ $preg->dependencia_name }}</td>
+                            <td>{{ $preg->localidad_name }}</td>
+                            <td>{{ $preg->op_name }}</td>
                           
                             <td>
-                                <a href="{{ action('PuestoController@edit', $preg->id) }}" title="Editar"
+                                <a href="{{ action('VincularpuestoController@edit', $preg->id) }}" title="Editar"
                                    class="btn btn-primary btn-xs" style="margin-right: 5px; margin-bottom: 2px;float:left">Editar</a>
 
                            

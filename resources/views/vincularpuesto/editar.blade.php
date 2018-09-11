@@ -19,7 +19,7 @@
             <div class="panel panel-success">
                 <div class="panel-heading">
                     <h3 class="panel-title">
-                    <label class="control-label">Editar Puesto</label>
+                    <label class="control-label">Editar Vinculo Puesto</label>
                     </h3>
                 </div>
                 <div class="panel-body">                    
