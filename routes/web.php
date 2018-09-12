@@ -38,6 +38,7 @@ Route::get('/puestosgetDep', 'PuestoController@getPuestosDep')->name('puestosDep
 Route::get('users', function () {
     return App\Empleado::all();
 });
+Route::get('descargar-organigrama', 'OrganigramaController@pdf')->name('organigrama.pdf');
 
 Route::get('/organigrama2', 'OrganigramaController@indexN')->name('organigrama.indexN');
 Route::post('organigrama/ver', 'OrganigramaController@show')->name('organigrama.show');
@@ -68,6 +69,8 @@ Route::delete('/nomenclador/eliminar/{id}', 'NomencladorController@destroy')->na
 
 Route::get('/nomencladorget', 'NomencladorController@nivelPreg')->name('nomenclador.getnivel');
 Route::get('/nomencladorgetagrup', 'NomencladorController@getAgrupamientos')->name('nomenclador.getagrup');
+Route::get('/nomencladorgetsubagrup', 'NomencladorController@getSubagrupamientos')->name('nomenclador.getsubagrup');
+Route::get('/nomencladorgetsubclasif', 'NomencladorController@getSubclasificacion')->name('nomenclador.getsubclasif');
 
 Route::get('/organigramaPuestos', 'VincularpuestoController@index')->name('vincularpuesto.index');
 Route::get('/vincularpuesto/crear', 'VincularpuestoController@create')->name('vincularpuesto.create');

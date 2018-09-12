@@ -9,6 +9,9 @@ use App\Empleado;
 use App\Op;
 use App\Nomenclador;
 use App\Agrupamiento;
+use App\Subagrupamiento;
+use App\Clasificacion;
+use App\Subclasificacion;
 use App\Condiciones;
 use App\Excluyentes;
 use Illuminate\Http\Request;
@@ -20,8 +23,12 @@ class NomencladorController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
+
+        $codigo=$request->codigo;
+        $name=$request->nombre;
+        $agrupamiento=$request->agrupamiento;
 
        // $preguntas = Puesto::join('unidad', 'unidad.id', '=', 'preguntas.unidad_id')
            // ->select('preguntas.*', 'unidad.nombre as unidad_name')
@@ -39,13 +46,20 @@ class NomencladorController extends Controller
                 'nivel.supervision as nivel_supervision','nivel.requisitos as nivel_requisitos','nivel.experiencia as nivel_experiencia')
             ->orderBy('nomenclador.id', 'DESC')
             ->where('regimen_id',10)
+            ->where('agrupamiento.nombre','LIKE', "%$agrupamiento%")
+            ->codigo($codigo)
+            ->nombre($name)
             ->paginate(5);
 
-            //dd($preguntas);
+        
+
+        //dd($preguntas);
         $niveles= Nivel::orderBy('nivel.id', 'DESC')
                     ->where('nivel.id','>','0')->get();
 
-    return view('nomenclador.index', compact('preguntas','niveles'));
+        $agrupamiento=Agrupamiento::select('nombre')->distinct()->get();
+
+    return view('nomenclador.index', compact('preguntas','niveles','agrupamiento'));
 
     }
 
@@ -93,11 +107,12 @@ class NomencladorController extends Controller
         $niveles = Nivel::orderBy('id', 'DESC')
                          ->where('id','>',0)->get(); 
         $agrupamiento= Agrupamiento::all();
+        $clasificacion= Clasificacion::all();
         $condiciones= Condiciones::all();
         $excluyentes=Excluyentes::all();
         $organismos= Op::all();
         //dd($niveles);
-        return view('nomenclador.crear', compact('niveles','condiciones','excluyentes','agrupamiento','organismos'));
+        return view('nomenclador.crear', compact('niveles','condiciones','excluyentes','agrupamiento','organismos','clasificacion'));
     }
     public function createF()
     {
@@ -351,6 +366,22 @@ public function getAgrupamientos(Request $request){
         //dd("hola");
             $id=$request->nivel;             
             $puestos = Agrupamiento::where('nivel_id',$id)->get(); 
+            return Response()->json($puestos); 
+    }
+
+    public function getSubagrupamientos(Request $request){
+        //dd("hola");
+            $id=$request->agrupamiento;             
+            $puestos = Subagrupamiento::where('agrupamiento_id',$id)->get(); 
+            //dd($puestos);
+            return Response()->json($puestos); 
+    }
+
+    public function getSubclasificacion(Request $request){
+        //dd("hola");
+            $id=$request->clasificacion;             
+            $puestos = Subclasificacion::where('clasificacion_id',$id)->get(); 
+            //dd($puestos);
             return Response()->json($puestos); 
     }
 

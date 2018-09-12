@@ -90,8 +90,78 @@ $(document).ready(function(){
       $('#versigagrup').attr('disabled', false);
       $('.ver-requisitos').show();
 
+      var agrup = $(this).val();
+      var div = $(this).parent().parent();
+
+
+      var url1 = '{{ route('nomenclador.getsubagrup') }}';
+
+        var ag= " ";
+        $.ajax({
+            type:'get',
+            url:url1,
+            data:{'agrupamiento':agrup
+                 
+            }, 
+            success:function(data){
+                console.log('success Sub');
+                console.log(data);
+                ag+='<option value="">-Select Subagrupamiento-</option>';
+                for (var i=0;i<data.length;i++){
+                    ag+='<option value="'+data[i].id+'">'+data[i].nombre+'</option>';
+                }
+       
+                //console.log(op);
+                div.find('.subagrupamiento').html(" ");
+                div.find('.subagrupamiento').append(ag);
+            },
+            error:function(error){
+                console.log('error subagrupamiento');
+                alert(error);
+            }
+        });
+
      
     });
+
+  $(document).on('change','.clasificacion',function(){  
+      console.log("clasificacion ver"); 
+
+      var clasi = $(this).val();
+      var div = $(this).parent().parent();
+
+
+      var url1 = '{{ route('nomenclador.getsubclasif') }}';
+
+        //'http://localhost/intranet/public/uploadFile';
+        var ag= " ";
+        $.ajax({
+            type:'get',
+            url:url1,
+            data:{'clasificacion':clasi
+                 
+            }, 
+            success:function(data){
+                console.log('success clasi');
+                console.log(data);
+                ag+='<option value="">-Select Subclasificacion-</option>';
+                for (var i=0;i<data.length;i++){
+                    ag+='<option value="'+data[i].id+'">'+data[i].nombre+'</option>';
+                }
+       
+                //console.log(op);
+                div.find('.subclasificacion').html(" ");
+                div.find('.subclasificacion').append(ag);
+            },
+            error:function(error){
+                console.log('error subclasificacion');
+                alert(error);
+            }
+        });
+
+     
+    });
+
 
  $("#versignivel").click(function(){             
         

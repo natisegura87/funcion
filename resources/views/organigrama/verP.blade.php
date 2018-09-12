@@ -12,6 +12,7 @@
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/jquery-ui.min.js"></script>
     <script src="js/jquery.jOrgChart.js"></script>
+     <script src="js/html2canvas.js"></script>
     <script type="text/javascript" src="js/taffy.js"></script>
    
     <style type="text/css">
@@ -21,7 +22,7 @@
     }
 
     .node2 {
-            border: 0px solid #ddd!important;
+            border: 0px solid #333!important;
             border-radius: 3px!important;
             color: #f5f5f5!important;
             background-color: #080808!important;
@@ -38,6 +39,9 @@
     }
     table {      
         width: max-content;
+    }
+    canvas {      
+        width: max-content !important;
     }
     .exp-col {       
         left: 49%;            
@@ -229,6 +233,7 @@
 </head>
 
 <body>
+    <span id="captu" style="width: 100%;">
     <nav class="navbar navbar-default navbar-static-top">
             <div class="container">
                 <div class="navbar-header">
@@ -256,10 +261,12 @@
                     <!-- Right Side Of Navbar -->
                     <ul class="nav navbar-nav navbar-right">
                         <!-- Authentication Links -->
-                        
+                        <li><a href="{{ route('organigrama.indexN') }}">Graficar</a></li>
                          <li><a href="{{ route('nomenclador.index') }}">Nomenclador</a></li>
-                       
+                         <li><a onclick="captura()">Descargar</a></li>
+
                         <li><a href="{{ route('organigrama.indexN') }}">Organigrama</a></li>
+
                         @guest
                             
                         @else
@@ -318,6 +325,7 @@
             </div>
         </li>
     </ul>
+    
     <div id="chart" class="orgChart"></div>
     <!-- Make sure You add this below code to you HTML in case you want edit and add box -->
     <!-- Add Node box -->
@@ -354,6 +362,8 @@
         </form>
         <i class="close">X</i>
     </div>
+
+ 
     <script type="text/javascript">
     function init_tree() {
         var opts = {
@@ -437,7 +447,22 @@
         scroll()
 
     });
+ 
+    function captura(){
+        
+         html2canvas(document.querySelector("html")).then(canvas => {
+            document.body.appendChild(canvas)
+             var canvas = document.getElementById("mycanvas");
+            var img    = canvas.toDataURL("image/png");
+            document.write('<img src="'+img+'"/>');
+        });
+    }
+     function captura1(){
+        
+        console.log("captura");
+    }
     </script>
+   </span>
 </body>
 
 </html>

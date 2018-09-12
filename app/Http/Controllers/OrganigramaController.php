@@ -12,6 +12,7 @@ use App\Vincularpuesto;
 use App\Puestosorganigrama;
 use Illuminate\Http\Request;
 use JavaScript;
+use Barryvdh\DomPDF\Facade as PDF;
 //use Laracasts\Utilities\JavaScript;
 
 class OrganigramaController extends Controller
@@ -415,4 +416,18 @@ class OrganigramaController extends Controller
     {
 
     }
+
+    public function pdf()
+    {        
+        /**
+         * toma en cuenta que para ver los mismos 
+         * datos debemos hacer la misma consulta
+        **/
+        $products = Product::all(); 
+
+        $pdf = PDF::loadView('pdf.products', compact('products'));
+
+        return $pdf->download('listado.pdf');
+    }
+
 }

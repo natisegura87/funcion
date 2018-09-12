@@ -56,4 +56,39 @@ class Nomenclador extends Model
 	    return $this->belongsTo(Unidad::class);
 	}
 
+    public function search(Array $data)
+    {
+        $busqueda = $this->where(function($query) use ($data) {
+            if(isset($data['codigo']))
+                $query->where('codigo',$data['codigo']);
+             if(isset($data['nombre']))
+                $query->where('nombrepuesto',$data['nombre']);
+            if(isset($data['agrupamiento']))
+                $query->where('agrupamiento_id',$data['agrupamiento']);           
+
+        })//->toSql();dd($busqueda);
+        ->paginate(5);
+        return $busqueda;
+    }
+
+    public function scopeNombre($query, $name)
+    { //dd("noh");
+        if($name)
+            return $query->where('nombrepuesto','LIKE', "%$name%");
+    }
+
+    public function scopeCodigo($query, $name)
+    { //dd("noh");
+        if($name)
+            return $query->where('codigo','LIKE', "%$name%");
+    }
+
+    public function scopeAgrup($query, $name)
+    { //dd("noh");
+        if($name)
+            return $query->where('nombrepuesto','LIKE', "%$name%");
+    }
+
+
+
 }

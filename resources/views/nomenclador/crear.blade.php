@@ -120,7 +120,11 @@
                     <label class="control-label">Clasificación</label>
                     <select class="form-control clasificacion" name="clasificacion" id="clasificacion">
                       <option value="0">- Select Clasificación -</option>
-                        
+                        @foreach ($clasificacion as $clasi)
+                            <option value="{{ $clasi->id }}">
+                                {{ $clasi->nombre }}
+                            </option>                           
+                        @endforeach
                     </select>
                  
                 </div>

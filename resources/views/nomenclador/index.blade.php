@@ -12,6 +12,20 @@
                 style="float: right; margin-top: -4px;"> Crear Puesto</a>
             </div>
                 <div class="panel-body table-responsive">
+
+                  <form action="" method="GET" action="{{ action('NomencladorController@index') }}" class="form form-inline" style="padding-bottom: 15px;">
+                    <input type="text" name="codigo" class="form-control" placeholder="Código">
+                    <input type="text" name="nombre" class="form-control" placeholder="Puesto">
+                    <select name="agrupamiento" class="form-control">
+                      <option value="">==Agrupamiento==</option>
+                      @foreach($agrupamiento as $agrup)
+                       <option value="{{$agrup->nombre}}">{{$agrup->nombre}}</option>
+                      @endforeach
+                    </select>
+                    <button type="submit" class="btn btn-primary"><i class="fa fa-search"></i>
+                    Buscar</button>
+                  </form>
+
                    @if (session('status'))
                         <div class="alert alert-success" id="alert">
                            <strong>
@@ -33,9 +47,9 @@
                     <thead>
                     <tr>
                         <th>Código</th> 
-                        <th>Nombre del Puesto</th>  
+                        <th>Puesto</th>  
                         <th>Descripción</th>  
-                        <th>Tiene gente a cargo</th>                        
+                        <th style="width: 104px;">Gente a cargo</th>                        
                         <th>Nivel</th>    
                         <th>Agrupamiento</th> 
                         <th>Condiciones</th> 
