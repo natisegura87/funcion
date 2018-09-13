@@ -199,10 +199,10 @@ class NomencladorController extends Controller
     {            
         $condiciones="";   
         $nada="Ninguno";   
-        $nada="TODOS"; 
+        $todos="TODOS"; 
         $con1=$request->condicion1;
         $arrayOP = array();
-        if($con1 == $nada)
+        if($con1 == $todos)
             $arrayOP[] = $todos;
         else
             $arrayOP[] = $con1;
@@ -244,14 +244,14 @@ class NomencladorController extends Controller
             'autonomia' => $request->autonomia,
             'regimen_id' => 10,
             'agrupamiento_id' => $request->agrupamiento,
-            'subagrupamiento_id' => $request->agrupamiento,//subagrupamiento,
-            'clasificacion_id' => $request->agrupamiento,//clasificacion,
-            'subclasificacion_id' => $request->agrupamiento,//subclasificacion, 
+            'subagrupamiento_id' => $request->subagrupamiento,
+            'clasificacion_id' => $request->clasificacion,
+            'subclasificacion_id' => $request->subclasificacion, 
             'descripcion' => $request->descripcion,
             'genteacargo' => $request->gente,
             'nivel_id' => $request->nivel,
             'condiciones' => $condiciones,
-            'organismos' => $organ
+            'organismos' => $request->org
         ]);
 //->with('success','Registro creado satisfactoriamente');
         return redirect()->route('nomenclador.index')->with('status', 'Puesto creado satisfactoriamente');

@@ -150,42 +150,69 @@
            <div class="form-group">
              <label style="font-size: 16px; color: #fff;">Condiciones Excluyentes</label>
            </div>
-@foreach ($excluyentes as $exclu)
+      @foreach ($excluyentes as $exclu)
+          @if($exclu->id==1) 
+              <div class="row col-md-4" style="margin-bottom: 15px;margin-right: 10px">
+                    <label class="control-label">{{ $exclu->nombre }}</label>
+                    <select class="form-control organismos" name="organismo{{ $exclu->id }}" >
+                      <option value="TODOS">- Select -</option>   
+                            @foreach ($organismos as $organ)
+                                <option value="{{ $organ->codigo }}">{{ $organ->organismos }}
+                                </option>                  
+                            @endforeach  
+                    </select>                 
+                </div>  
+           @else
                 <div class="row col-md-4" style="margin-bottom: 15px;margin-right: 10px">
                     <label class="control-label">{{ $exclu->nombre }}</label>
                     <select class="form-control condiciones" name="condicion{{ $exclu->id }}" >
                       <option value="Ninguno">- Select -</option>
-                      @foreach ($condiciones as $nivel) 
-                      @if($exclu->id==1) 
-                        @foreach ($organismos as $organ)
-                            <option value="{{ $organ->codigo }}">
-                                {{ $organ->organismos }}
-                            </option>                  
-                        @endforeach    
-                      @elseif($exclu->id==$nivel->excluyente_id) 
+                        @foreach ($condiciones as $nivel) 
+                          @if($exclu->id==$nivel->excluyente_id) 
                             <option value="{{ $nivel->id }}">
                                 {{ $nivel->nombre }}
-                            </option>  
-                          
-                      @endif 
-                      @endforeach           
-
+                            </option>                            
+                          @endif 
+                        @endforeach   
                     </select>                 
-                </div>                
-               
-            @endforeach
-        </div>
-        <input type="text" name="va" value="Condiciones: " id="mostrarcond" style="display:none">
+                </div>  
+             @endif        
+   @endforeach
+    </div>
+    <div class="col-md-6">
+        <label class="control-label" id="labelo" style="display:none">Organismos: </label>
+         
+          <input type="text" id="atrasorg" style="display:none">
+      
+          <a style="margin: 25px;cursor: pointer;display:none;" id="atraso" onclick="funcionatraso()">Deshacer</a>
+          <a style="cursor: pointer;display:none;" id="limpiaro" onclick="limpiarorg()">Limpiar</a>
+     <input type="text" name="org" value="" id="mostrarorg" style="display:none">
+         <p id="mostrarorgp"> </p>
+         <p id="atrasorgp" style="display:none"> </p>
+     
+    </div>
+    <div class="col-md-6" style="display:none">
+      <label class="control-label" id="labelc" style="display:none">
+     Condiciones: </label>
+        
         <input type="text" id="atrascond" style="display:none">
-        <a style="cursor: pointer;display:none;" id="atrasc" onclick="funcionatras()">Deshacer</a>
+    
+        <a style="margin: 25px;cursor: pointer;display:none;" id="atrasc" onclick="funcionatras()">Deshacer</a>
         <a style="cursor: pointer;display:none;" id="limpiarc" onclick="limpiarcondicion()">Limpiar</a>
-       </div>
-              <div style="margin-top: 10px;">
+        <input type="text" name="cond" value="" id="mostrarcond" style="display:none">
+         <p id="mostrarcondp"></p>
+         <p id="atrascondp" style="display:none"></p>
+    </div>
+
+
+   </div>
+       <div class="col-md-12" style="margin-top: 10px;">
                 
                 <a href="{{ action('NomencladorController@index') }}" class="btn btn-default" >Cancelar</a> 
                 <button type="button" class="btn btn-secondary" id="veratrasnivel">Atras</button>                
                  <button type="submit" disabled class="btn btn-primary" id="versigagrup">Guardar</button>
-              </div>
+        </div>
+     </div>
   </div>
 
            

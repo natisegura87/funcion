@@ -106,7 +106,7 @@ $(document).ready(function(){
             success:function(data){
                 console.log('success Sub');
                 console.log(data);
-                ag+='<option value="">-Select Subagrupamiento-</option>';
+                ag+='<option value="0">-Select Subagrupamiento-</option>';
                 for (var i=0;i<data.length;i++){
                     ag+='<option value="'+data[i].id+'">'+data[i].nombre+'</option>';
                 }
@@ -144,7 +144,7 @@ $(document).ready(function(){
             success:function(data){
                 console.log('success clasi');
                 console.log(data);
-                ag+='<option value="">-Select Subclasificacion-</option>';
+                ag+='<option value="0">-Select Subclasificacion-</option>';
                 for (var i=0;i<data.length;i++){
                     ag+='<option value="'+data[i].id+'">'+data[i].nombre+'</option>';
                 }
@@ -267,23 +267,30 @@ function funcionnombre($texto){
    nombre = document.getElementById("nombre").value;  
    document.getElementById("titulo").innerHTML = nombre;
 }
-
+//condiciones
 function funcionatras(){
    console.log("entro atras");
     var v= document.getElementById("atrascond").value;
     document.getElementById("mostrarcond").value = v;
+
+  var anterior = document.getElementById("atrascondp");
+  document.getElementById("mostrarcondp").innerHTML = anterior.innerHTML; 
+
 }
 
 function limpiarcondicion(){
    console.log("entro limpiar");    
-    document.getElementById("mostrarcond").value = "Condiciones: ";
+    document.getElementById("mostrarcond").value = "";
+    document.getElementById("mostrarcondp").innerHTML ="";
 }
 
 
 $(document).on('change','.condiciones',function(){        
    var condic_id = $(this).val();
+   var cond_nombre = $('.condiciones option:selected').text();
    console.log(condic_id);
    console.log("entro cond");
+   $('#labelc').show();
    $('#mostrarcond').show();
    $('#atrasc').show();
    $('#limpiarc').show();
@@ -292,6 +299,56 @@ $(document).on('change','.condiciones',function(){
   document.getElementById("mostrarcond").value += condic_id + " "; 
   console.log(v);
   document.getElementById("atrascond").value = v; 
+
+  var anterior = document.getElementById("mostrarcondp").innerHTML;
+  document.getElementById("atrascondp").innerHTML = anterior; 
+
+console.log(anterior);
+
+document.getElementById("mostrarcondp").innerHTML += "<p>" + cond_nombre + "</p> ";
+
+    });
+
+//organismos
+function funcionatraso(){
+   console.log("entro atraso");
+    var vo= document.getElementById("atrasorg").value;
+    document.getElementById("mostrarorg").value = vo;
+
+  var anterior = document.getElementById("atrasorgp");
+  console.log(anterior);
+
+  document.getElementById("mostrarorgp").innerHTML = "" + anterior.innerHTML; 
+}
+
+function limpiarorg(){
+   console.log("entro limpiar org");    
+    document.getElementById("mostrarorg").value = "";
+    document.getElementById("mostrarorgp").innerHTML = "";
+}
+
+
+$(document).on('change','.organismos',function(){        
+   var org_id = $(this).val();
+   var org_nombre = $('.organismos option:selected').text();
+   console.log(org_nombre);
+   console.log("entro org");
+   $('#labelo').show();
+  
+   $('#atraso').show();
+   $('#limpiaro').show();
+
+  var vo= document.getElementById("mostrarorg").value;
+  document.getElementById("mostrarorg").value += org_id + " "; 
+
+  console.log(vo);
+  document.getElementById("atrasorg").value = vo; 
+
+  var anterior = document.getElementById("mostrarorgp").innerHTML;
+  document.getElementById("atrasorgp").innerHTML = ""+anterior; 
+console.log(anterior);
+
+document.getElementById("mostrarorgp").innerHTML += "<p>" + org_nombre + "</p> ";
 
     })
    
