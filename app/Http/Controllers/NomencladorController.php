@@ -34,16 +34,23 @@ class NomencladorController extends Controller
            // ->select('preguntas.*', 'unidad.nombre as unidad_name')
             
 //explode(" ",$str)
+        $str=Nomenclador::pluck('condiciones')->last();
+
+        $cond=explode("-",$str);
+        //dd($cond);
 
         $preguntas = Nomenclador::join('nivel', 'nivel.id', '=', 'nomenclador.nivel_id')
             ->join('nivel as nivel_com', 'nivel_com.id', '=', 'nomenclador.complejidad')
             ->join('nivel as nivel_res', 'nivel_res.id', '=', 'nomenclador.responsabilidad')
             ->join('nivel as nivel_aut', 'nivel_aut.id', '=', 'nomenclador.autonomia')
-            ->join('agrupamiento', 'agrupamiento.id', '=', 'nomenclador.agrupamiento_id')             
-          
-            ->select('nomenclador.*', 'nivel.nombre as nivel_name', 'agrupamiento.nombre as agrupamiento_name',
+            ->join('agrupamiento', 'agrupamiento.id', '=', 'nomenclador.agrupamiento_id')
+            ->join('subagrupamiento', 'subagrupamiento.id', '=', 'nomenclador.subagrupamiento_id')
+            ->join('clasificacion', 'clasificacion.id', '=', 'nomenclador.clasificacion_id')
+            ->join('subclasificacion', 'subclasificacion.id', '=', 'nomenclador.subclasificacion_id')             
+            ->select('nomenclador.*', 'nivel.nombre as nivel_name', 'agrupamiento.nombre as agrupamiento_name', 'subagrupamiento.nombre as subagrupamiento_name',
                 'nivel_com.complejidad as nivel_complejidad','nivel_res.responsabilidad as nivel_responsabilidad','nivel_aut.autonomia as nivel_autonomia',
-                'nivel.supervision as nivel_supervision','nivel.requisitos as nivel_requisitos','nivel.experiencia as nivel_experiencia')
+                'nivel.supervision as nivel_supervision','nivel.requisitos as nivel_requisitos','nivel.experiencia as nivel_experiencia','nivel.requisitos as nivel_requisitos'
+            ,'clasificacion.nombre as clasificacion_name','subclasificacion.nombre as subclasificacion_name')
             ->orderBy('nomenclador.id', 'DESC')
             ->where('regimen_id',10)
             ->where('agrupamiento.nombre','LIKE', "%$agrupamiento%")
@@ -58,8 +65,9 @@ class NomencladorController extends Controller
                     ->where('nivel.id','>','0')->get();
 
         $agrupamiento=Agrupamiento::select('nombre')->distinct()->get();
+        $condiciones=Condiciones::all();
 
-    return view('nomenclador.index', compact('preguntas','niveles','agrupamiento'));
+    return view('nomenclador.index', compact('preguntas','niveles','agrupamiento','condiciones'));
 
     }
 

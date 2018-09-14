@@ -50,10 +50,9 @@
                         <th>Puesto</th>  
                         <th>Descripción</th>  
                         <th style="width: 104px;">Gente a cargo</th>                        
-                        <th>Nivel</th>    
-                        <th>Agrupamiento</th> 
-                        <th>Condiciones</th> 
-                        <th>Organismo</th> 
+                        <th style="width: 61px;">Nivel</th>    
+                        <th style="width: 105px;">Agrup y Clasif</th> 
+                        <th>Condiciones</th>                       
                         <th>Acciones</th>                     
                     </tr>
                  </thead>
@@ -63,24 +62,21 @@
                         <tr>
                            <td>{{ $preg->codigo }}</td>                   
                            <td>{{ $preg->nombrepuesto }}</td>  
-                           <td>{{ $preg->descripcion }}</td> 
+                           <td>
+                            <?php
+                            $condicion=explode("-",$preg->condiciones);?>
+                             @foreach($condicion as $cond=>$val)
+                                {{ $val }}
+                              @endforeach 
+                          </td> 
                            <td>@if($preg->genteacargo) 
                             SI
                             @else
                             NO
                             @endif
                           </td>
-                           <td>{{ $preg->nivel_name }}</td>
-                           <td>{{ $preg->agrupamiento_name }}</td>
-                            <td> <a data-toggle="modal" data-target=".bd-editar-modal-lg" title="Editar {{ $preg->nombrepuesto }}" 
-                            data-ver= "{{ $preg->nombrepuesto }}" 
-                            data-idver= "{{ $preg->id }}" 
-                            data-complejidad= "{{ $preg->nivel_complejidad }}" 
-                            data-responsabilidad= "{{ $preg->nivel_responsabilidad }}" 
-                            data-autonomia= "{{ $preg->nivel_autonomia }}"                           
-                              class="btn btn-primary btn-xs" style=" margin-right: 5px;float:left"><i class="fa fa-pencil-square-o fa-lg"></i></a>
-                                     
-                           <a data-toggle="modal" data-target=".bd-ver-modal-lg" title="Ver {{ $preg->nombrepuesto }}" 
+                           <td>{{ $preg->nivel_name }}
+                              <a data-toggle="modal" data-target=".bd-ver-modal-lg" title="Ver {{ $preg->nombrepuesto }}" 
                             data-ver= "{{ $preg->nombrepuesto }}" 
                             data-idver= "{{ $preg->id }}" 
                             data-complejidad= "{{ $preg->nivel_complejidad }}" 
@@ -89,17 +85,24 @@
                             data-supervision= "{{ $preg->nivel_supervision }}" 
                             data-requisitos= "{{ $preg->nivel_requisitos }}" 
                             data-experiencia= "{{ $preg->nivel_experiencia }}"
-                              class="btn btn-info btn-xs" style=" margin-right: 5px;float:left"><i class="fa fa-eye fa-lg"></i></a>
+                              class="btn btn-info btn-xs" style=" margin-right: 5px;"><i class="fa fa-eye fa-lg"></i></a>
+
                            </td>
-                            <td> <a data-toggle="modal" data-target=".bd-editar-modal-lg" title="Editar {{ $preg->nombrepuesto }}" 
+                        
+                            <td> 
+                                     
+                            <a data-toggle="modal" data-target=".bd-ver-agrup-modal-lg" title="Ver {{ $preg->nombrepuesto }}" 
                             data-ver= "{{ $preg->nombrepuesto }}" 
                             data-idver= "{{ $preg->id }}" 
-                            data-complejidad= "{{ $preg->nivel_complejidad }}" 
-                            data-responsabilidad= "{{ $preg->nivel_responsabilidad }}" 
-                            data-autonomia= "{{ $preg->nivel_autonomia }}"                           
-                              class="btn btn-primary btn-xs" style=" margin-right: 5px;float:left"><i class="fa fa-pencil-square-o fa-lg"></i></a>
+                            data-agrupamiento= "{{ $preg->agrupamiento_name }}" 
+                            data-subagrupamiento= "{{ $preg->subagrupamiento_name }}" 
+                            data-clasificacion= "{{ $preg->clasificacion_name }}"
+                            data-subclasificacion= "{{ $preg->subclasificacion_name }}"
+                              class="btn btn-info btn-xs" style=" margin-right: 5px;"><i class="fa fa-eye fa-lg"></i></a>
+                           </td>
+                            <td>
                                      
-                           <a data-toggle="modal" data-target=".bd-ver-modal-lg" title="Ver {{ $preg->nombrepuesto }}" 
+                           <a data-toggle="modal" data-target=".bd-ver-cond-modal-lg" title="Ver {{ $preg->nombrepuesto }}" 
                             data-ver= "{{ $preg->nombrepuesto }}" 
                             data-idver= "{{ $preg->id }}" 
                             data-complejidad= "{{ $preg->nivel_complejidad }}" 
@@ -141,6 +144,71 @@
             </div>
         </div>
     </div>
+</div>
+
+<div class="modal fade bd-ver-agrup-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+        <div class="modal-header" style="background-color: #6aa4c5;">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Ver</h4>
+        </div>
+     
+    <div class="modal-body" style="padding-bottom: 0px;">    
+        <ul class="fa-ul">
+        <li><i class="fa-li fa fa-check-square"></i>
+          <p style="font-weight: 700;" id="agrupamiento"></p></li>
+          <hr>
+        <li><i class="fa-li fa fa-check-square"></i>
+          <p style="font-weight: 700;" id="subagrupamiento"></p></li>
+        <hr>
+        <li><i class="fa-li fa fa-check-square"></i>
+          <p style="font-weight: 400;" id="clasificacion"></p></li>
+        <hr>
+        <li><i class="fa-li fa fa-check-square"></i>
+          <p style="font-weight: 400;" id="subclasificacion"></p></li>
+          <hr>
+      </ul>    
+    <div class="modal-footer" style="border-top: 1px solid #f5f5f500; padding-top: 0px;">
+         <button type="button" class="btn btn-primary" data-dismiss="modal">OK</button>
+      </div>
+
+        </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade bd-ver-cond-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+        <div class="modal-header" style="background-color: #6aa4c5;">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Ver</h4>
+        </div>
+     
+    <div class="modal-body" style="padding-bottom: 0px;">  
+    <label>Organismos</label>  
+        <ul class="fa-ul">
+        <li><i class="fa-li fa fa-check-square"></i>
+          <p style="font-weight: 700;" id="agrupamiento"></p></li>
+          <hr>
+        <li><i class="fa-li fa fa-check-square"></i>
+          <p style="font-weight: 700;" id="subagrupamiento"></p></li>
+        <hr>
+        <li><i class="fa-li fa fa-check-square"></i>
+          <p style="font-weight: 400;" id="clasificacion"></p></li>
+        <hr>
+        <li><i class="fa-li fa fa-check-square"></i>
+          <p style="font-weight: 400;" id="subclasificacion"></p></li>
+          <hr>
+      </ul>    
+    <div class="modal-footer" style="border-top: 1px solid #f5f5f500; padding-top: 0px;">
+         <button type="button" class="btn btn-primary" data-dismiss="modal">OK</button>
+      </div>
+
+        </div>
+    </div>
+  </div>
 </div>
 
 @include('puesto.modal')

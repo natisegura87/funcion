@@ -61,6 +61,25 @@
           modal.find('.modal-body #experiencia').text('EXPERIENCIA LABORAL: ' + experiencia)
         })
 
+        $('.bd-ver-agrup-modal-lg').on('show.bs.modal', function (event) {
+          var button = $(event.relatedTarget) // Button that triggered the modal
+          nombreE = button.data('ver') // Extract info from data-* attributes
+
+          agrupamiento = button.data('agrupamiento')
+          console.log(agrupamiento);
+          subagrupamiento = button.data('subagrupamiento')
+          clasificacion = button.data('clasificacion')
+          subclasificacion = button.data('subclasificacion')   
+
+          var modal = $(this)
+          modal.find('.modal-title').text('Agrupamiento y clasificación ' + nombreE)   
+          modal.find('.modal-body #agrupamiento').text('AGRUPAMIENTO: ' + agrupamiento) 
+          modal.find('.modal-body #subagrupamiento').text('SUB-AGRUPAMIENTO: ' + subagrupamiento) 
+          modal.find('.modal-body #clasificacion').text('CLASIFICACIÓN: ' + clasificacion) 
+          modal.find('.modal-body #subclasificacion').text('SUB-CLASIFICACIÓN: ' + subclasificacion) 
+       
+        })
+
         $('.bd-complejidad-modal-lg').on('show.bs.modal', function (event) {
      
           var button = $(event.relatedTarget) // Button that triggered the modal
