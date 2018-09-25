@@ -1,276 +1,176 @@
 
-
-<div class="modal fade bd-ver-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-lg">
-    <div class="modal-content">
-        <div class="modal-header" style="background-color: #6aa4c5;">
-          <button type="button" class="close" data-dismiss="modal">&times;</button>
-          <h4 class="modal-title">Preg</h4>
-        </div>
-     
-      <div class="modal-body" style="padding-bottom: 0px;">
-     
-      <ul class="fa-ul">
-        <li><i class="fa-li fa fa-check-square"></i>
-          <p style="font-weight: 400;" id="complejidad"></p></li>
-          <hr>
-        <li><i class="fa-li fa fa-check-square"></i>
-          <p style="font-weight: 400;" id="responsabilidad"></p></li>
-        <hr>
-        <li><i class="fa-li fa fa-check-square"></i>
-          <p style="font-weight: 400;" id="autonomia"></p></li>
-        <hr>
-        <li><i class="fa-li fa fa-check-square"></i>
-          <p style="font-weight: 700;" id="supervision"></p></li>
-          <hr>
-        <li><i class="fa-li fa fa-check-square"></i>
-          <p style="font-weight: 700;" id="requisitos"></p></li>
-        <hr>
-        <li><i class="fa-li fa fa-check-square"></i>
-          <p style="font-weight: 700;" id="experiencia"></p></li>
-        <hr>
-      </ul>     
-               
-      </div>
-
-      <div class="modal-footer" style="border-top: 1px solid #f5f5f500; padding-top: 0px;">
-        <button type="button" class="btn btn-primary" data-dismiss="modal">OK</button>
-     
-       
-      </div>
-    </div>
-  </div>
-</div>
-
-<form role="form" method="POST" action="{{ action('PuestoController@updatePreg') }}">
-      {!! csrf_field() !!}
-<div class="modal fade bd-editar-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-lg">
-    <div class="modal-content">
-        <div class="modal-header" style="background-color: #6aa4c5;">
-          <button type="button" class="close" data-dismiss="modal">&times;</button>
-          <h4 class="modal-title">1- Complejidad</h4>
-        </div>
-     
-      <div class="modal-body" style="padding-bottom: 0px;">
-     
-       
-         <div class="form-group">
-           @foreach($niveles as $niv)
-                <input type="radio" required name="complejidad" id="complejidad" value="{{$niv->id}}"> {{ $niv->complejidad }}<br>
-                <hr>
-            @endforeach     
-         </div>
-       
-     
-      </div>
-      <div class="modal-footer" style="border-top: 1px solid #f5f5f500; padding-top: 0px;">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Atras</button>
-     
-        <button type="button" class="btn btn-primary" data-dismiss="modal" data-toggle="modal" data-target=".bd-responsabilidad-modal-lg">Siguiente</button>
-      </div>
-    </div>
-  </div>
-</div>
-
-<div class="modal fade bd-responsabilidad-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-lg">
-    <div class="modal-content">
-        <div class="modal-header" style="background-color: #6aa4c5;">
-          <button type="button" class="close" data-dismiss="modal">&times;</button>
-          <h4 class="modal-title">2- Responsabilidad</h4>
-        </div>
-     
-      <div class="modal-body" style="padding-bottom: 0px;">
-     
-       
-         <div class="form-group">
-           @foreach($niveles as $niv)
-                <input type="radio" required name="responsabilidad" id="responsabilidad" value="{{$niv->id}}"> {{ $niv->responsabilidad }}<br>
-                <hr>
-            @endforeach     
-         </div>
-       
-      
-      </div>
-      <div class="modal-footer" style="border-top: 1px solid #f5f5f500; padding-top: 0px;">
-        <button type="button" class="btn btn-default" data-toggle="modal" data-target=".bd-complejidad-modal-lg" data-dismiss="modal">Atras</button>   
-       
-        <buttontype="button" class="btn btn-primary" data-toggle="modal" data-target=".bd-autonomia-modal-lg">Siguiente</button>
-      </div>
-    </div>
-  </div>
-</div>
-
-<div class="modal fade bd-autonomia-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-lg">
-    
-    <div class="modal-content">
-        <div class="modal-header" style="background-color: #6aa4c5;">
-          <button type="button" class="close" data-dismiss="modal">&times;</button>
-          <h4 class="modal-title">3- Autonomía</h4>
-        </div>
-     
-      <div class="modal-body" style="padding-bottom: 0px;">
-    
-       
-         <div class="form-group">
-           @foreach($niveles as $niv)
-                <input type="radio" required name="autonomia" id="autonomia" value="{{$niv->id}}"> {{ $niv->autonomia }}<br>
-                <hr>
-            @endforeach     
-         </div>
-       
-       
-      </div>
-
-      <div class="modal-footer" style="border-top: 1px solid #f5f5f500; padding-top: 0px;">
-         
-        
-        <a href="{{ action('PuestoController@index') }}" class="btn btn-default" >Cancelar</a> 
-        <button type="button" class="btn btn-default" data-dismiss="modal">Atras</button>    
-       
-         <button name="guardar" class="btn btn-success guardar" title=" Ver " type="submit" onclick="return confirm('Deseas guardar ?');">Guardar</button>
-
-          
-      </div>
-    </div>
-  </div>
-</div>
- </form>
-
-
- <form role="form" method="POST" action="{{ action('PuestoController@updatePreg') }}">
-      {!! csrf_field() !!}
-<div class="modal fade bd-complejidad-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-lg">
-    <div class="modal-content">
-        <div class="modal-header" style="background-color: #6aa4c5;">
-          <button type="button" class="close" data-dismiss="modal">&times;</button>
-          <h4 class="modal-title">1- Complejidad</h4>
-        </div>
-     
-      <div class="modal-body" style="padding-bottom: 0px;">
-     
-       
-         <div class="form-group">
-           @foreach($niveles as $niv)
-                <input type="radio" required name="complejidad" id="complejidad" value="{{$niv->id}}"> {{ $niv->complejidad }}<br>
-                <hr>
-            @endforeach     
-         </div>
-       
-     
-      </div>
-      <div class="modal-footer" style="border-top: 1px solid #f5f5f500; padding-top: 0px;">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Atras</button>
-     
-        <button id="sigcomplejidad" disabled type="button" class="btn btn-primary" data-dismiss="modal" data-toggle="modal" data-target=".bd-responsabilidad-modal-lg">Siguiente</button>
-      </div>
-    </div>
-  </div>
-</div>
-
-<div class="modal fade bd-responsabilidad-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-lg">
-    <div class="modal-content">
-        <div class="modal-header" style="background-color: #6aa4c5;">
-          <button type="button" class="close" data-dismiss="modal">&times;</button>
-          <h4 class="modal-title">2- Responsabilidad</h4>
-        </div>
-     
-      <div class="modal-body" style="padding-bottom: 0px;">
-     
-       
-         <div class="form-group">
-           @foreach($niveles as $niv)
-                <input type="radio" required name="responsabilidad" id="responsabilidad" value="{{$niv->id}}"> {{ $niv->responsabilidad }}<br>
-                <hr>
-            @endforeach     
-         </div>
-       
-      
-      </div>
-      <div class="modal-footer" style="border-top: 1px solid #f5f5f500; padding-top: 0px;">
-        <button type="button" class="btn btn-default" data-toggle="modal" data-target=".bd-complejidad-modal-lg" data-dismiss="modal">Atras</button>   
-       
-        <button id="sigresponsabilidad" disabled type="button" class="btn btn-primary" data-toggle="modal" data-target=".bd-autonomia-modal-lg">Siguiente</button>
-      </div>
-    </div>
-  </div>
-</div>
-
-<div class="modal fade bd-autonomia-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-lg">
-    
-    <div class="modal-content">
-        <div class="modal-header" style="background-color: #6aa4c5;">
-          <button type="button" class="close" data-dismiss="modal">&times;</button>
-          <h4 class="modal-title">3- Autonomía</h4>
-        </div>
-     
-      <div class="modal-body" style="padding-bottom: 0px;">
-    
-       
-         <div class="form-group">
-           @foreach($niveles as $niv)
-                <input type="radio" required name="autonomia" id="autonomia" value="{{$niv->id}}"> {{ $niv->autonomia }}<br>
-                <hr>
-            @endforeach     
-         </div>
-       
-       
-      </div>
-
-      <div class="modal-footer" style="border-top: 1px solid #f5f5f500; padding-top: 0px;">
-         
-        
-        <a href="{{ action('PuestoController@index') }}" class="btn btn-default" >Cancelar</a> 
-        <button type="button" class="btn btn-default" data-dismiss="modal">Atras</button>    
-       
-         <button id="sigautonomia" name="guardar" disabled class="btn btn-success guardar" title=" Ver " type="submit" onclick="return confirm('Deseas guardar ?');">Guardar</button>
-
-          
-      </div>
-    </div>
-  </div>
-</div>
- </form>
-
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-<script type="text/javascript">
+<script>
 
+var seleuni= " ";
 
-    $("#sigcompl").click(function(){
-        $("#sigresp").modal({backdrop: true});
-    });
-    $("#sigresponsabilidad").click(function(){
-        $("#sigautonomia").modal({backdrop: false});
-    });
-    $("#myBtn3").click(function(){
-        $("#myModal3").modal({backdrop: "static"});
-    });
+$(document).ready(function(){
+    var regimen="1";
+    var organismo="0";
+    $(document).on('change','.regimen',function(){        
+        regimen = $(this).val();   
+        console.log('regimen'); console.log(regimen);  
+        var div = $(this).parent().parent().parent();
+        var url = '{{ route('vincularpuesto.get') }}';
 
+        seleuni= " ";
+        $.ajax({
+            type:'get',
+            url:url,
+            data:{'id':regimen},
+            success:function(data){
+                //console.log('success');
 
-  $('input#complejidad').on('click change', function(e) {
-       
-       $('#sigcomplejidad').attr('disabled', false);
+                //console.log(data);
+                seleuni+='<option value="">=== Select Unidad ===</option>';
+                for (var i=0;i<data.length;i++){
+                    seleuni+='<option value="'+data[i].id+'">'+data[i].nombre+'</option>';
+                }
+                //console.log(op);
+                div.find('.unidad').html(" ");
+                div.find('.unidad').append(seleuni);
+            },
+            error:function(){
+                
+            }
+        });
 
-  })
-  $('input#responsabilidad').on('click change', function(e) {
-       
-       $('#sigresponsabilidad').attr('disabled', false);
+        var url1 = '{{ route('vincularpuesto.getP') }}';
+
+        var op1= " ";
+        $.ajax({
+            type:'get',
+            url:url1,
+            data:{'regimen':regimen,
+                  'organismo':organismo
+                },
+            success:function(data){
+                //console.log('success');
+
+                //console.log(data);
+                op1+='<option value="">=== Select Puesto ===</option>';
+                /*var keys = Object.keys(data);
+
+                for (var i=0;i<keys.length;i++){
+                    var key = keys[i];
+                    op1+='<option value="'+key+'">'+data[key]+'</option>';
+                }*/
+
+                for (var i=0;i<data.length;i++){
+                    op1+='<option value="'+data[i].id+'">'+data[i].nombrepuesto+'</option>';
+                }
+
+                //console.log(op1);
+                div.find('.puesto').html(" ");
+                div.find('.puesto').append(op1);
+            },
+            error:function(){
+                
+            }
+        });
+
+    })
+    
+    var unid="1";
+    console.log('regimen'); console.log(regimen); 
+
+    $(document).on('change','.organismo',function(){        
+        organismo = $(this).val();
+         var div = $(this).parent().parent().parent();
+         console.log('regimen o'); console.log(regimen); 
+        console.log(organismo);
+        var url = '{{ route('vincularpuesto.getO') }}';
+        //'http://localhost/intranet/public/uploadFile';
+        var op= " ";
+
+        div.find('.unidad').html(" ");
+        div.find('.unidad').append(seleuni);
+
+        $.ajax({
+            type:'get',
+            url:url,
+            data:{'regimen':regimen,
+                'organismo':organismo
+                },
+
+            success:function(data){
+                //console.log(data);
         
-  })
-  $('input#autonomia').on('click change', function(e) {
-       console.log("Hola");
-       $('#sigautonomia').attr('disabled', false);
-  })
- 
-      
-      setTimeout(function() {
-           $("#alert").fadeOut();           
-      },2000);
+                //console.log(data[0]);
+                if(data.length){
+                    op+='<option value="">=== Select Puesto ===</option>';             
+                }                  
+                else{
+                    $("select#puestoD").css("color", "#f70e0a");
+                    $("select#puestoD").css("font-size", "18px");
+                    op+='<option value="">- No hay puestos cargados -</option>';
+                }
+                for (var i=0;i<data.length;i++){
+                    op+='<option value="'+data[i].id+'">'+data[i].nombrepuesto+'</option>';
+                }
+                //console.log(op);
+                div.find('.puesto').html(" ");
+                div.find('.puesto').append(op);
 
+                div.find('.puestoDep').html(" ");
+                div.find('.puestoDep').append('<option value="">=== Select Puesto ===</option>');
 
-</script>
+              
+            },
+            error:function(){
+                
+            }
+        });
+
+    })
+
+    $(document).on('change','.unidad',function(){        
+        unid = $(this).val();
+        //console.log(unidad_id);
+        var div = $(this).parent().parent().parent();
+        //console.log("hola");
+        var url = '{{ route('vincularpuesto.getD') }}';
+        //'http://localhost/intranet/public/uploadFile';
+        var op= " ";
+        $.ajax({
+            type:'get',
+            url:url,
+            data:{'id':unid,
+                'organismo':organismo
+                },
+
+            success:function(data){
+                console.log('ver');
+           
+                console.log(organismo);
+                if(data.length)
+                  op+='<option value="">=== Select Puesto ===</option>';
+                else
+                  op+='<option value="">=== No hay puestos cargados ===</option>';
+                for (var i=0;i<data.length;i++){
+                    op+='<option value="'+data[i].nomenclador_id+'">'+data[i].puesto_name+'</option>';
+                }
+                //console.log(op);
+                div.find('.puestoDep').html(" ");
+                div.find('.puestoDep').append(op);
+            },
+            error:function(){
+                
+            }
+        });
+
+    })
+
+    $("p").click(function(){
+        $(this).hide();
+    });
+});
+
+$(document).ready(function(){
+    $("select").focus(function(){
+       $("select#puestoD").css("color", "#555");
+       $("select#puestoD").css("font-size", "14px");
+        
+    });
+});
+  </script>

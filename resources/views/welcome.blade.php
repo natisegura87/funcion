@@ -6,6 +6,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
         <title>Home</title>
+        <link rel="shortcut icon" href="{{ asset('images/logo-sistema.png') }}" />
 
         <!-- Fonts -->
         <link href="https://fonts.googleapis.com/css?family=Raleway:100,600" rel="stylesheet" type="text/css">
@@ -78,14 +79,20 @@
             @endif
 
             <div class="content">
-                <div class="title m-b-md">
-                    Estructura Organizativa
+                <div class="title m-b-md" style="color: #0fab46;
+    font-family: -webkit-body;">
+                    Carrera Administrativa<br>Ley 3487
                 </div>
+                <div class="subtitle m-b-md" style="color: #0fab46;
+    font-family: -webkit-body;font-size: 30px;">
+    Software Orientativo para la confección del Nomenclador de Puestos y <br>de la Estructura Organizativa
+</div>
 
                 <div class="links">                   
                     <a href="{{ route('nomenclador.index') }}">Nomenclador</a>
-                    <a href="{{ route('puestos.index') }}">Puestos</a>
+                    
                     <a href="{{ route('vincularpuesto.index') }}">Organigrama</a>
+                    <a href="{{ route('organigrama.indexN') }}">Graficar Organigrama</a>
                    
                 </div>
             </div>

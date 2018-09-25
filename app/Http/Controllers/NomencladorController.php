@@ -34,10 +34,11 @@ class NomencladorController extends Controller
            // ->select('preguntas.*', 'unidad.nombre as unidad_name')
             
 //explode(" ",$str)
-        $str=Nomenclador::pluck('condiciones')->last();
+        $str=Nomenclador::pluck('condiciones')->last();  
+        $excluyentes=Excluyentes::all();  
 
         $cond=explode("-",$str);
-        //dd($cond);
+        //dd($cond);//1 7 2    
 
         $preguntas = Nomenclador::join('nivel', 'nivel.id', '=', 'nomenclador.nivel_id')
             ->join('nivel as nivel_com', 'nivel_com.id', '=', 'nomenclador.complejidad')
@@ -65,21 +66,23 @@ class NomencladorController extends Controller
                     ->where('nivel.id','>','0')->get();
 
         $agrupamiento=Agrupamiento::select('nombre')->distinct()->get();
-        $condiciones=Condiciones::all();
+        
 
-    return view('nomenclador.index', compact('preguntas','niveles','agrupamiento','condiciones'));
+    return view('nomenclador.index', compact('preguntas','niveles','agrupamiento',
+                                            'excluyentes'));
 
     }
 
     public function indexF()
     {
-    $preguntas = Nomenclador::join('op','op.codigo', '=', 'nomenclador.organismos')
-                    ->select('nomenclador.*', 'op.denominacion as op_name')
-                    ->orderBy('nomenclador.id', 'DESC')
+    $preguntas = Nomenclador::
+                    orderBy('nomenclador.id', 'DESC')
                     ->where('regimen_id',1)
                     ->paginate(3);
+
+    $organismos=Op::all();
     //dd($preguntas);
-    return view('nomencladorfuncionarios.index', compact('preguntas'));
+    return view('nomencladorfuncionarios.index', compact('preguntas','organismos'));
 
     }
 
@@ -146,7 +149,7 @@ class NomencladorController extends Controller
 
     public function storeF(Request $request)
     {           
-        $nada=0;
+        $nada=0; // 0 es todos
         $gente="on";
         $uno=1;
 
@@ -160,13 +163,13 @@ class NomencladorController extends Controller
             'autonomia' => $nada,
             'nivel_id' => $nada,
             'regimen_id' => 1,
-            'agrupamiento_id' => $uno,
+            'agrupamiento_id' => $nada,
             'subagrupamiento_id' => $nada,
             'clasificacion_id' => $nada,
             'subclasificacion_id' => $nada,         
             'genteacargo' => $gente,           
-            'condiciones' => $uno,
-            'organismos' => $nada
+            'condiciones' => $nada,
+            'organismos' => $request->org
 
         ]);
 
@@ -175,8 +178,11 @@ class NomencladorController extends Controller
     public function editF($id)
     {
         $preguntas=Nomenclador::find($id);    
-        $organismo=Op::pluck('organismos','codigo'); 
-        return  view('nomencladorfuncionarios.editar',compact('preguntas','organismo'));
+        $organismos=Op::pluck('organismos','codigo'); 
+        $organismosT=Op::all();
+        //dd($organismos);
+    
+        return  view('nomencladorfuncionarios.editar',compact('preguntas','organismos','organismosT'));
     }
     public function updateF(Request $request, $id)
     {             
@@ -185,6 +191,19 @@ class NomencladorController extends Controller
         $pregunta->nombrepuesto = $request->get('nombre'); 
         $pregunta->descripcion = $request->get('descripcion'); 
         $pregunta->organismos = $request->get('organismo'); 
+
+
+        $nada=0;          
+        $arrayOP = array();       
+        $arrayOP[] = $request->get('org');        
+            
+        //dd($arrayOP);
+        if(empty($arrayOP)){
+            $arrayOP[] = $nada;
+        }
+        
+        $organ=implode(" ",$arrayOP);
+        $pregunta->organismos = $organ;       
       
         $pregunta->save();
 
@@ -206,14 +225,14 @@ class NomencladorController extends Controller
     public function store(Request $request)
     {            
         $condiciones="";   
-        $nada="Ninguno";   
+        $nada=0;   //0 es todos tambien
         $todos="TODOS"; 
         $con1=$request->condicion1;
         $arrayOP = array();
         if($con1 == $todos)
-            $arrayOP[] = $todos;
+            $arrayOP[] = $nada;
         else
-            $arrayOP[] = $con1;
+            $arrayOP[] = $con1; // no se usa
         //dd($arrayOP);
 
 
@@ -240,7 +259,7 @@ class NomencladorController extends Controller
         }
         
         $condiciones=implode("-",$array);
-        $organ=implode("-",$arrayOP);
+        $organ=implode("-",$arrayOP); // no lo uso? 
            
         //dd($organ); 
        
@@ -299,8 +318,18 @@ class NomencladorController extends Controller
     public function edit($id)
     {
         $preguntas=Nomenclador::find($id);
-        
-        return  view('nomenclador.editar',compact('preguntas'));
+        $organismos=Op::all();              
+        $agrupamientos = Agrupamiento::where('nivel_id',$preguntas->nivel_id)->get(); 
+
+        $subagrupamientos= Subagrupamiento::where('id','>',0)->get();
+        //where('agrupamiento_id',$preguntas->agrupamiento_id)->get(); 
+        //dd($subagrupamientos);
+        $clasificacion= Clasificacion::where('id','>',0)->get();  
+        $subclasificacion= Subclasificacion::where('id','>',0)->get();
+        $condiciones= Condiciones::all();
+        $excluyentes=Excluyentes::all();
+
+        return  view('nomenclador.editar',compact('preguntas','condiciones','excluyentes','agrupamientos','subagrupamientos','organismos','clasificacion','subclasificacion'));
     }
 
     /**
@@ -316,6 +345,55 @@ class NomencladorController extends Controller
         $pregunta->nombrepuesto = $request->get('nombre');
         $pregunta->descripcion = $request->get('descripcion'); 
         $pregunta->codigo = $request->get('codigo'); 
+
+        if($request->get('agrupamiento') >0) 
+            $pregunta->agrupamiento_id = $request->get('agrupamiento');
+        if($request->get('subagrupamiento') >0) 
+            $pregunta->subagrupamiento_id = $request->get('subagrupamiento');
+        if($request->get('clasificacion') >0) 
+            $pregunta->clasificacion_id = $request->get('clasificacion');
+        if($request->get('subclasificacion') >0) 
+            $pregunta->subclasificacion_id = $request->get('subclasificacion');
+
+
+        $nada=0;   
+        $todos="Ninguno"; 
+       
+        $arrayOP = array();       
+        $arrayOP[] = $request->get('org');        
+            
+        //dd($arrayOP);
+        if(empty($arrayOP)){
+            $arrayOP[] = $nada;
+        }
+      
+        $con2=$request->get('condicion2');
+        $con3=$request->get('condicion3');
+        $con4=$request->get('condicion4');
+        $con5=$request->get('condicion5');
+        $con6=$request->get('condicion6');
+
+        $array = array();
+        
+        if($con2 > 0)
+            $array[] = $con2;
+        if($con3 > 0)
+            $array[] = $con3;
+        if($con4 > 0)
+            $array[] = $con4;
+        if($con5 > 0)
+            $array[] = $con5;
+        if($con6 > 0)
+            $array[] = $con6;
+        
+        $organ=implode(" ",$arrayOP);
+
+        if(!empty($array)){
+            $condicion=implode("-",$array);            
+            $pregunta->condiciones = $condicion;
+        }
+        
+        $pregunta->organismos = $organ;       
         $pregunta->save();
 
         return redirect()->route('nomenclador.index')->with('status','Puesto actualizado');
@@ -391,6 +469,38 @@ public function getAgrupamientos(Request $request){
             $puestos = Subclasificacion::where('clasificacion_id',$id)->get(); 
             //dd($puestos);
             return Response()->json($puestos); 
+    }
+
+    public function getCondiciones(Request $request){
+   
+        $idcond=$request->condiciones;  
+        $condi=explode("-",$idcond);     
+        //dd($condi);//1 7 2
+
+         $arrayCond = array();
+        foreach($condi as $cond=>$val) {
+            $condicion=Condiciones::where('id',$val)->get();
+            $arrayCond[] = $condicion; 
+         }
+//dd($arrayCond); 
+
+        return Response()->json($arrayCond); 
+    }
+
+     public function getOrganismos(Request $request){
+        
+        $idorg=$request->organismos;  
+        $orga=explode(" ",$idorg);
+        //dd($cond);//1 7 2
+
+         $arrayOrg = array();
+        foreach($orga as $org=>$val) {
+            $organismo=Op::where('codigo',$val)->get();
+            $arrayOrg[] = $organismo;
+ 
+         }  
+      //   dd($arrayOrg);  
+        return Response()->json($arrayOrg); 
     }
 
     public function nivelPreg(Request $request)

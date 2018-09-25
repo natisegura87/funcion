@@ -4,16 +4,18 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
     <title>Sistema Organigrama</title>
-     <link rel="shortcut icon" href="{{ asset('images/logo-sistema.png') }}" />
-    <link rel="stylesheet" href="css/bootstrap.min.css" />
-    <link rel="stylesheet" href="css/jquery.jOrgChart.css" />
-    <link rel="stylesheet" href="css/custom.css" />
+
+    <link rel="shortcut icon" href="{{ asset('images/logo-sistema.png') }}" />
+    <link rel="stylesheet" href="{{ asset('css/bootstrap.min.css') }}" />
+    <link rel="stylesheet" href="{{ asset('css/jquery.jOrgChart.css') }}" />
+    <link rel="stylesheet" href="{{ asset('css/custom.css') }}" />
     <!-- jQuery includes -->
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/jquery-ui.min.js"></script>
-    <script src="js/jquery.jOrgChart.js"></script>
-     <script src="js/html2canvas.js"></script>
-    <script type="text/javascript" src="js/taffy.js"></script>
+    <script src="{{ asset('js/jquery.jOrgChart.js') }}"></script>
+     <script src="{{ asset('js/html2canvas.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('js/taffy.js') }}"></script>
+
    
     <style type="text/css">
     
@@ -24,7 +26,7 @@
     .node2 {
             border: 0px solid #333!important;
             border-radius: 3px!important;
-            color: #f5f5f5!important;
+            color: #fff!important;
             background-color: #080808!important;
             width: 1px!important;
             height: 80px!important;
@@ -265,7 +267,7 @@
                          <li><a href="{{ route('nomenclador.index') }}">Nomenclador</a></li>
                          <li><a onclick="captura()">Descargar</a></li>
 
-                        <li><a href="{{ route('organigrama.indexN') }}">Organigrama</a></li>
+                        <li><a href="{{ route('vincularpuesto.index') }}">Puestos Organigrama</a></li>
 
                         @guest
                             

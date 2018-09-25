@@ -35,6 +35,7 @@ Route::get('/puestosget', 'PuestoController@getPuestos')->name('puestos.get');
 Route::get('/puestoget', 'PuestoController@getPuesto')->name('puesto.get');
 Route::get('/puestosgetDep', 'PuestoController@getPuestosDep')->name('puestosDep.get');
 
+
 Route::get('users', function () {
     return App\Empleado::all();
 });
@@ -45,6 +46,8 @@ Route::post('organigrama/ver', 'OrganigramaController@show')->name('organigrama.
 Route::get('organigrama/get', 'OrganigramaController@getDep')->name('organigrama.get');
 Route::get('organigrama/getP', 'OrganigramaController@getPue')->name('organigrama.getP');
 Route::get('organigrama/crearPuestos', 'OrganigramaController@crearPuestos')->name('organigrama.crearPuestos');
+Route::get('/puestosgetDepOP', 'OrganigramaController@getPuestosDepop')->name('puestosDep.getop');
+
 Route::post('organigrama/verPuesto', 'OrganigramaController@showP')->name('organigrama.showP');
 Route::post('organigrama/verNomenclador', 'OrganigramaController@showNomenclador')->name('organigrama.showNomenclador');
 Route::get('/organigramaVer', 'OrganigramaController@index2')->name('organigrama.ver');
@@ -68,6 +71,8 @@ Route::get('/nomenclador/{id}', 'NomencladorController@edit')->name('nomenclador
 Route::delete('/nomenclador/eliminar/{id}', 'NomencladorController@destroy')->name('nomenclador.destroy');
 
 Route::get('/nomencladorget', 'NomencladorController@nivelPreg')->name('nomenclador.getnivel');
+Route::get('/nomencladorgetcond', 'NomencladorController@getCondiciones')->name('nomenclador.getcondiciones');
+Route::get('/nomencladorgetorg', 'NomencladorController@getOrganismos')->name('nomenclador.getorganismos');
 Route::get('/nomencladorgetagrup', 'NomencladorController@getAgrupamientos')->name('nomenclador.getagrup');
 Route::get('/nomencladorgetsubagrup', 'NomencladorController@getSubagrupamientos')->name('nomenclador.getsubagrup');
 Route::get('/nomencladorgetsubclasif', 'NomencladorController@getSubclasificacion')->name('nomenclador.getsubclasif');

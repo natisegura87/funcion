@@ -3,7 +3,7 @@
 <div class="modal fade bd-ver-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-lg">
     <div class="modal-content">
-        <div class="modal-header" style="background-color: #6aa4c5;">
+        <div class="modal-header" style="background-color: #3ea23fb5;">
           <button type="button" class="close" data-dismiss="modal">&times;</button>
           <h4 class="modal-title">Preg</h4>
         </div>
@@ -47,7 +47,7 @@
 <div class="modal fade bd-editar-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-lg">
     <div class="modal-content">
-        <div class="modal-header" style="background-color: #6aa4c5;">
+        <div class="modal-header" style="background-color: #3ea23fb5;">
           <button type="button" class="close" data-dismiss="modal">&times;</button>
           <h4 class="modal-title">1- Complejidad</h4>
         </div>
@@ -76,7 +76,7 @@
 <div class="modal fade bd-responsabilidad-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-lg">
     <div class="modal-content">
-        <div class="modal-header" style="background-color: #6aa4c5;">
+        <div class="modal-header" style="background-color: #3ea23fb5;">
           <button type="button" class="close" data-dismiss="modal">&times;</button>
           <h4 class="modal-title">2- Responsabilidad</h4>
         </div>
@@ -106,7 +106,7 @@
   <div class="modal-dialog modal-lg">
     
     <div class="modal-content">
-        <div class="modal-header" style="background-color: #6aa4c5;">
+        <div class="modal-header" style="background-color: #3ea23fb5;">
           <button type="button" class="close" data-dismiss="modal">&times;</button>
           <h4 class="modal-title">3- Autonomía</h4>
         </div>
@@ -145,7 +145,7 @@
 <div class="modal fade bd-complejidad-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-lg">
     <div class="modal-content">
-        <div class="modal-header" style="background-color: #6aa4c5;">
+        <div class="modal-header" style="background-color: #3ea23fb5;">
           <button type="button" class="close" data-dismiss="modal">&times;</button>
           <h4 class="modal-title">1- Complejidad</h4>
         </div>
@@ -174,7 +174,7 @@
 <div class="modal fade bd-responsabilidad-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-lg">
     <div class="modal-content">
-        <div class="modal-header" style="background-color: #6aa4c5;">
+        <div class="modal-header" style="background-color: #3ea23fb5;">
           <button type="button" class="close" data-dismiss="modal">&times;</button>
           <h4 class="modal-title">2- Responsabilidad</h4>
         </div>
@@ -204,7 +204,7 @@
   <div class="modal-dialog modal-lg">
     
     <div class="modal-content">
-        <div class="modal-header" style="background-color: #6aa4c5;">
+        <div class="modal-header" style="background-color: #3ea23fb5;">
           <button type="button" class="close" data-dismiss="modal">&times;</button>
           <h4 class="modal-title">3- Autonomía</h4>
         </div>

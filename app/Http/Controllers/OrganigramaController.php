@@ -6,6 +6,7 @@ use App\Unidad;
 use App\Unidad1;
 use App\Puesto;
 use App\Nivel;
+use App\Op;
 use App\Organigrama;
 use App\Nomenclador;
 use App\Vincularpuesto;
@@ -36,9 +37,11 @@ class OrganigramaController extends Controller
     public function indexN()
     {                
         $puestos = Nomenclador::all();
+        $organismos=Op::all();
         $unidades=Unidad1::orderBy('id', 'ASC')->where('id','>',0)->get(); 
        
         return view('organigrama.index')->with('puestos',$puestos)
+                            ->with('organismos',$organismos)
                             ->with('unidades',$unidades);
     }
    
@@ -227,6 +230,24 @@ class OrganigramaController extends Controller
             $puestos=$puesto->iddependencia;
             //dd($puestos);
             return Response()->json($puestos); 
+    }
+
+
+     public function getPuestosDepop(Request $request){
+        //dd("hola");
+            $id=$request->idop;
+
+            $puestos = Vincularpuesto::join('nomenclador', 'nomenclador.id', '=', 'vincularpuesto.nomenclador_id')               
+                    ->select('vincularpuesto.*','nomenclador.nombrepuesto as puesto_name')     
+                        ->where('op_id',$id)
+                   
+                        ->orderBy('puesto_name', 'ASC')
+                        ->get();
+
+        //$puestos= $puestosop->concat($puestosreg);
+
+            //dd($puestos);
+            return Response()->json($puestos);       
     }
 
     public function getPue(Request $request){

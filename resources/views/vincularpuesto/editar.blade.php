@@ -24,14 +24,14 @@
                 </div>
                 <div class="panel-body">                    
                   
-                        <form method="POST" action="{{ route('puestos.update',$preguntas->id) }}"  role="form">
+                        <form method="POST"  role="form">
                             {{ csrf_field() }}
                           
                     
                            
                                     <div class="form-group">
                                         <label class="control-label">Puesto</label>
-                                        <input type="text" name="nombre" id="nombre" required class="form-control input-sm" value="{{$preguntas->nombre}}">
+                                        <input type="text" name="nombre" id="nombre" required class="form-control input-sm" value="">
                                     </div>
                              
         <div class="col-md-6">
@@ -39,9 +39,9 @@
                   <label class="control-label">Organismo</label>
                    <select class="form-control" name="op" id="op" required>
                    <option value="">=== Select Organismo ===</option>
-                        @foreach ($niveles as $codigo => $organismos)
+                        @foreach ($organismo as $codigo => $organismos)
                             <option value="{{ $codigo }}"
-                                @if($codigo==$preguntas->op_codigo) selected='selected' @endif >
+                               >
                                  {{ $organismos }}
                             </option>                           
                         @endforeach
@@ -59,7 +59,7 @@
                       <option value="">=== Select Unidad ===</option>
                         @foreach ($unidades as $unidad)
                             <option value="{{ $unidad->id }}"
-                               @if($unidad->id==$preguntas->unidad_id) selected='selected' @endif >
+                                >
                                 {{ $unidad->nombre }}
                             </option>                           
                         @endforeach
@@ -71,43 +71,23 @@
                      <option value="">=== Select Puesto ===</option>
                         @foreach ($puestos as $unidad)
                             <option value="{{ $unidad->id }}"
-                               @if($unidad->id==$preguntas->iddependencia) selected='selected' @endif >
+                               >
                                 {{ $unidad->nombre }}
                             </option>                           
                         @endforeach
                     </select>
                 </div>
-                <div class="col-md-6" style="margin-bottom: 10px">
-                    <label class="control-label">Empleados</label>
-                    <select class="form-control" name="empleado" id="empleado" required>
-                      <option value="">=== Select Empleado ===</option>                    
-                        @foreach ($empleados as $legajo => $nombre)
-                            <option value="{{ $legajo }}"
-                                 @if($legajo==$preguntas->empleado) selected='selected' @endif >
-                                {{ $nombre }} - LEG {{ $legajo }}
-                            </option>                           
-                        @endforeach
-                    </select>
-                </div>
-                  <div class="col-md-6" style="margin-bottom: 10px">
-                    <label class="control-label">Agrupamiento</label>
-                    <select class="form-control" name="agrup" id="agrup" required>
-                      <option value="">=== Select Agrupamiento ===</option>
-                        @foreach ($agrupamiento as $agrup)
-                            <option value="{{ $agrup->id }}"
-                               @if($agrup->id==$preguntas->agrupamiento_id) selected='selected' @endif >
-                                {{ $agrup->nombre }}
-                            </option>                           
-                        @endforeach
-                    </select>
-                </div>
+              
+  
+
+
 
 
                             <div class="row">
 
                                 <div class="col-xs-12 col-sm-12 col-md-12">
                                     <input type="submit"  value="Actualizar" class="btn btn-success btn-block">
-                                    <a href="{{ route('puestos.index') }}" class="btn btn-info btn-block" >Atrás</a>
+                                    <a href="{{ route('vincularpuesto.index') }}" class="btn btn-info btn-block" >Atrás</a>
                                 </div>  
 
                             </div>

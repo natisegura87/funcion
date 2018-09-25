@@ -23,7 +23,8 @@ class Vincularpuesto extends Model
     }
 public static function get1($id) // borrar
     {
-    return Vincularpuesto::where('nomenclador_id',$id)->first();
+    return Vincularpuesto::where('nomenclador_id',$id)
+                            ->first();
 }
 
 public static function primero() // borrar

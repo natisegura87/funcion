@@ -5,61 +5,13 @@
 
 
 <div class="container">
+
+
     <div class="row">
         <div class="col-md-8 col-md-offset-2">
             <div class="panel panel-default">
                 <div class="panel-heading">
-                <label class="control-label">Seleccione a partir de que nivel de la estructura desea ver</label>
-                </div>
-    <div class="panel-body">
-     
-@if ($errors->any())
-    <div class="alert alert-danger">
-        <ul>
-            @foreach ($errors->all() as $error)
-                <li>{{ $error }}</li>
-            @endforeach
-        </ul>
-    </div>
-@endif
-            <form role="form" method="Post" action="{{ action('OrganigramaController@show') }}">
-                {!! csrf_field() !!}
-
-
-                <div class="row col-md-6" style="margin-bottom: 10px">
-                    <label class="control-label">Unidades</label>
-                    <select class="form-control unidad" name="uni" id="nivel" required>
-                      <option value="">=== Select Unidad ===</option>
-                        @foreach ($unidades as $nivel)
-                            <option value="{{ $nivel->id }}">
-                                {{ $nivel->nombre }}
-                            </option>                           
-                        @endforeach
-                    </select>
-                </div>
-                <div class="row col-md-6" style="margin-left: 20px;margin-bottom: 10px">
-                    <label class="control-label">A partir de que dependencia</label>
-                    <select class="form-control puesto" name="iddependencia" id="iddependencia" >
-                        <option value="">=== Select Dependencia ===</option>                     
-                    </select>
-                </div>
-                
-            <div class="form-group">
-                <button type="submit" class="btn btn-primary" style="margin-top: 25px;"> Ver Organigrama por Unidad</button>
-              
-            </div>
-        </form>
-       
-    </div>
-
-            </div>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-md-8 col-md-offset-2">
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                <label class="control-label">Seleccione a partir de que puesto desea ver</label>
+                <label class="control-label">Seleccione organismo que desea ver</label>
                 </div>
     <div class="panel-body">
      
@@ -77,9 +29,63 @@
 
 
                 <div class="row col-md-6" style="margin-bottom: 10px">
+                    <label class="control-label">Organismo</label>
+                    <select class="form-control organismo" name="organismo" id="organismo" required>
+                      <option value="">=== Select Organismo ===</option>
+                        @foreach ($organismos as $organismo)
+                            <option value="{{ $organismo->codigo }}">
+                                {{ $organismo->organismos }}
+                            </option>                           
+                        @endforeach
+                    </select>
+                </div>
+                <div class="row col-md-6" style="margin-left: 20px;margin-bottom: 10px">
+                    <label class="control-label">A partir de que puesto</label>
+                    <select class="form-control puesto" name="pue" >
+                        <option value="">=== Select Puesto ===</option>                     
+                    </select>
+                </div>
+
+                 <div class="form-group ocultar" style="display: none;"></div>
+                
+            <div class="form-group">
+                <button disabled type="submit" class="btn btn-primary" style="margin-top: 25px;" id="ver1"> Ver Organigrama por Organismo</button>
+              
+            </div>
+        </form>
+       
+    </div>
+
+            </div>
+        </div>
+    </div>
+
+
+    <div class="row">
+        <div class="col-md-8 col-md-offset-2">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                <label class="control-label">Seleccione a partir de que puesto desea ver</label>
+                </div>
+    <div class="panel-body">
+     
+@if ($errors->any())
+    <div class="alert alert-danger">
+        <ul>
+            @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+    </div>
+@endif
+<form role="form" method="Post" action="{{ action('OrganigramaController@showNomenclador') }}">
+                {!! csrf_field() !!}
+
+
+                <div class="row col-md-6" style="margin-bottom: 10px">
                     <label class="control-label">Puestos</label>
                     <select class="form-control puesto2" name="pue" id="nivel" required>
-                      <option value="">=== Select Puesto ===</option>
+                      <option value="1">=== Select Puesto ===</option>
                         @foreach ($puestos as $nivel)
                             <option value="{{ $nivel->id }}">
                                 {{ $nivel->nombrepuesto }}
@@ -91,7 +97,7 @@
               
             </div> 
             <div class="form-group">
-                <button type="submit" class="btn btn-primary" style="margin-top: 25px; margin-left: 20%;">Ver Organigrama por Puesto</button>
+                <button type="submit" disabled class="btn btn-primary" style="margin-top: 25px; margin-left: 20%;" id="ver">Ver Organigrama por Puesto</button>
               
             </div>
         </form>
@@ -114,25 +120,25 @@
 <script>
 $(document).ready(function(){
 
-    $(document).on('change','.unidad',function(){        
-        var unidad_id = $(this).val();
-        //console.log(unidad_id);
+    $(document).on('change','.organismo',function(){        
+        var op_id = $(this).val();
+        console.log(op_id);
         var div = $(this).parent().parent();
         //console.log("hola");
-        var url = '{{ route('puestosDep.get') }}';
+        var url = '{{ route('puestosDep.getop') }}';
         //'http://localhost/intranet/public/uploadFile';
         var op= " ";
         $.ajax({
             type:'get',
             url:url,
-            data:{'id':unidad_id},
+            data:{'idop':op_id},
             success:function(data){
                 console.log('success');
 
                 console.log(data);
-                op+='<option value="7">=== Select Puesto ===</option>';
+                op+='<option value="1">=== Select Puesto ===</option>';
                 for (var i=0;i<data.length;i++){
-                    op+='<option value="'+data[i].id+'">'+data[i].nombre+'</option>';
+                    op+='<option value="'+data[i].nomenclador_id+'">'+data[i].puesto_name+'</option>';
                 }
                 //console.log(op);
 
@@ -146,8 +152,9 @@ $(document).ready(function(){
 
     })
 
-        $(document).on('change','.puesto2',function(){        
+$(document).on('change','.puesto',function(){        
         var idpue = $(this).val();
+        var idorga = "1";
         console.log(idpue);
         var div = $(this).parent().parent();
         console.log("hola");
@@ -157,7 +164,42 @@ $(document).ready(function(){
         $.ajax({
             type:'get',
             url:url,
-            data:{'iddependencia':idpue},
+            data:{'iddependencia':idpue
+                  
+                    },
+            success:function(data){
+                console.log('success');
+                //var x = data[0].id;
+                console.log(data);
+                op+='<input type="text" name="iddependencia" id="iddependencia" class="form-control input-sm" value="'+data+'">';
+                
+                console.log(op);
+                div.find('.ocultar').html(" ");
+                div.find('.ocultar').append(op);
+                $('#ver1').attr('disabled', false);
+            },
+            error:function(){
+                
+            }
+        });
+
+    })
+
+$(document).on('change','.puesto2',function(){        
+        var idpue = $(this).val();
+        var idorga = "1";
+        console.log(idpue);
+        var div = $(this).parent().parent();
+        console.log("hola");
+        var url = '{{ route('organigrama.crearPuestos') }}';
+        //'http://localhost/intranet/public/uploadFile';
+        var op= " ";
+        $.ajax({
+            type:'get',
+            url:url,
+            data:{'iddependencia':idpue
+                  
+                    },
             success:function(data){
                 console.log('success');
                 //var x = data[0].id;
@@ -167,6 +209,7 @@ $(document).ready(function(){
                 console.log(op);
                 div.find('.ocultar2').html(" ");
                 div.find('.ocultar2').append(op);
+                $('#ver').attr('disabled', false);
             },
             error:function(){
                 

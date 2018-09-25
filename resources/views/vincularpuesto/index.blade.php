@@ -51,8 +51,7 @@
                             <td>{{ $preg->op_name }}</td>
                           
                             <td>
-                                <a href="{{ action('VincularpuestoController@edit', $preg->id) }}" title="Editar"
-                                   class="btn btn-primary btn-xs" style="margin-right: 5px; margin-bottom: 2px;float:left">Editar</a>
+                          
 
                            
                   <form action="{{action('VincularpuestoController@destroy', $preg->id)}}" method="post">

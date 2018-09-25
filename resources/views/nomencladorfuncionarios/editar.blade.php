@@ -26,8 +26,6 @@
                   
                         <form method="POST" action="{{ route('nomencladorfuncionarios.update',$preguntas->id) }}"  role="form">
                             {{ csrf_field() }}
-                          
-                    
                            
                                     <div class="form-group">
                                         <label class="control-label">Nombre del Puesto Funcionario</label>
@@ -40,11 +38,11 @@
                                </textarea>
                             </div>
                             <div class="form-group row col-md-12">
-                                <div class="row col-md-8" style="padding-bottom: 10px;">
+                                <div class="row col-md-6" style="padding-bottom: 10px;">
                                     <label class="control-label">Organismos</label>
-                                    <select class="form-control organismo" name="organismo" id="organismo" required>
+                                    <select class="form-control organismos" name="organismo" id="organismo" required>
                                       <option value="">=== Select Organismo ===</option>
-                                       @foreach ($organismo as $codigo => $organismos)
+                                       @foreach ($organismos as $codigo => $organismos)
                                             <option value="{{ $codigo }}"
                                                 @if($codigo==$preguntas->op_codigo) selected='selected' @endif >
                                                     {{ $organismos }}
@@ -52,6 +50,30 @@
                                         @endforeach 
                                     </select>
                                 </div>
+
+                                 <div class="col-md-6">
+                                        <label class="control-label" id="labelo">Organismos: </label>
+                                         <a style="cursor: pointer;padding-left: 30px;" id="limpiaro" onclick="limpiarorg()">Limpiar</a>
+                                         <input type="text" name="org" value="{{ $preguntas->organismos }}" id="mostrarorg" style="display:none">
+                                         <p id="mostrarorgp">
+
+                                        <?php $idorg=$preguntas->organismos;
+                                            $orga=explode(" ",$idorg);  ?>
+
+                                            @foreach ($orga as $cond=>$val)
+                                                @foreach ($organismosT as $organ)
+                                                    @if($organ->codigo==$val) 
+                                                        <p> {{ $organ->organismos }}</p>
+                                                     @endif    
+                                                                               
+                                                @endforeach    
+                                            @endforeach     
+                                  
+                                         </p>   
+                                         <p id="mostrarorgp2" style="display: none;"></p>
+                                     
+                                    </div>
+
                               </div>
 
                             <div class="row">
@@ -70,6 +92,34 @@
         </div>
     </section>
  
-      
+ <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script>
+
+function limpiarorg(){
+   console.log("entro limpiar org");    
+    document.getElementById("mostrarorg").value = " ";
+    document.getElementById("mostrarorgp").innerHTML = " ";
+    $("p").hide();
+
+}
+
+$(document).on('change','.organismos',function(){        
+   var org_id = $(this).val();
+   var org_nombre = $('.organismos option:selected').text();
+   console.log(org_nombre);
+   console.log("entro org");
+   $("#mostrarorgp").show();
+
+  var vo= document.getElementById("mostrarorg").value;
+  document.getElementById("mostrarorg").value += " " + org_id ; 
+
+  console.log(vo);
+
+  document.getElementById("mostrarorgp").innerHTML += "<p>" + org_nombre + "</p> ";
+
+    })
+
+  </script>
+     
   @endsection
 

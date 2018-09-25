@@ -34,8 +34,8 @@
                     <tr>
                      
                         <th>Nombre del Puesto</th>  
-                        <th>Descripción</th>  
-                        <th>Organismos</th>
+                        <th style="width: 40%;">Descripción</th>  
+                        <th style="width: 30%;">Organismos</th>
                         <th>Acciones</th>                     
                     </tr>
                  </thead>
@@ -46,7 +46,20 @@
                         <tr>                                             
                            <td>{{ $preg->nombrepuesto }}</td>  
                            <td>{{ $preg->descripcion }}</td>                          
-                           <td>{{ $preg->op_name }}</td>  
+                           <td>
+
+                           <?php $idorg=$preg->organismos;
+                                            $orga=explode(" ",$idorg);  ?>
+
+                                            @foreach ($orga as $cond=>$val)
+                                                @foreach ($organismos as $organ)
+                                                    @if($organ->codigo==$val) 
+                                                        {{ $organ->organismos }}<br>
+                                                     @endif    
+                                                                               
+                                                @endforeach    
+                                            @endforeach     
+                                          </td>  
                             <td>
                                 <a href="{{ action('NomencladorController@editF', $preg->id) }}" title="Editar"
                                    class="btn btn-primary btn-xs" style=" margin-right: 5px;margin-bottom: 2px;float:left">Editar</a>
@@ -79,10 +92,12 @@
         </div>
     </div>
 </div>
+
 <script type="text/javascript">
   setTimeout(function() {
            $("#alert").fadeOut();           
       },2000);
+
 </script>
 
 @endsection

@@ -80,6 +80,99 @@
        
         })
 
+    $('.bd-ver-cond-modal-lg').on('show.bs.modal', function (event) {
+          var button = $(event.relatedTarget) // Button that triggered the modal
+          nombreE = button.data('ver') // Extract info from data-* attributes
+          excluyentes = button.data('excluyentes')
+         
+          cond = button.data('idcond')
+          org = button.data('idorg')
+
+          var label='';
+          var modal = $(this)
+          modal.find('.modal-title').text('Condiciones Excluyentes ' + nombreE) 
+          modal.find('.modal-body').html(" ")  
+          modal.find('.modal-body').append(label);
+
+          var url = '{{ route('nomenclador.getcondiciones') }}';     
+     
+          $.ajax({
+            type:'get',
+            url:url,
+            data:{'condiciones':cond,
+                 
+            },
+            success:function(data){
+                console.log('success 1');
+            label+='<label style="font-size: 16px;color: #3eabe2;">Condiciones</label><br>';
+            modal.find('.modal-body').append(label);
+            label='';
+            for (var i = 0; i < data.length; i++) {
+             var xx=data[i];
+            // console.log(xx);  
+              for (var j = 0; j < xx.length; j++) {
+              // console.log(xx[j].nombre);  
+                  for (var k = 0; k < excluyentes.length; k++) {
+                      //console.log(excluyentes[k].nombre);           
+     
+                       if(excluyentes[k].id==xx[j].excluyente_id){
+                        //console.log(xx[j].excluyente_id);
+                        label+='<strong>'+excluyentes[k].nombre+'</strong><p>'+xx[j].nombre +'</p>';
+                         }   
+                       }
+                     
+             }
+
+           }
+           modal.find('.modal-body').append(label);
+                        label='  <hr>';
+               
+            },
+            error:function(error){
+                console.log('error condiciones');
+                alert(error);
+            }
+        });
+   
+
+        var url1 = '{{ route('nomenclador.getorganismos') }}';
+
+          $.ajax({
+            type:'get',
+            url:url1,
+            data:{
+                  'organismos':org
+            },
+           success:function(data){
+                console.log('success 2');
+            label+='<label style="font-size: 16px;color: #3eabe2;">Organismos</label>';
+            modal.find('.modal-body').append(label);
+            label='';
+            //console.log(data);  
+            for (var i = 0; i < data.length; i++) {
+             var xx=data[i];
+            // console.log(xx);  
+
+              for (var j = 0; j < xx.length; j++) {
+              // console.log(xx[j].organismos);  
+              label+='<p>'+xx[j].organismos +'</p>';
+             
+             }
+             
+           }
+        
+            modal.find('.modal-body').append(label);
+            label='  <hr>';               
+            },
+            error:function(error){
+                console.log('error organismos');
+                alert(error);
+            }
+        });
+
+        })
+
+
         $('.bd-complejidad-modal-lg').on('show.bs.modal', function (event) {
      
           var button = $(event.relatedTarget) // Button that triggered the modal
@@ -102,6 +195,7 @@
           modal.find('.modal-title').text('3- Autonomía ' + nombre)    
           modal.find('.modal-footer .guardar').val(id)
         })
+
 
     </script>
 
